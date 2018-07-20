@@ -28,6 +28,11 @@ namespace CitadellesV1
 
         }
 
- 
+        private void reglesdujeu_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            string titre = "les règles du jeu";
+            string regles = "on mettra une photo des règles du jeu ou on les écrira";
+            MessageBox.Show(regles,titre, MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
     }
 }

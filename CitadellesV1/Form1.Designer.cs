@@ -45,6 +45,7 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.reglesdujeu = new System.Windows.Forms.LinkLabel();
             this.carteJ2.SuspendLayout();
             this.tabControl2.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -207,11 +208,23 @@
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // reglesdujeu
+            // 
+            this.reglesdujeu.AutoSize = true;
+            this.reglesdujeu.Location = new System.Drawing.Point(330, 19);
+            this.reglesdujeu.Name = "reglesdujeu";
+            this.reglesdujeu.Size = new System.Drawing.Size(72, 13);
+            this.reglesdujeu.TabIndex = 11;
+            this.reglesdujeu.TabStop = true;
+            this.reglesdujeu.Text = "Règles du jeu";
+            this.reglesdujeu.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.reglesdujeu_LinkClicked);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(948, 541);
+            this.Controls.Add(this.reglesdujeu);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
@@ -254,6 +267,7 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.LinkLabel reglesdujeu;
     }
 }
 
