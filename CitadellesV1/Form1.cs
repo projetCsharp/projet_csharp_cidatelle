@@ -34,5 +34,13 @@ namespace CitadellesV1
             string regles = "on mettra une photo des règles du jeu ou on les écrira";
             MessageBox.Show(regles,titre, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var Commencer_partie = new Form();
+            Commencer_partie.Show();
+            Button essaiebouton = new Button();
+            //Commencer_partie.essaiebouton.Text = "appuie ici et on verra";
+        }
     }
 }
