@@ -32,6 +32,10 @@
             this.citeJ1 = new System.Windows.Forms.Panel();
             this.citeJ2 = new System.Windows.Forms.Panel();
             this.pioche = new System.Windows.Forms.Panel();
+            this.Cathedrale = new System.Windows.Forms.PictureBox();
+            this.Chateau = new System.Windows.Forms.PictureBox();
+            this.Comptoir = new System.Windows.Forms.PictureBox();
+            this.Caserne = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -40,43 +44,43 @@
             this.carteJ2 = new System.Windows.Forms.Panel();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.Architecte = new System.Windows.Forms.PictureBox();
+            this.Condottiere = new System.Windows.Forms.PictureBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.Voleur = new System.Windows.Forms.PictureBox();
+            this.Assassin = new System.Windows.Forms.PictureBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.reglesdujeu = new System.Windows.Forms.LinkLabel();
-            this.Assassin = new System.Windows.Forms.PictureBox();
-            this.Voleur = new System.Windows.Forms.PictureBox();
             this.Magicien = new System.Windows.Forms.PictureBox();
             this.Roi = new System.Windows.Forms.PictureBox();
             this.Eveque = new System.Windows.Forms.PictureBox();
             this.Marchand = new System.Windows.Forms.PictureBox();
-            this.Architecte = new System.Windows.Forms.PictureBox();
-            this.Condottiere = new System.Windows.Forms.PictureBox();
-            this.Cathedrale = new System.Windows.Forms.PictureBox();
-            this.Chateau = new System.Windows.Forms.PictureBox();
-            this.Comptoir = new System.Windows.Forms.PictureBox();
-            this.Caserne = new System.Windows.Forms.PictureBox();
+            this.PiecesJ1 = new System.Windows.Forms.Label();
+            this.PiecesJ2 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
             this.pioche.SuspendLayout();
-            this.carteJ2.SuspendLayout();
-            this.tabControl2.SuspendLayout();
-            this.tabPage3.SuspendLayout();
-            this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Assassin)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Voleur)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Magicien)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Roi)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Eveque)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Marchand)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Architecte)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Condottiere)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Cathedrale)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Chateau)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Comptoir)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Caserne)).BeginInit();
+            this.carteJ2.SuspendLayout();
+            this.tabControl2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Architecte)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Condottiere)).BeginInit();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Voleur)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Assassin)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Magicien)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Roi)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Eveque)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Marchand)).BeginInit();
             this.SuspendLayout();
             // 
             // citeJ1
@@ -106,6 +110,54 @@
             this.pioche.Name = "pioche";
             this.pioche.Size = new System.Drawing.Size(134, 205);
             this.pioche.TabIndex = 2;
+            // 
+            // Cathedrale
+            // 
+            this.Cathedrale.BackColor = System.Drawing.Color.Blue;
+            this.Cathedrale.Image = ((System.Drawing.Image)(resources.GetObject("Cathedrale.Image")));
+            this.Cathedrale.Location = new System.Drawing.Point(3, 33);
+            this.Cathedrale.Name = "Cathedrale";
+            this.Cathedrale.Size = new System.Drawing.Size(92, 150);
+            this.Cathedrale.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.Cathedrale.TabIndex = 6;
+            this.Cathedrale.TabStop = false;
+            this.Cathedrale.Tag = "5";
+            // 
+            // Chateau
+            // 
+            this.Chateau.BackColor = System.Drawing.Color.Yellow;
+            this.Chateau.Image = ((System.Drawing.Image)(resources.GetObject("Chateau.Image")));
+            this.Chateau.Location = new System.Drawing.Point(37, 19);
+            this.Chateau.Name = "Chateau";
+            this.Chateau.Size = new System.Drawing.Size(92, 150);
+            this.Chateau.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.Chateau.TabIndex = 6;
+            this.Chateau.TabStop = false;
+            this.Chateau.Tag = "4";
+            // 
+            // Comptoir
+            // 
+            this.Comptoir.BackColor = System.Drawing.Color.Green;
+            this.Comptoir.Image = ((System.Drawing.Image)(resources.GetObject("Comptoir.Image")));
+            this.Comptoir.Location = new System.Drawing.Point(34, 19);
+            this.Comptoir.Name = "Comptoir";
+            this.Comptoir.Size = new System.Drawing.Size(92, 150);
+            this.Comptoir.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.Comptoir.TabIndex = 6;
+            this.Comptoir.TabStop = false;
+            this.Comptoir.Tag = "3";
+            // 
+            // Caserne
+            // 
+            this.Caserne.BackColor = System.Drawing.Color.Red;
+            this.Caserne.Image = ((System.Drawing.Image)(resources.GetObject("Caserne.Image")));
+            this.Caserne.Location = new System.Drawing.Point(26, 19);
+            this.Caserne.Name = "Caserne";
+            this.Caserne.Size = new System.Drawing.Size(88, 142);
+            this.Caserne.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.Caserne.TabIndex = 8;
+            this.Caserne.TabStop = false;
+            this.Caserne.Tag = "3";
             // 
             // label1
             // 
@@ -182,6 +234,30 @@
             this.tabPage3.Text = "tabPage3";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // Architecte
+            // 
+            this.Architecte.BackColor = System.Drawing.SystemColors.Control;
+            this.Architecte.Image = ((System.Drawing.Image)(resources.GetObject("Architecte.Image")));
+            this.Architecte.Location = new System.Drawing.Point(6, 210);
+            this.Architecte.Name = "Architecte";
+            this.Architecte.Size = new System.Drawing.Size(92, 150);
+            this.Architecte.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.Architecte.TabIndex = 6;
+            this.Architecte.TabStop = false;
+            this.Architecte.Tag = "7";
+            // 
+            // Condottiere
+            // 
+            this.Condottiere.BackColor = System.Drawing.Color.Red;
+            this.Condottiere.Image = ((System.Drawing.Image)(resources.GetObject("Condottiere.Image")));
+            this.Condottiere.Location = new System.Drawing.Point(6, 23);
+            this.Condottiere.Name = "Condottiere";
+            this.Condottiere.Size = new System.Drawing.Size(88, 142);
+            this.Condottiere.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.Condottiere.TabIndex = 7;
+            this.Condottiere.TabStop = false;
+            this.Condottiere.Tag = "8";
+            // 
             // tabPage4
             // 
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
@@ -234,6 +310,28 @@
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // Voleur
+            // 
+            this.Voleur.Image = ((System.Drawing.Image)(resources.GetObject("Voleur.Image")));
+            this.Voleur.Location = new System.Drawing.Point(44, 227);
+            this.Voleur.Name = "Voleur";
+            this.Voleur.Size = new System.Drawing.Size(100, 150);
+            this.Voleur.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.Voleur.TabIndex = 1;
+            this.Voleur.TabStop = false;
+            this.Voleur.Tag = "2";
+            // 
+            // Assassin
+            // 
+            this.Assassin.Image = ((System.Drawing.Image)(resources.GetObject("Assassin.Image")));
+            this.Assassin.Location = new System.Drawing.Point(25, 18);
+            this.Assassin.Name = "Assassin";
+            this.Assassin.Size = new System.Drawing.Size(100, 150);
+            this.Assassin.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.Assassin.TabIndex = 0;
+            this.Assassin.TabStop = false;
+            this.Assassin.Tag = "1";
+            // 
             // tabPage2
             // 
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
@@ -254,28 +352,6 @@
             this.reglesdujeu.TabStop = true;
             this.reglesdujeu.Text = "Règles du jeu";
             this.reglesdujeu.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.reglesdujeu_LinkClicked);
-            // 
-            // Assassin
-            // 
-            this.Assassin.Image = ((System.Drawing.Image)(resources.GetObject("Assassin.Image")));
-            this.Assassin.Location = new System.Drawing.Point(25, 18);
-            this.Assassin.Name = "Assassin";
-            this.Assassin.Size = new System.Drawing.Size(100, 150);
-            this.Assassin.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.Assassin.TabIndex = 0;
-            this.Assassin.TabStop = false;
-            this.Assassin.Tag = "1";
-            // 
-            // Voleur
-            // 
-            this.Voleur.Image = ((System.Drawing.Image)(resources.GetObject("Voleur.Image")));
-            this.Voleur.Location = new System.Drawing.Point(44, 227);
-            this.Voleur.Name = "Voleur";
-            this.Voleur.Size = new System.Drawing.Size(100, 150);
-            this.Voleur.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.Voleur.TabIndex = 1;
-            this.Voleur.TabStop = false;
-            this.Voleur.Tag = "2";
             // 
             // Magicien
             // 
@@ -324,83 +400,50 @@
             this.Marchand.TabStop = false;
             this.Marchand.Tag = "6";
             // 
-            // Architecte
+            // PiecesJ1
             // 
-            this.Architecte.BackColor = System.Drawing.SystemColors.Control;
-            this.Architecte.Image = ((System.Drawing.Image)(resources.GetObject("Architecte.Image")));
-            this.Architecte.Location = new System.Drawing.Point(6, 210);
-            this.Architecte.Name = "Architecte";
-            this.Architecte.Size = new System.Drawing.Size(92, 150);
-            this.Architecte.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.Architecte.TabIndex = 6;
-            this.Architecte.TabStop = false;
-            this.Architecte.Tag = "7";
+            this.PiecesJ1.AutoSize = true;
+            this.PiecesJ1.Location = new System.Drawing.Point(93, 19);
+            this.PiecesJ1.Name = "PiecesJ1";
+            this.PiecesJ1.Size = new System.Drawing.Size(0, 13);
+            this.PiecesJ1.TabIndex = 12;
             // 
-            // Condottiere
+            // PiecesJ2
             // 
-            this.Condottiere.BackColor = System.Drawing.Color.Red;
-            this.Condottiere.Image = ((System.Drawing.Image)(resources.GetObject("Condottiere.Image")));
-            this.Condottiere.Location = new System.Drawing.Point(6, 23);
-            this.Condottiere.Name = "Condottiere";
-            this.Condottiere.Size = new System.Drawing.Size(88, 142);
-            this.Condottiere.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.Condottiere.TabIndex = 7;
-            this.Condottiere.TabStop = false;
-            this.Condottiere.Tag = "8";
+            this.PiecesJ2.AutoSize = true;
+            this.PiecesJ2.Location = new System.Drawing.Point(870, 19);
+            this.PiecesJ2.Name = "PiecesJ2";
+            this.PiecesJ2.Size = new System.Drawing.Size(10, 13);
+            this.PiecesJ2.TabIndex = 13;
+            this.PiecesJ2.Text = " ";
             // 
-            // Cathedrale
+            // label7
             // 
-            this.Cathedrale.BackColor = System.Drawing.Color.Blue;
-            this.Cathedrale.Image = ((System.Drawing.Image)(resources.GetObject("Cathedrale.Image")));
-            this.Cathedrale.Location = new System.Drawing.Point(18, 19);
-            this.Cathedrale.Name = "Cathedrale";
-            this.Cathedrale.Size = new System.Drawing.Size(92, 150);
-            this.Cathedrale.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.Cathedrale.TabIndex = 6;
-            this.Cathedrale.TabStop = false;
-            this.Cathedrale.Tag = "5";
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(38, 17);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(45, 13);
+            this.label7.TabIndex = 14;
+            this.label7.Text = "Pieces :";
             // 
-            // Chateau
+            // label8
             // 
-            this.Chateau.BackColor = System.Drawing.Color.Yellow;
-            this.Chateau.Image = ((System.Drawing.Image)(resources.GetObject("Chateau.Image")));
-            this.Chateau.Location = new System.Drawing.Point(37, 19);
-            this.Chateau.Name = "Chateau";
-            this.Chateau.Size = new System.Drawing.Size(92, 150);
-            this.Chateau.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.Chateau.TabIndex = 6;
-            this.Chateau.TabStop = false;
-            this.Chateau.Tag = "4";
-            // 
-            // Comptoir
-            // 
-            this.Comptoir.BackColor = System.Drawing.Color.Green;
-            this.Comptoir.Image = ((System.Drawing.Image)(resources.GetObject("Comptoir.Image")));
-            this.Comptoir.Location = new System.Drawing.Point(34, 19);
-            this.Comptoir.Name = "Comptoir";
-            this.Comptoir.Size = new System.Drawing.Size(92, 150);
-            this.Comptoir.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.Comptoir.TabIndex = 6;
-            this.Comptoir.TabStop = false;
-            this.Comptoir.Tag = "3";
-            // 
-            // Caserne
-            // 
-            this.Caserne.BackColor = System.Drawing.Color.Red;
-            this.Caserne.Image = ((System.Drawing.Image)(resources.GetObject("Caserne.Image")));
-            this.Caserne.Location = new System.Drawing.Point(26, 19);
-            this.Caserne.Name = "Caserne";
-            this.Caserne.Size = new System.Drawing.Size(88, 142);
-            this.Caserne.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.Caserne.TabIndex = 8;
-            this.Caserne.TabStop = false;
-            this.Caserne.Tag = "3";
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(807, 19);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(48, 13);
+            this.label8.TabIndex = 15;
+            this.label8.Text = "Pieces : ";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(948, 541);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.PiecesJ2);
+            this.Controls.Add(this.PiecesJ1);
             this.Controls.Add(this.Magicien);
             this.Controls.Add(this.Eveque);
             this.Controls.Add(this.Roi);
@@ -422,23 +465,23 @@
             this.Text = "Jeu de cartes citadelle";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.pioche.ResumeLayout(false);
-            this.carteJ2.ResumeLayout(false);
-            this.tabControl2.ResumeLayout(false);
-            this.tabPage3.ResumeLayout(false);
-            this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.Assassin)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Voleur)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Magicien)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Roi)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Eveque)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Marchand)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Architecte)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Condottiere)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Cathedrale)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Chateau)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Comptoir)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Caserne)).EndInit();
+            this.carteJ2.ResumeLayout(false);
+            this.tabControl2.ResumeLayout(false);
+            this.tabPage3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.Architecte)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Condottiere)).EndInit();
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.Voleur)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Assassin)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Magicien)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Roi)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Eveque)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Marchand)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -476,6 +519,10 @@
         private System.Windows.Forms.PictureBox Chateau;
         private System.Windows.Forms.PictureBox Comptoir;
         private System.Windows.Forms.PictureBox Caserne;
+        private System.Windows.Forms.Label PiecesJ1;
+        private System.Windows.Forms.Label PiecesJ2;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
     }
 }
 
