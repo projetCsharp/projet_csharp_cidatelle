@@ -63,6 +63,8 @@
             this.PiecesJ2 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
+            this.MasqueJoueur2 = new System.Windows.Forms.PictureBox();
+            this.MasqueJoueur1 = new System.Windows.Forms.PictureBox();
             this.pioche.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Cathedrale)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Chateau)).BeginInit();
@@ -81,6 +83,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.Roi)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Eveque)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Marchand)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MasqueJoueur2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MasqueJoueur1)).BeginInit();
             this.SuspendLayout();
             // 
             // citeJ1
@@ -115,13 +119,14 @@
             // 
             this.Cathedrale.BackColor = System.Drawing.Color.Blue;
             this.Cathedrale.Image = ((System.Drawing.Image)(resources.GetObject("Cathedrale.Image")));
-            this.Cathedrale.Location = new System.Drawing.Point(3, 33);
+            this.Cathedrale.Location = new System.Drawing.Point(26, 11);
             this.Cathedrale.Name = "Cathedrale";
             this.Cathedrale.Size = new System.Drawing.Size(92, 150);
             this.Cathedrale.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.Cathedrale.TabIndex = 6;
             this.Cathedrale.TabStop = false;
             this.Cathedrale.Tag = "5";
+   
             // 
             // Chateau
             // 
@@ -224,8 +229,9 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.MasqueJoueur2);
             this.tabPage3.Controls.Add(this.Architecte);
-            this.tabPage3.Controls.Add(this.Condottiere);
+            this.tabPage3.Controls.Add(this.Assassin);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
@@ -250,7 +256,7 @@
             // 
             this.Condottiere.BackColor = System.Drawing.Color.Red;
             this.Condottiere.Image = ((System.Drawing.Image)(resources.GetObject("Condottiere.Image")));
-            this.Condottiere.Location = new System.Drawing.Point(6, 23);
+            this.Condottiere.Location = new System.Drawing.Point(44, 48);
             this.Condottiere.Name = "Condottiere";
             this.Condottiere.Size = new System.Drawing.Size(88, 142);
             this.Condottiere.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -300,8 +306,9 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.MasqueJoueur1);
             this.tabPage1.Controls.Add(this.Voleur);
-            this.tabPage1.Controls.Add(this.Assassin);
+            this.tabPage1.Controls.Add(this.Condottiere);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -324,7 +331,7 @@
             // Assassin
             // 
             this.Assassin.Image = ((System.Drawing.Image)(resources.GetObject("Assassin.Image")));
-            this.Assassin.Location = new System.Drawing.Point(25, 18);
+            this.Assassin.Location = new System.Drawing.Point(19, 23);
             this.Assassin.Name = "Assassin";
             this.Assassin.Size = new System.Drawing.Size(100, 150);
             this.Assassin.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -435,6 +442,30 @@
             this.label8.TabIndex = 15;
             this.label8.Text = "Pieces : ";
             // 
+            // MasqueJoueur2
+            // 
+            this.MasqueJoueur2.Image = ((System.Drawing.Image)(resources.GetObject("MasqueJoueur2.Image")));
+            this.MasqueJoueur2.Location = new System.Drawing.Point(-3, -3);
+            this.MasqueJoueur2.Name = "MasqueJoueur2";
+            this.MasqueJoueur2.Size = new System.Drawing.Size(184, 443);
+            this.MasqueJoueur2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.MasqueJoueur2.TabIndex = 8;
+            this.MasqueJoueur2.TabStop = false;
+            this.MasqueJoueur2.UseWaitCursor = true;
+            this.MasqueJoueur2.Visible = false;
+            // 
+            // MasqueJoueur1
+            // 
+            this.MasqueJoueur1.Image = ((System.Drawing.Image)(resources.GetObject("MasqueJoueur1.Image")));
+            this.MasqueJoueur1.Location = new System.Drawing.Point(0, 0);
+            this.MasqueJoueur1.Name = "MasqueJoueur1";
+            this.MasqueJoueur1.Size = new System.Drawing.Size(184, 443);
+            this.MasqueJoueur1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.MasqueJoueur1.TabIndex = 16;
+            this.MasqueJoueur1.TabStop = false;
+            this.MasqueJoueur1.UseWaitCursor = true;
+            this.MasqueJoueur1.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -482,6 +513,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.Roi)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Eveque)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Marchand)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MasqueJoueur2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MasqueJoueur1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -523,6 +556,8 @@
         private System.Windows.Forms.Label PiecesJ2;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.PictureBox MasqueJoueur2;
+        private System.Windows.Forms.PictureBox MasqueJoueur1;
     }
 }
 

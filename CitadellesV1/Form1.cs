@@ -19,6 +19,17 @@ namespace CitadellesV1
         Form Commencer_partie = new Form();
         int PersonnageQuiJoue = 0;
         bool CommencerPartie_ferme = false;
+        //Creation de la form pour les choix des joueurs à chaque tour
+        Form ChoixTour = new Form();
+
+        int rang_bouton_pioche;
+        int rang_bouton_piece;
+
+        //variable globale pour savoir quel joueur joue 
+        int Numero_Joueur_Tour;
+
+        //FOMR POUR LA PIOCHE
+        Form PopUpCartesPioche = new Form();
 
         public Form1()
         {
@@ -40,43 +51,72 @@ namespace CitadellesV1
             PiecesJ2.Text += 2;
 
             //ANALYSE DES CARTES CHOISIE PAR LES JOUEURS POUR L'APPEL DES DIFFERENTS PERSONNAGES
+            
             if (CommencerPartie_ferme)
             { // test si la form pour choisir les prénoms est fermé, si c'est le cas peut excécuter le code suivant 
-                bool PersonnageEstChoisi = false;
+
+                Appel_Personnage();
+
+                //Masque les cartes de l'autre joueur 
+                if(Numero_Joueur_Tour == 1)
+                {
+                    MasqueJoueur2.Visible = true;
+                }else if(Numero_Joueur_Tour == 2)
+                {
+                    MasqueJoueur1.Visible = true;
+                }
+
+                ChoixPendantLeTour();
+            }
+        }
+
+        //METHODE D'APPEL POUR CHAQUE PERSONNAGE 
+        public void Appel_Personnage()
+        {
+            if(PersonnageQuiJoue == 8)
+            {
+                //ON ARRIVE A LA FIN DU TOUR, IL FAUT DONC COMPTER LES CARTES QUARTIERS SI ELLES NE SONT PAS AU NOMBRE DE HUIT, PROPOSE UN NOUVEAU CHOIX DE PERSONNAGE
+            }
+
+            bool PersonnageEstChoisi = false;
 
 
-                while (!PersonnageEstChoisi)
+            while (!PersonnageEstChoisi)
+            {
+
+                PersonnageQuiJoue++;
+
+                foreach (Control CartePersonnageChoisie in tabPage1.Controls)
                 {
 
-                    PersonnageQuiJoue++;
 
-                    foreach (Control CartePersonnageChoisie in tabPage1.Controls)
+                    if (PersonnageQuiJoue == Convert.ToInt16(CartePersonnageChoisie.Tag))
                     {
-
-
-                        if (PersonnageQuiJoue == Convert.ToInt16(CartePersonnageChoisie.Tag))
-                        {
-                            String Perso = Nom_personnage(Convert.ToInt16(CartePersonnageChoisie.Tag));
-
-
-                            PersonnageEstChoisi = true;
-
-                            MessageBox.Show("C'est au tour " + Perso + " de jouer", "A qui le tour ?");
-                        }
+                        String Perso = Nom_personnage(Convert.ToInt16(CartePersonnageChoisie.Tag));
+                        PersonnageEstChoisi = true;
+                        Numero_Joueur_Tour = 1; //on sait du coup que c'est le joueur 1 qui a la carte est donc peut ensuite disabled le numero du joueur en face
+                        MessageBox.Show("C'est au tour " + Perso + ". "+nom1+" c'est à toi de jouer ! ", "A qui le tour ?");
                     }
-
-                    //voir si déplacer la boucle pour la mettre dans un event pour l'appeler à chaque fois ? Voir quand le personnage n'est pas pioché aussi et de checker dans le tabpage3
-
-
                 }
-                ChoixPendantLeTour();
+
+                foreach (Control CartePersonnageChoisie in tabPage3.Controls)
+                {
+
+
+                    if (PersonnageQuiJoue == Convert.ToInt16(CartePersonnageChoisie.Tag))
+                    {
+                        String Perso = Nom_personnage(Convert.ToInt16(CartePersonnageChoisie.Tag));
+                        PersonnageEstChoisi = true;
+                        Numero_Joueur_Tour = 2; //on sait du coup que c'est le joueur 2 qui a la carte est donc peut ensuite disabled le numero du joueur en face
+                        MessageBox.Show("C'est au tour " + Perso + ". " + nom2 + " c'est à toi de jouer ! ", "A qui le tour ?");
+                    }
+                }
             }
         }
 
         //Mis à part comme ça peut appeler à chaque tour
         public void ChoixPendantLeTour() { 
 
-                Form ChoixTour = new Form();
                 Button Pouvoir = new Button();
                 Button Pioche = new Button();
                 Button Pieces = new Button();
@@ -88,40 +128,138 @@ namespace CitadellesV1
                 Pouvoir.Width = 100;
                 Pouvoir.Height = 50;
                 Pouvoir.Text = "Utiliser votre pouvoir";
+                Pouvoir.Tag = "pouvoir";
                 Pioche.Width = 100;
                 Pioche.Height = 50;
                 Pioche.Text = "Piocher des cartes";
+                Pioche.Tag = "pioche";
                 Pieces.Width = 100;
                 Pieces.Height = 50;
                 Pieces.Text = "Collecter des pièces";
-                Pieces.Tag = "plop";
+                Pieces.Tag = "piece";
                 Construction.Width = 100;
                 Construction.Height = 50;
                 Construction.Text = "Construire un quartier";
+                Construction.Tag = "construction";   
                 Construction.Top = 80;
                 Construction.Left = 150;
                 Pieces.Top = 80;
                 Pioche.Left = 150;
+
+                ///RECUPERE POUR LES BOUTONS PIOCHE ET PIECE LE RANG DANS LES CONTROLS 
+                rang_bouton_piece = ChoixTour.Controls.IndexOf(Pieces);
+                rang_bouton_pioche = ChoixTour.Controls.IndexOf(Pioche);
+
                 ChoixTour.StartPosition = FormStartPosition.CenterScreen;
                 ChoixTour.TopMost = true;
                 ChoixTour.Show();
 
+
                 Pieces.Click += UneAction;
-            }
+                Pioche.Click += UneAction;
+                Pouvoir.Click += UneAction;
+                Construction.Click += UneAction;
+
+
+            //voir pour rajouter un bouton fin de partie + test si personne ferme la fenêtre, mettre un message "oups tu passes ton tour" si oui,passe au joueur suivant, si non, lui affiche à nouveau la form 
+        }
 
         //QUAND CHOISI DE PIOCHER DES PIECES ( a modifier )
         private void UneAction(object sender, EventArgs e)
         {
-            Button essai = (Button)sender ;
-            string plop = Convert.ToString(essai.Tag);
-            if (plop == "plop")
+            Button boutonClique = (Button)sender ;
+            string tag_bouton = Convert.ToString(boutonClique.Tag);
+            if (tag_bouton == "piece")
            {
-                int ajoutpiece = Convert.ToInt16(PiecesJ1.Text);
-                ajoutpiece += 2;
-                PiecesJ1.Text = Convert.ToString(ajoutpiece);
-                essai.Enabled = false ;
-                //le problème là est de récupérer le bouton pioche pour le rendre disable aussi 
-           }
+                if(Numero_Joueur_Tour == 1)
+                {
+                    int ajoutpiece = Convert.ToInt16(PiecesJ1.Text);
+                    ajoutpiece += 2;
+                    PiecesJ1.Text = Convert.ToString(ajoutpiece);
+                }else if(Numero_Joueur_Tour == 2)
+                {
+                    int ajoutpiece = Convert.ToInt16(PiecesJ2.Text);
+                    ajoutpiece += 2;
+                    PiecesJ2.Text = Convert.ToString(ajoutpiece);
+                }
+                
+                boutonClique.Enabled = false ;
+                ChoixTour.Controls[rang_bouton_pioche].Enabled = false;
+           }else if(tag_bouton == "pioche")
+            {
+                // MessageBox.Show("Pioche !");
+                
+
+                Label title_form_pioche = new Label();
+                PopUpCartesPioche.Controls.Add(title_form_pioche);
+                title_form_pioche.Text = "Quelle carte veux-tu choisir ? ";
+                title_form_pioche.Width = 200;
+
+                //RANDOM QUI SELECTIONNE DEUX CARTES DANS LA PIOCHE
+                int NumCarte1 = Generation_nb_Aleatoire();
+                int NumCarte2 = Generation_nb_Aleatoire();
+
+                //PROPOSE DEUX CARTES DANS LA PIOCHE 
+                PictureBox Carte1 = (PictureBox) pioche.Controls[NumCarte1];
+                PopUpCartesPioche.Controls.Add(Carte1);
+                Carte1.Top = 40;
+
+                PictureBox Carte2 = (PictureBox)pioche.Controls[NumCarte1];
+                PopUpCartesPioche.Controls.Add(Carte2);
+                Carte2.Top = 40;
+                Carte2.Left = 150;
+
+                //JOUEUR CHOISIT SA CARTE ET CETTE DERNIERE APPARAIT DANS TABPAGE QUARTIER 
+                Carte1.Click += ChoixCartePioche;
+                Carte2.Click += ChoixCartePioche;
+
+                PopUpCartesPioche.StartPosition = FormStartPosition.CenterScreen;
+                PopUpCartesPioche.TopMost = true;
+                PopUpCartesPioche.Show();
+
+                boutonClique.Enabled = false;
+                ChoixTour.Controls[rang_bouton_piece].Enabled = false;
+            }
+            else if(tag_bouton == "pouvoir")
+            {
+                MessageBox.Show("Utilise ses pouvoirs !");
+                //EXECUTION DU POUVOIR EN FONCTION DU ROLE
+                boutonClique.Enabled = false;
+            }
+            else if(tag_bouton == "construction")
+            {
+                MessageBox.Show("Construit !");
+                //PROPOSE LES CARTES QUARTIERS 
+                // CLIQUE SUR LA CARTE DE CONSTRUCTION VOULUE
+                // COMPTE LES PIECES ET COMPARE AVEC NOMBRE DE PIECES 
+                // /!\ VOIR SI PAS DISABLED DIRECTEMENT LE BOUTON EN FONCTION DU NOMBRE DE PIECES DISPONIBLES ET EN FONCTION DES PIECES SUR LES TAG DES CARTES QUARTIES 
+                boutonClique.Enabled = false;
+            }
+        }
+
+        private void ChoixCartePioche(object sender, EventArgs e)
+        {
+            PictureBox CarteChoisie = (PictureBox)sender;
+
+            if(Numero_Joueur_Tour == 1)
+            {
+                tabPage2.Controls.Add(CarteChoisie);
+            }else if (Numero_Joueur_Tour == 2)
+            {
+                tabPage4.Controls.Add(CarteChoisie);
+            }
+
+            PopUpCartesPioche.Close();
+        }
+
+
+        private int Generation_nb_Aleatoire()
+        {
+            Random alea = new Random();
+
+            int nb = alea.Next(0, 3);
+
+            return nb;
         }
 
         private String Nom_personnage(int num_carte)
