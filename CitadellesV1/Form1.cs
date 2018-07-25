@@ -15,10 +15,12 @@ namespace CitadellesV1
     
     public partial class Form1 : Form
     {
-        String nom1, nom2,lebouton;
+        String nom1, nom2;
         Form Commencer_partie = new Form();
+        Form Choix_perso = new Form();
         int PersonnageQuiJoue = 0;
         bool CommencerPartie_ferme = false;
+        bool Choixpersonnage_ferme = false;
         //Creation de la form pour les choix des joueurs à chaque tour
         Form ChoixTour = new Form();
 
@@ -54,7 +56,11 @@ namespace CitadellesV1
             
             if (CommencerPartie_ferme)
             { // test si la form pour choisir les prénoms est fermé, si c'est le cas peut excécuter le code suivant 
+                Choix_Personnage();
+                if (Choixpersonnage_ferme)
+                {
 
+                
                 Appel_Personnage();
 
                 //Masque les cartes de l'autre joueur 
@@ -67,9 +73,58 @@ namespace CitadellesV1
                 }
 
                 ChoixPendantLeTour();
+                }
             }
         }
+        public void Choix_Personnage()
+        {
+            //int numeroroi = panelcartepersonnages.Controls.;
+            //MessageBox.Show("num roi :" + numeroroi);
+            //int numeroass = panelcartepersonnages.Controls.IndexOf(Assassin);
+            //MessageBox.Show("num ass :" + numeroass);
+            //int numerovoleur = panelcartepersonnages.Controls.IndexOf(Voleur);
+            //MessageBox.Show("num voleur :" + numerovoleur);
+            //int numeromag = panelcartepersonnages.Controls.IndexOf(Magicien);
+            //MessageBox.Show("num mag :" + numeromag);
+            //int numeromarch = panelcartepersonnages.Controls.IndexOf(Marchand);
+            //MessageBox.Show("num marchand :" + numeromarch);
+            //int numeroeveque = panelcartepersonnages.Controls.IndexOf(Eveque);
+            //MessageBox.Show("num eveque :" + numeroeveque);
+            int i=1;
+            //int nbtotalcontrol = panelcartepersonnages.Controls.Count;
+            //MessageBox.Show("nb controle = " + nbtotalcontrol);
+            Choix_perso.Width = 1000;
+            Choix_perso.StartPosition = FormStartPosition.CenterScreen;
+            //for (i=1;i<8;i++)
+            //{
+                string[] letableau = new string[4] {"Assassin", "Voleur", "Magicien", "Roi" };
+                foreach(string j in letableau)
+                {               
+                Array image =panelcartepersonnages.Controls.Find(j,true);
+                MessageBox.Show("contient la casse 0 :image[0]");
+                PictureBox imageperso = new PictureBox();
+                //imageperso = (PictureBox)
+                imageperso.Top = 50;
+                imageperso.Left = 60 + (i * 50);
+                Choix_perso.Controls.Add(imageperso);
+            }
+            //PictureBox imageperso = new PictureBox();
+            //imageperso = (PictureBox)panelcartepersonnages.Controls[i];
+            //imageperso.Top = 50;
+            //imageperso.Left = 60 + (i*50) ;
+            //Choix_perso.Controls.Add(imageperso);
+            //Label personnage = new Label();
+            //Image lacarte = Image.FromFile("Images_cartes/personnage" + 7 + ".PNG");
+            //personnage.Size = new Size(lacarte.Width, lacarte.Height);
+            //personnage.Image = lacarte;
+            //Choix_perso.Controls.Add(personnage);
+            //MessageBox.Show("i = "+i);
+            //i++;
+            //}
+            Choix_perso.Show();
+            //Choixpersonnage_ferme = true;
 
+        }
         //METHODE D'APPEL POUR CHAQUE PERSONNAGE 
         public void Appel_Personnage()
         {
