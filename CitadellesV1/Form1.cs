@@ -18,7 +18,7 @@ namespace CitadellesV1
         String nom1, nom2;
         Form Commencer_partie = new Form();
         Form Choix_perso = new Form();
-        int PersonnageQuiJoue = 0;
+        int PersonnageQuiJoue = 0, nbtours=7;
         bool CommencerPartie_ferme = false;
         bool Choixpersonnage_ferme = false;
         //Creation de la form pour les choix des joueurs à chaque tour
@@ -76,54 +76,98 @@ namespace CitadellesV1
                 }
             }
         }
-        public void Choix_Personnage()
-        {
-            //int numeroroi = panelcartepersonnages.Controls.;
-            //MessageBox.Show("num roi :" + numeroroi);
-            //int numeroass = panelcartepersonnages.Controls.IndexOf(Assassin);
-            //MessageBox.Show("num ass :" + numeroass);
-            //int numerovoleur = panelcartepersonnages.Controls.IndexOf(Voleur);
-            //MessageBox.Show("num voleur :" + numerovoleur);
-            //int numeromag = panelcartepersonnages.Controls.IndexOf(Magicien);
-            //MessageBox.Show("num mag :" + numeromag);
-            //int numeromarch = panelcartepersonnages.Controls.IndexOf(Marchand);
-            //MessageBox.Show("num marchand :" + numeromarch);
-            //int numeroeveque = panelcartepersonnages.Controls.IndexOf(Eveque);
-            //MessageBox.Show("num eveque :" + numeroeveque);
-            int i=1;
-            //int nbtotalcontrol = panelcartepersonnages.Controls.Count;
-            //MessageBox.Show("nb controle = " + nbtotalcontrol);
-            Choix_perso.Width = 1000;
-            Choix_perso.StartPosition = FormStartPosition.CenterScreen;
-            //for (i=1;i<8;i++)
-            //{
-                string[] letableau = new string[4] {"Assassin", "Voleur", "Magicien", "Roi" };
-                foreach(string j in letableau)
-                {               
-                Array image =panelcartepersonnages.Controls.Find(j,true);
-                MessageBox.Show("contient la casse 0 :image[0]");
-                PictureBox imageperso = new PictureBox();
-                //imageperso = (PictureBox)
-                imageperso.Top = 50;
-                imageperso.Left = 60 + (i * 50);
-                Choix_perso.Controls.Add(imageperso);
-            }
-            //PictureBox imageperso = new PictureBox();
-            //imageperso = (PictureBox)panelcartepersonnages.Controls[i];
-            //imageperso.Top = 50;
-            //imageperso.Left = 60 + (i*50) ;
-            //Choix_perso.Controls.Add(imageperso);
-            //Label personnage = new Label();
-            //Image lacarte = Image.FromFile("Images_cartes/personnage" + 7 + ".PNG");
-            //personnage.Size = new Size(lacarte.Width, lacarte.Height);
-            //personnage.Image = lacarte;
-            //Choix_perso.Controls.Add(personnage);
-            //MessageBox.Show("i = "+i);
-            //i++;
-            //}
-            Choix_perso.Show();
-            //Choixpersonnage_ferme = true;
 
+        //AFFICHAGE DES CARTES PERSONNAGES
+        private void Choix_Personnage()
+        {
+            int position = 1 ;
+            Choix_perso.Width = 1500;
+            Choix_perso.StartPosition = FormStartPosition.CenterScreen;
+            Random suppressionperso = new Random();
+            int Personnagesupprime = suppressionperso.Next(1, 8);
+            //MessageBox.Show("le numero random :" + lechoisi);
+            for (int i = 1; i < 9; i++)
+            {
+                if (i != Personnagesupprime)
+                {
+
+                    PictureBox personnage = new PictureBox();
+                    personnage.Top = 50;
+                    personnage.Left = 60 + (position * 120);
+                    Image lacarte = Image.FromFile("C:/csharp/CitadellesV2/Images_cartes/personnage" + i + ".PNG");
+                    personnage.SizeMode = PictureBoxSizeMode.Zoom;
+                    personnage.Width = 92;
+                    personnage.Height = 150;
+                    personnage.Image = lacarte;
+                    personnage.Tag = i;
+                    personnage.Click += Personnage_Choisi;
+                    Choix_perso.Controls.Add(personnage);
+                    position++;
+                    
+
+
+                    //tours de choix suppression personnages
+                    
+                }
+            }
+            Choix_perso.Show();
+            //voir comment faire avec le "roi" pour le 1er qui pioche vg? faire un random pour le 1er tour?
+            MessageBox.Show("Joueur 1 choisi ton personnage");
+        }
+
+        private void Personnage_Choisi(object sender, EventArgs e)
+        {
+            PictureBox lepersonnage_clicke = (PictureBox)sender;
+
+            if (nbtours == 6 || nbtours == 4 || nbtours == 2)
+            {
+                if (nbtours == 6)
+                {
+                    ajoutperso1J2.Image = lepersonnage_clicke.Image;
+                    ajoutperso1J2.Tag = lepersonnage_clicke.Tag;
+                }
+                else if (nbtours == 4){
+                    ajoutperso2J1.Image = lepersonnage_clicke.Image;
+                    ajoutperso2J1.Tag = lepersonnage_clicke.Tag;
+                }
+                else if(nbtours == 2)
+                {
+                    ajoutperso2J2.Image = lepersonnage_clicke.Image;
+                    ajoutperso2J2.Tag = lepersonnage_clicke.Tag;
+                }
+                Image ledos = Image.FromFile("C:/csharp/CitadellesV2/Images_cartes/Couverture_jeu.png");
+                lepersonnage_clicke.Image = ledos;
+                lepersonnage_clicke.Enabled = false;
+                MessageBox.Show("Choisi de supprimer un personnage", "action");
+                //L'ajouter au bon tabpage
+
+            }
+            else if (nbtours == 7)
+            {
+                ajoutperso1J1.Image = lepersonnage_clicke.Image;
+                ajoutperso1J1.Tag = lepersonnage_clicke.Tag;
+                Image ledos = Image.FromFile("C:/csharp/CitadellesV2/Images_cartes/Couverture_jeu.png");
+                lepersonnage_clicke.Image = ledos;
+                lepersonnage_clicke.Enabled = false;
+                MessageBox.Show("Choisi un personnage", "action");
+            }
+
+            else if (nbtours == 5 || nbtours == 3)
+            {
+               
+                Image ledos = Image.FromFile("C:/csharp/CitadellesV2/Images_cartes/Couverture_jeu.png");
+                lepersonnage_clicke.Image = ledos;
+                lepersonnage_clicke.Enabled = false;
+                MessageBox.Show("Choisi un personnage", "action");
+
+            }
+
+            else
+            {
+                MessageBox.Show("La partie peut commencer ! ");
+            }
+
+            nbtours--;
         }
         //METHODE D'APPEL POUR CHAQUE PERSONNAGE 
         public void Appel_Personnage()
