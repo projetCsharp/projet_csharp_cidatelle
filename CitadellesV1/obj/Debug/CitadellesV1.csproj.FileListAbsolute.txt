@@ -38,3 +38,13 @@ C:\csharp\CitadellesV2\CitadellesV1\obj\Debug\CitadellesV1.csproj.GenerateResour
 C:\csharp\CitadellesV2\CitadellesV1\obj\Debug\CitadellesV1.csproj.CoreCompileInputs.cache
 C:\csharp\CitadellesV2\CitadellesV1\obj\Debug\CitadellesV1.exe
 C:\csharp\CitadellesV2\CitadellesV1\obj\Debug\CitadellesV1.pdb
+C:\Users\joann\Desktop\projet_csharp_cidatelle\CitadellesV1\bin\Debug\CitadellesV1.exe.config
+C:\Users\joann\Desktop\projet_csharp_cidatelle\CitadellesV1\bin\Debug\CitadellesV1.exe
+C:\Users\joann\Desktop\projet_csharp_cidatelle\CitadellesV1\bin\Debug\CitadellesV1.pdb
+C:\Users\joann\Desktop\projet_csharp_cidatelle\CitadellesV1\obj\Debug\CitadellesV1.csprojAssemblyReference.cache
+C:\Users\joann\Desktop\projet_csharp_cidatelle\CitadellesV1\obj\Debug\CitadellesV1.Form1.resources
+C:\Users\joann\Desktop\projet_csharp_cidatelle\CitadellesV1\obj\Debug\CitadellesV1.Properties.Resources.resources
+C:\Users\joann\Desktop\projet_csharp_cidatelle\CitadellesV1\obj\Debug\CitadellesV1.csproj.GenerateResource.cache
+C:\Users\joann\Desktop\projet_csharp_cidatelle\CitadellesV1\obj\Debug\CitadellesV1.csproj.CoreCompileInputs.cache
+C:\Users\joann\Desktop\projet_csharp_cidatelle\CitadellesV1\obj\Debug\CitadellesV1.exe
+C:\Users\joann\Desktop\projet_csharp_cidatelle\CitadellesV1\obj\Debug\CitadellesV1.pdb
