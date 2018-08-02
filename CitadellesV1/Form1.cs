@@ -53,32 +53,60 @@ namespace CitadellesV1
             PiecesJ2.Text += 2;
 
             //ANALYSE DES CARTES CHOISIE PAR LES JOUEURS POUR L'APPEL DES DIFFERENTS PERSONNAGES
-            
+
             if (CommencerPartie_ferme)
             { // test si la form pour choisir les prénoms est fermé, si c'est le cas peut excécuter le code suivant 
                 Choix_Personnage();
+                Choix_perso.FormClosed += Savoir_fermeture;
                 if (Choixpersonnage_ferme)
-                {
+                { 
 
-                
                 Appel_Personnage();
 
                 //Masque les cartes de l'autre joueur 
-                if(Numero_Joueur_Tour == 1)
+                if (Numero_Joueur_Tour == 1)
                 {
                     MasqueJoueur2.Visible = true;
-                }else if(Numero_Joueur_Tour == 2)
+                }
+                else if (Numero_Joueur_Tour == 2)
                 {
                     MasqueJoueur1.Visible = true;
                 }
 
                 ChoixPendantLeTour();
-                }
+            }
             }
         }
+        // compter le nombre de personnage dans tabpage 
+        private int  Compte()
+        {
+            int plop = tabPage1.Controls.Count;
+            int plop2 = tabPage3.Controls.Count;
+            int resultat = plop + plop2;
+            return resultat;
+        }
 
+        private void Savoir_fermeture(Object sender, FormClosedEventArgs e)
+        {
+            int nbpersoOk = Compte();
+            // parce que control pour cacher les cartes quand ce n'est pas à son tour
+            if(nbpersoOk == 5)
+            {
+                Appel_Personnage();
+                if (Numero_Joueur_Tour == 1)
+                {
+                    MasqueJoueur2.Visible = true;
+                }
+                else if (Numero_Joueur_Tour == 2)
+                {
+                    MasqueJoueur1.Visible = true;
+                }
+
+                ChoixPendantLeTour();
+            }
+        }
         //AFFICHAGE DES CARTES PERSONNAGES
-        private void Choix_Personnage()
+        private void  Choix_Personnage()
         {
             int position = 1 ;
             Choix_perso.Width = 1500;
@@ -113,6 +141,9 @@ namespace CitadellesV1
             Choix_perso.Show();
             //voir comment faire avec le "roi" pour le 1er qui pioche vg? faire un random pour le 1er tour?
             MessageBox.Show("Joueur 1 choisi ton personnage");
+            //Choixpersonnage_ferme = true;
+
+            
         }
 
         private void Personnage_Choisi(object sender, EventArgs e)
@@ -164,10 +195,12 @@ namespace CitadellesV1
 
             else
             {
+                Choix_perso.Close();
                 MessageBox.Show("La partie peut commencer ! ");
             }
 
             nbtours--;
+
         }
         //METHODE D'APPEL POUR CHAQUE PERSONNAGE 
         public void Appel_Personnage()
