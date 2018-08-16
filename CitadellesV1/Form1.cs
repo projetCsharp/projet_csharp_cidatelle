@@ -22,6 +22,7 @@ namespace CitadellesV1
         bool CommencerPartie_ferme = false;
         //Creation de la form pour les choix des joueurs à chaque tour
         Form ChoixTour = new Form();
+        bool FormTourCree = false;
 
         int rang_bouton_pioche;
         int rang_bouton_piece;
@@ -49,12 +50,29 @@ namespace CitadellesV1
 
         // CONNAITRE LE NUMERO DU JOUEUR QUI EST ROI 
         int JoueurRoi = 0;
+        // connaitre le numéro du joueur qui est voleur
+        int JoueurVoleur = 0;
+
+        //RECUPERATION DE LA CARTE POUR LA DESTRUCTION D'UN QUARTIER PAR LE CONDOT
+        PictureBox CopieCarteDestruction = new PictureBox();
+
+        //VARIRABLE GLOBALE POUR SAVOIR QUEL PERSONNAGE A ETE TUE 
+        int Personnage_Assassine = 0;
+        //VARIRABLE GLOBALE POUR SAVOIR QUEL PERSONNAGE A ETE VOLE
+        int Personnage_Vole = 0; 
 
         public Form1()
         {
             InitializeComponent();
-            //this.IsMdiContainer = true;
+            this.IsMdiContainer = true;
+            this.WindowState = FormWindowState.Maximized;
+            Controls.OfType<MdiClient>().FirstOrDefault().BackColor = SystemColors.Control;
+        }
 
+        public partial class FormInstance : Form
+        {
+            
+           
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -106,11 +124,12 @@ namespace CitadellesV1
             }
 
             bool PersonnageEstChoisi = false;
+            bool Personnage_Mort = false;
 
 
-            while (!PersonnageEstChoisi)
+            while (!PersonnageEstChoisi || Personnage_Mort)
             {
-
+                Personnage_Mort = false;
                 PersonnageQuiJoue++;
 
                 foreach (Control CartePersonnageChoisie in tabPage1.Controls)
@@ -119,23 +138,81 @@ namespace CitadellesV1
 
                     if (PersonnageQuiJoue == Convert.ToInt16(CartePersonnageChoisie.Tag))
                     {
+                        if(PersonnageQuiJoue == 2)
+                        {
+                            JoueurVoleur = 1;
+                        }
                         String Perso = Nom_personnage(Convert.ToInt16(CartePersonnageChoisie.Tag));
                         PersonnageEstChoisi = true;
                         Numero_Joueur_Tour = 1; //on sait du coup que c'est le joueur 1 qui a la carte est donc peut ensuite disabled le numero du joueur en face
                         MessageBox.Show("C'est au tour " + Perso + ". " + nom1 + " c'est à toi de jouer ! ", "A qui le tour ?");
+
+                        if (PersonnageEstChoisi && PersonnageQuiJoue == Personnage_Assassine)
+                        {
+                            Personnage_Mort = true;
+                            MessageBox.Show("Tu ne peux pas jouer car tu as été tué", "La vie est parfois cruelle...", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }else if(PersonnageEstChoisi && Personnage_Vole == PersonnageQuiJoue) // dans le esle comme ça si le personnage n'est pas assassine, on teste si c'est celui qui est volé, et si il a été assasiné, il peut pas être volé donc ne fera pas le test
+                        {
+                            MessageBox.Show("Tu as été volé... Tu perds tout ton trésor...", "Quel dommage !", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            //J'AI PRIS EN COMPTE QUE LE VOLEUR POUVAIT ETRE BETE ET SE VOLE TOUT SEUL !!
+                            int piecePourLeVoleur = Convert.ToInt32(PiecesJ1.Text);
+
+                            PiecesJ1.Text = "0";
+                            if (JoueurVoleur == 1)
+                            {
+                               int piecejoueurvoleur = Convert.ToInt32(PiecesJ1.Text);
+                                piecejoueurvoleur += piecePourLeVoleur;
+                                PiecesJ1.Text = Convert.ToString(piecejoueurvoleur);
+                            }
+                            else if (JoueurVoleur == 2)
+                            {
+                                int piecejoueurvoleur = Convert.ToInt32(PiecesJ1.Text);
+                                piecejoueurvoleur += piecePourLeVoleur;
+                                PiecesJ1.Text = Convert.ToString(piecejoueurvoleur);
+                            }
+                        }
+
                     }
                 }
 
                 foreach (Control CartePersonnageChoisie in tabPage3.Controls)
                 {
-
-
                     if (PersonnageQuiJoue == Convert.ToInt16(CartePersonnageChoisie.Tag))
                     {
+                        if (PersonnageQuiJoue == 2)
+                        {
+                            JoueurVoleur = 2;
+                        }
                         String Perso = Nom_personnage(Convert.ToInt16(CartePersonnageChoisie.Tag));
                         PersonnageEstChoisi = true;
                         Numero_Joueur_Tour = 2; //on sait du coup que c'est le joueur 2 qui a la carte est donc peut ensuite disabled le numero du joueur en face
                         MessageBox.Show("C'est au tour " + Perso + ". " + nom2 + " c'est à toi de jouer ! ", "A qui le tour ?");
+
+                        if (PersonnageEstChoisi && PersonnageQuiJoue == Personnage_Assassine)
+                        {
+                            Personnage_Mort = true;
+                            MessageBox.Show("Tu ne peux pas jouer car tu as été tué", "La vie est parfois cruelle...", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        else if (PersonnageEstChoisi && Personnage_Vole == PersonnageQuiJoue) // dans le esle comme ça si le personnage n'est pas assassine, on teste si c'est celui qui est volé, et si il a été assasiné, il peut pas être volé donc ne fera pas le test
+                        {
+                            MessageBox.Show("Tu as été volé... Tu perds tout ton trésor...", "Quel dommage !", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            //J'AI PRIS EN COMPTE QUE LE VOLEUR POUVAIT ETRE BETE ET SE VOLE TOUT SEUL !!
+                            int piecePourLeVoleur = Convert.ToInt32(PiecesJ2.Text);
+                            PiecesJ2.Text = "0";
+                            if (JoueurVoleur == 1)
+                            {
+                                int piecejoueurvoleur = Convert.ToInt32(PiecesJ1.Text);
+                                piecejoueurvoleur += piecePourLeVoleur;
+                                PiecesJ1.Text = Convert.ToString(piecejoueurvoleur);
+                            }
+                            else if (JoueurVoleur == 2)
+                            {
+                                int piecejoueurvoleur = Convert.ToInt32(PiecesJ1.Text);
+                                piecejoueurvoleur += piecePourLeVoleur;
+                                PiecesJ1.Text = Convert.ToString(piecejoueurvoleur);
+                            }
+                        }
+
                     }
                 }
             }
@@ -147,62 +224,150 @@ namespace CitadellesV1
         //Mis à part comme ça peut appeler à chaque tour
         public void ChoixPendantLeTour()
         {
-            Form ChoixTour = new Form();
-           
+            //FormChoixTour();
+
+            //TESTER QUE LA FORM EXISTE 
+            // SI N EXISTE PAS, CREE 
+            //SINON NE FAIS RIEN 
+            if(! FormTourCree)
+            { 
+                ChoixTour.Tag = "ChoixTour";
+                ChoixTour.MdiParent = this;
+                FormTourCree = true;
+
+                Button Fin = new Button();
+                ChoixTour.Controls.Add(Pouvoir);
+                ChoixTour.Controls.Add(Pioche);
+                ChoixTour.Controls.Add(Pieces);
+                ChoixTour.Controls.Add(Construction);
+                ChoixTour.Controls.Add(Fin);
+                Pouvoir.Width = 100;
+                Pouvoir.Height = 50;
+                Pouvoir.Text = "Utiliser votre pouvoir";
+                Pouvoir.Tag = "pouvoir";
+                Pioche.Width = 100;
+                Pioche.Height = 50;
+                Pioche.Text = "Piocher des cartes";
+                Pioche.Tag = "pioche";
+                Pieces.Width = 100;
+                Pieces.Height = 50;
+                Pieces.Text = "Collecter des pièces";
+                Pieces.Tag = "piece";
+                Construction.Width = 100;
+                Construction.Height = 50;
+                Construction.Text = "Construire un quartier";
+                Construction.Tag = "construction";
+                Construction.Top = 80;
+                Construction.Left = 150;
+                Pieces.Top = 80;
+                Pioche.Left = 150;
+
+                Fin.Width = 100;
+                Fin.Height = 50;
+                Fin.Text = "Je m'arrête là";
+                Fin.Top = 150;
+                Fin.Left = 100;
+                Fin.Click += FinTourJoueur;
+
+                //RECUPERE POUR LES BOUTONS PIOCHE ET PIECE LE RANG DANS LES CONTROLS 
+                rang_bouton_piece = ChoixTour.Controls.IndexOf(Pieces);
+                rang_bouton_pioche = ChoixTour.Controls.IndexOf(Pioche);
+
+                Pieces.Click += UneAction;
+                Pioche.Click += UneAction;
+                Pouvoir.Click += UneAction;
+                Construction.Click += UneAction;
+            }
+            
+
+
             //Button Pouvoir = new Button();
             //Button Pioche = new Button(); // EN VARAIBLE GLOBAL 
             //Button Pieces = new Button();
             //Button Construction = new Button();
-            Button Fin = new Button();
-            ChoixTour.Controls.Add(Pouvoir);
-            ChoixTour.Controls.Add(Pioche);
-            ChoixTour.Controls.Add(Pieces);
-            ChoixTour.Controls.Add(Construction);
-            ChoixTour.Controls.Add(Fin);
-            Pouvoir.Width = 100;
-            Pouvoir.Height = 50;
-            Pouvoir.Text = "Utiliser votre pouvoir";
-            Pouvoir.Tag = "pouvoir";
-            Pioche.Width = 100;
-            Pioche.Height = 50;
-            Pioche.Text = "Piocher des cartes";
-            Pioche.Tag = "pioche";
-            Pieces.Width = 100;
-            Pieces.Height = 50;
-            Pieces.Text = "Collecter des pièces";
-            Pieces.Tag = "piece";
-            Construction.Width = 100;
-            Construction.Height = 50;
-            Construction.Text = "Construire un quartier";
-            Construction.Tag = "construction";
-            Construction.Top = 80;
-            Construction.Left = 150;
-            Pieces.Top = 80;
-            Pioche.Left = 150;
+            
 
-            Fin.Width = 100;
-            Fin.Height = 50;
-            Fin.Text = "Je m'arrête là";
-            Fin.Top = 150;
-            Fin.Left = 100;
-            Fin.Click += FinTourJoueur;
-
-            //RECUPERE POUR LES BOUTONS PIOCHE ET PIECE LE RANG DANS LES CONTROLS 
-            rang_bouton_piece = ChoixTour.Controls.IndexOf(Pieces);
-            rang_bouton_pioche = ChoixTour.Controls.IndexOf(Pioche);
-
-            ChoixTour.StartPosition = FormStartPosition.CenterScreen;
+            //ChoixTour.StartPosition = FormStartPosition.CenterScreen;
+            ChoixTour.StartPosition = FormStartPosition.Manual;
+            ChoixTour.Left = 1000;
+            ChoixTour.Top = 50;
             ChoixTour.TopMost = true;
             ChoixTour.Show();
+           // ChoixTour.BringToFront();
+           
 
 
-            Pieces.Click += UneAction;
-            Pioche.Click += UneAction;
-            Pouvoir.Click += UneAction;
-            Construction.Click += UneAction;
+            
 
 
             //voir pour rajouter un bouton fin de partie + test si personne ferme la fenêtre, mettre un message "oups tu passes ton tour" si oui,passe au joueur suivant, si non, lui affiche à nouveau la form 
+        }
+
+        private Form RetourneFormEnfantChoixTour()
+        {
+            Form FormRetour = new Form();
+            foreach (Form FormEnfant in this.MdiChildren)
+            {
+                if ((String)FormEnfant.Tag == "ChoixTour")
+                {
+                   FormRetour = FormEnfant;
+                }
+            }
+            return FormRetour;
+        }
+
+        private Form RetourneFormEnfantChoixAssassin()
+        {
+            Form FormRetour = new Form();
+            foreach (Form FormEnfant in this.MdiChildren)
+            {
+                if ((String)FormEnfant.Tag == "ChoixAssassin")
+                {
+                    FormRetour = FormEnfant;
+                }
+            }
+            return FormRetour;
+        }
+
+        private Form RetourneFormEnfantChoixVoleur()
+        {
+            Form FormRetour = new Form();
+            foreach (Form FormEnfant in this.MdiChildren)
+            {
+                if ((String)FormEnfant.Tag == "ChoixVoleur")
+                {
+                    FormRetour = FormEnfant;
+                }
+            }
+            return FormRetour;
+        }
+
+        
+        private Form RetourneFormEnfantChoixTypeMagicien()
+        {
+            Form FormRetour = new Form();
+            foreach (Form FormEnfant in this.MdiChildren)
+            {
+                if ((String)FormEnfant.Tag == "ChoixTypeMagicien")
+                {
+                    FormRetour = FormEnfant;
+                }
+            }
+            return FormRetour;
+        }
+
+        
+        private Form RetourneFormEnfantChoixMagicien()
+        {
+            Form FormRetour = new Form();
+            foreach (Form FormEnfant in this.MdiChildren)
+            {
+                if ((String)FormEnfant.Tag == "ChoixMagicien")
+                {
+                    FormRetour = FormEnfant;
+                }
+            }
+            return FormRetour;
         }
 
 
@@ -213,8 +378,13 @@ namespace CitadellesV1
             Pouvoir.Enabled = true;
             Construction.Enabled = true;
             //ReplacerCartePioche();
-            ChoixTour.Close();
+            Form FormChoixTour = RetourneFormEnfantChoixTour();
+            FormChoixTour.Hide();
+              
+            //this.ChoixTour.Close();
             Appel_Personnage();
+            ChoixPendantLeTour();
+
         }
 
         //CHOIX ACTION DURANT LE TOUR
@@ -310,24 +480,30 @@ namespace CitadellesV1
             }
             else if (tag_bouton == "pouvoir")  //EXECUTION DU POUVOIR EN FONCTION DU ROLE
             {
-                MessageBox.Show("Utilise ses pouvoirs !");
-
+                
                 int nbQuartier = 0;
 
                 switch (PersonnageQuiJoue)
                 {
                     case 1: //ASSASSIN
+
+                        FormPouvoirAssassin();
+
                         break;
 
                     case 2: // VOLEUR
+                        FormPouvoirVoleur();
                         break;
 
                     case 3: // MAGICIEN
+                        FormTypeEchangeMagicien();
+                        //FormPouvoirMagicien();
                         break;
 
                     case 4: //ROI
                                     if (Numero_Joueur_Tour == 1)
                                     {
+                                         RoiJoueur1.Visible = true;
                                         foreach (PictureBox carteQuartier in citeJ1.Controls)
                                         {
                                             if (carteQuartier.BackColor == Roi.BackColor)
@@ -354,6 +530,7 @@ namespace CitadellesV1
                                     }
                                     else if (Numero_Joueur_Tour == 2)
                                     {
+                                        RoiJoueur2.Visible = true;
                                         foreach (PictureBox carteQuartier in citeJ2.Controls)
                                         {
                                             if (carteQuartier.BackColor == Roi.BackColor)
@@ -488,12 +665,14 @@ namespace CitadellesV1
                         break;
 
                     case 7:// ARCHITECTE
-
+                        
                         break;
 
                     case 8: // CONDITTIERE
+                        Form FormChoix = RetourneFormEnfantChoixTour();
+                        FormChoix.WindowState = FormWindowState.Minimized;
 
-                                        if (Numero_Joueur_Tour == 1)
+                        if (Numero_Joueur_Tour == 1)
                                         {
                                             foreach (PictureBox carteQuartier in citeJ1.Controls)
                                             {
@@ -539,9 +718,15 @@ namespace CitadellesV1
                                             }
                                         }
 
-                        Form choixQuartierDestruction = new Form();
+                        //Form choixQuartierDestruction = new Form();
                         //METTRE UNE IMAGE GENRE EPEE OU UN ELEMENT QUI REPRESENTE LA DESTRUCTION ET JOEUUR POURRA DRAG DROP LE QUARTIER VOULU POUR LE DETRUIRE 
-
+                       
+                        panelDemolition.Visible = true;
+                        panelDemolition.AllowDrop = true;
+                        Texte_demolition.Visible = true;
+                        
+                        MessageBox.Show("Choisi le quartier que tu souhaites détruire, et glisses le sur la boule de démolition", "Fais ton choix !", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        
 
                         break;
                 }
@@ -599,17 +784,605 @@ namespace CitadellesV1
                         }
                     }
 
+                 afficheCarteQuartier.Show();
+
                 }
                 else
                 {
                     MessageBox.Show("Malheureusement, tu n'as pas de cartes Quartiers");
                 }
 
-                afficheCarteQuartier.Show();
+                
                 // /!\ VOIR SI PAS DISABLED DIRECTEMENT LE BOUTON EN FONCTION DU NOMBRE DE PIECES DISPONIBLES ET EN FONCTION DES PIECES SUR LES TAG DES CARTES QUARTIES 
                 boutonClique.Enabled = false;
             }
         }
+
+
+        private void FormTypeEchangeMagicien()
+        {
+            Form ChoixTypeEchangeMagicien = new Form();
+            ChoixTypeEchangeMagicien.Tag = "ChoixTypeMagicien";
+            ChoixTypeEchangeMagicien.MdiParent = this;
+
+
+            Label titre_form_echange_magicien = new Label();
+            titre_form_echange_magicien.Text = "Quelle échange veux-tu effectuer ? ";
+            titre_form_echange_magicien.Width = 300;
+            ChoixTypeEchangeMagicien.Controls.Add(titre_form_echange_magicien);
+
+            Button EchangePersonnage = new Button();
+            ChoixTypeEchangeMagicien.Controls.Add(EchangePersonnage);
+            EchangePersonnage.Text = "Echange avec un personnage";
+            EchangePersonnage.Tag = "Personnage";
+            EchangePersonnage.Width = 200;
+            EchangePersonnage.Height = 80;
+            EchangePersonnage.Left = 50;
+            EchangePersonnage.Top = 50;
+            Button EchangePioche = new Button();
+            ChoixTypeEchangeMagicien.Controls.Add(EchangePioche);
+            EchangePioche.Tag = "Pioche";
+            EchangePioche.Text = "Echange avec des cartes de la pioche";
+            EchangePioche.Width = 200;
+            EchangePioche.Height = 80;
+            EchangePioche.Left = 50;
+            EchangePioche.Top = 150;
+
+            EchangePersonnage.Click += FormPouvoirMagicien;
+            EchangePioche.Click += FormPouvoirMagicien;
+
+            ChoixTypeEchangeMagicien.Width = 300;
+            ChoixTypeEchangeMagicien.Height = 300;
+            ChoixTypeEchangeMagicien.StartPosition = FormStartPosition.Manual;
+            ChoixTypeEchangeMagicien.Left = 1000;
+            ChoixTypeEchangeMagicien.Top = 50;
+            //MINIMIZE LA FOMR CHOIX PENDANT LA PARTIE 
+            Form FormTour = RetourneFormEnfantChoixTour();
+            FormTour.WindowState = FormWindowState.Minimized;
+            ChoixTypeEchangeMagicien.Show();
+
+
+        }
+
+
+        private void FormPouvoirMagicien(object sender, EventArgs e)
+        {
+            Form formTypeMagicien = RetourneFormEnfantChoixTypeMagicien();
+            formTypeMagicien.Close();
+            Button ChoixTypeEchange = (Button)sender;
+            if((String)ChoixTypeEchange.Tag == "Personnage")
+            {
+
+            // A CHANGER NOM DE LA FORM, TEXT LABEL, METHODE CLICK // IMPOSSIBLE DE FAIRE UNE METHODE GLOBALE POUR L'ensemble des personnages car il n'est pas possible en c# de mettre un string comme nom de variable 
+
+
+            Form ChoixPersonnageMagicien = new Form();
+            ChoixPersonnageMagicien.Tag = "ChoixMagicien";
+            ChoixPersonnageMagicien.MdiParent = this;
+
+            Label titre_form_assassin = new Label();
+            titre_form_assassin.Text = "Quel personnage veux-tu voler ? ";
+            titre_form_assassin.Width = 300;
+            ChoixPersonnageMagicien.Controls.Add(titre_form_assassin);
+
+            Button voleur = new Button();
+            voleur.Text = "Voleur";
+            voleur.Tag = 2;
+            ChoixPersonnageMagicien.Controls.Add(voleur);
+            Button magicien = new Button();
+            magicien.Text = "Magicien";
+            magicien.Tag = 3;
+            ChoixPersonnageMagicien.Controls.Add(magicien);
+            Button roi = new Button();
+            roi.Text = "Roi";
+            roi.Tag = 4;
+            ChoixPersonnageMagicien.Controls.Add(roi);
+            Button eveque = new Button();
+            eveque.Text = "Evèque";
+            eveque.Tag = 5;
+            ChoixPersonnageMagicien.Controls.Add(eveque);
+            Button marchand = new Button();
+            marchand.Text = "Marchand";
+            marchand.Tag = 6;
+            ChoixPersonnageMagicien.Controls.Add(marchand);
+            Button architecte = new Button();
+            architecte.Text = "Architecte";
+            architecte.Tag = 7;
+            ChoixPersonnageMagicien.Controls.Add(architecte);
+            Button condottiere = new Button();
+            condottiere.Text = "Condottière";
+            condottiere.Tag = 8;
+            ChoixPersonnageMagicien.Controls.Add(condottiere);
+
+            voleur.Click += ChoixPersonnageEchangeMagicien; //A CHANGER !!!
+            magicien.Click += ChoixPersonnageEchangeMagicien;
+            roi.Click += ChoixPersonnageEchangeMagicien;
+            eveque.Click += ChoixPersonnageEchangeMagicien;
+            marchand.Click += ChoixPersonnageEchangeMagicien;
+            architecte.Click += ChoixPersonnageEchangeMagicien;
+            condottiere.Click += ChoixPersonnageEchangeMagicien;
+
+            voleur.Width = 200;
+            voleur.Height = 50;
+            voleur.Left = 50;
+            voleur.Top = 50;
+
+            magicien.Width = 200;
+            magicien.Height = 50;
+            magicien.Left = 50;
+            magicien.Top = 50 + (50 * 1);
+
+            roi.Width = 200;
+            roi.Height = 50;
+            roi.Left = 50;
+            roi.Top = 50 + (50 * 2);
+
+            eveque.Width = 200;
+            eveque.Height = 50;
+            eveque.Left = 50;
+            eveque.Top = 50 + (50 * 3);
+
+            marchand.Width = 200;
+            marchand.Height = 50;
+            marchand.Left = 50;
+            marchand.Top = 50 + (50 * 4);
+
+            architecte.Width = 200;
+            architecte.Height = 50;
+            architecte.Left = 50;
+            architecte.Top = 50 + (50 * 5);
+
+            condottiere.Width = 200;
+            condottiere.Height = 50;
+            condottiere.Left = 50;
+            condottiere.Top = 50 + (50 * 6);
+
+
+            ChoixPersonnageMagicien.Width = 300;
+            ChoixPersonnageMagicien.Height = 600;
+
+            ChoixPersonnageMagicien.StartPosition = FormStartPosition.Manual;
+            ChoixPersonnageMagicien.Left = 1000;
+            ChoixPersonnageMagicien.Top = 50;
+            //MINIMIZE LA FOMR CHOIX PENDANT LA PARTIE 
+            Form FormTour = RetourneFormEnfantChoixTour();
+            FormTour.WindowState = FormWindowState.Minimized;
+            ChoixPersonnageMagicien.Show();
+            }else if ( (String)ChoixTypeEchange.Tag == "Pioche")
+            {
+                if (Numero_Joueur_Tour == 1)
+                {
+                    int nb_cartes_joueur = tabPage2.Controls.Count;
+                    tabPage2.Controls.Clear();
+
+                    for (int i = 1; i < nb_cartes_joueur; i++)
+                    {
+                        int NumCarte = Generation_nb_Aleatoire();
+
+                        PictureBox Carte = (PictureBox)pioche.Controls[NumCarte];
+                        tabPage2.Controls.Add(Carte);
+                        Carte.Top = 40 * i;
+
+                    }
+
+                }
+                else if (Numero_Joueur_Tour == 2)
+                {
+                    int nb_cartes_joueur = tabPage4.Controls.Count;
+                    tabPage4.Controls.Clear();
+
+                    for (int i = 1; i < nb_cartes_joueur; i++)
+                    {
+                        int NumCarte = Generation_nb_Aleatoire();
+
+                        PictureBox Carte = (PictureBox)pioche.Controls[NumCarte];
+                        tabPage4.Controls.Add(Carte);
+                        Carte.Top = 40 * i;
+
+                    }
+
+                }
+                MessageBox.Show("Tes cartes ont été échangées avec la pioche", "Et hop un tour de magie !", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Form FormTour = RetourneFormEnfantChoixTour();
+                FormTour.WindowState = FormWindowState.Normal;
+
+            }
+
+        }
+
+
+
+        private void FormPouvoirVoleur()
+        {
+
+            // A CHANGER NOM DE LA FORM, TEXT LABEL, METHODE CLICK // IMPOSSIBLE DE FAIRE UNE METHODE GLOBALE POUR L'ensemble des personnages car il n'est pas possible en c# de mettre un string comme nom de variable 
+
+
+            Form ChoixPersonnageVoleur = new Form();
+            ChoixPersonnageVoleur.Tag = "ChoixVoleur";
+            ChoixPersonnageVoleur.MdiParent = this;
+
+            Label titre_form_assassin = new Label();
+            titre_form_assassin.Text = "Quel personnage veux-tu voler ? ";
+            titre_form_assassin.Width = 300;
+            ChoixPersonnageVoleur.Controls.Add(titre_form_assassin);
+
+            Button voleur = new Button();
+            voleur.Text = "Voleur";
+            voleur.Tag = 2;
+            ChoixPersonnageVoleur.Controls.Add(voleur);
+            Button magicien = new Button();
+            magicien.Text = "Magicien";
+            magicien.Tag = 3;
+            ChoixPersonnageVoleur.Controls.Add(magicien);
+            Button roi = new Button();
+            roi.Text = "Roi";
+            roi.Tag = 4;
+            ChoixPersonnageVoleur.Controls.Add(roi);
+            Button eveque = new Button();
+            eveque.Text = "Evèque";
+            eveque.Tag = 5;
+            ChoixPersonnageVoleur.Controls.Add(eveque);
+            Button marchand = new Button();
+            marchand.Text = "Marchand";
+            marchand.Tag = 6;
+            ChoixPersonnageVoleur.Controls.Add(marchand);
+            Button architecte = new Button();
+            architecte.Text = "Architecte";
+            architecte.Tag = 7;
+            ChoixPersonnageVoleur.Controls.Add(architecte);
+            Button condottiere = new Button();
+            condottiere.Text = "Condottière";
+            condottiere.Tag = 8;
+            ChoixPersonnageVoleur.Controls.Add(condottiere);
+
+            voleur.Click += ChoixPersonnageVol; 
+            magicien.Click += ChoixPersonnageVol;
+            roi.Click += ChoixPersonnageVol;
+            eveque.Click += ChoixPersonnageVol;
+            marchand.Click += ChoixPersonnageVol;
+            architecte.Click += ChoixPersonnageVol;
+            condottiere.Click += ChoixPersonnageVol;
+
+            voleur.Width = 200;
+            voleur.Height = 50;
+            voleur.Left = 50;
+            voleur.Top = 50;
+
+            magicien.Width = 200;
+            magicien.Height = 50;
+            magicien.Left = 50;
+            magicien.Top = 50 + (50 * 1);
+
+            roi.Width = 200;
+            roi.Height = 50;
+            roi.Left = 50;
+            roi.Top = 50 + (50 * 2);
+
+            eveque.Width = 200;
+            eveque.Height = 50;
+            eveque.Left = 50;
+            eveque.Top = 50 + (50 * 3);
+
+            marchand.Width = 200;
+            marchand.Height = 50;
+            marchand.Left = 50;
+            marchand.Top = 50 + (50 * 4);
+
+            architecte.Width = 200;
+            architecte.Height = 50;
+            architecte.Left = 50;
+            architecte.Top = 50 + (50 * 5);
+
+            condottiere.Width = 200;
+            condottiere.Height = 50;
+            condottiere.Left = 50;
+            condottiere.Top = 50 + (50 * 6);
+
+
+            ChoixPersonnageVoleur.Width = 300;
+            ChoixPersonnageVoleur.Height = 600;
+
+            ChoixPersonnageVoleur.StartPosition = FormStartPosition.Manual;
+            ChoixPersonnageVoleur.Left = 1000;
+            ChoixPersonnageVoleur.Top = 50;
+            //MINIMIZE LA FOMR CHOIX PENDANT LA PARTIE 
+            Form FormTour = RetourneFormEnfantChoixTour();
+            FormTour.WindowState = FormWindowState.Minimized;
+            ChoixPersonnageVoleur.Show();
+        }
+
+
+
+
+        private void FormPouvoirAssassin()
+        {
+
+            // A CHANGER NOM DE LA FORM, TEXT LABEL, METHODE CLICK // IMPOSSIBLE DE FAIRE UNE METHODE GLOBALE POUR L'ensemble des personnages car il n'est pas possible en c# de mettre un string comme nom de variable 
+
+
+            Form ChoixPersonnageAssassin = new Form();
+            ChoixPersonnageAssassin.Tag = "ChoixAssassin";
+            ChoixPersonnageAssassin.MdiParent = this;
+
+            Label titre_form_assassin = new Label();
+            titre_form_assassin.Text = "Quel personnage veux-tu assassiner ? ";
+            titre_form_assassin.Width = 300;
+            ChoixPersonnageAssassin.Controls.Add(titre_form_assassin);
+
+            Button voleur = new Button();
+            voleur.Text = "Voleur";
+            voleur.Tag = 2;
+            ChoixPersonnageAssassin.Controls.Add(voleur);
+            Button magicien = new Button();
+            magicien.Text = "Magicien";
+            magicien.Tag = 3;
+            ChoixPersonnageAssassin.Controls.Add(magicien);
+            Button roi = new Button();
+            roi.Text = "Roi";
+            roi.Tag = 4;
+            ChoixPersonnageAssassin.Controls.Add(roi);
+            Button eveque = new Button();
+            eveque.Text = "Evèque";
+            eveque.Tag = 5;
+            ChoixPersonnageAssassin.Controls.Add(eveque);
+            Button marchand = new Button();
+            marchand.Text = "Marchand";
+            marchand.Tag = 6;
+            ChoixPersonnageAssassin.Controls.Add(marchand);
+            Button architecte = new Button();
+            architecte.Text = "Architecte";
+            architecte.Tag = 7;
+            ChoixPersonnageAssassin.Controls.Add(architecte);
+            Button condottiere = new Button();
+            condottiere.Text = "Condottière";
+            condottiere.Tag = 8;
+            ChoixPersonnageAssassin.Controls.Add(condottiere);
+
+            voleur.Click += ChoixPersonnageAssassine;
+            magicien.Click += ChoixPersonnageAssassine;
+            roi.Click += ChoixPersonnageAssassine;
+            eveque.Click += ChoixPersonnageAssassine;
+            marchand.Click += ChoixPersonnageAssassine;
+            architecte.Click += ChoixPersonnageAssassine;
+            condottiere.Click += ChoixPersonnageAssassine;
+
+            voleur.Width = 200;
+            voleur.Height = 50;
+            voleur.Left = 50;
+            voleur.Top = 50;
+
+            magicien.Width = 200;
+            magicien.Height = 50;
+            magicien.Left = 50;
+            magicien.Top = 50 + (50 * 1);
+
+            roi.Width = 200;
+            roi.Height = 50;
+            roi.Left = 50;
+            roi.Top = 50 + (50 * 2);
+
+            eveque.Width = 200;
+            eveque.Height = 50;
+            eveque.Left = 50;
+            eveque.Top = 50 + (50 * 3);
+
+            marchand.Width = 200;
+            marchand.Height = 50;
+            marchand.Left = 50;
+            marchand.Top = 50 + (50 * 4);
+
+            architecte.Width = 200;
+            architecte.Height = 50;
+            architecte.Left = 50;
+            architecte.Top = 50 + (50 * 5);
+
+            condottiere.Width = 200;
+            condottiere.Height = 50;
+            condottiere.Left = 50;
+            condottiere.Top = 50 + (50 * 6);
+
+
+            ChoixPersonnageAssassin.Width = 300;
+            ChoixPersonnageAssassin.Height = 600;
+
+            ChoixPersonnageAssassin.StartPosition = FormStartPosition.Manual;
+            ChoixPersonnageAssassin.Left = 1000;
+            ChoixPersonnageAssassin.Top = 50;
+            //MINIMIZE LA FOMR CHOIX PENDANT LA PARTIE 
+            Form FormTour = RetourneFormEnfantChoixTour();
+            FormTour.WindowState = FormWindowState.Minimized;
+            ChoixPersonnageAssassin.Show();
+        }
+
+
+        private void ChoixPersonnageAssassine(object sender, EventArgs e)
+        {
+            Button PersonnageChosi = (Button)sender;
+            Personnage_Assassine = Convert.ToInt32(PersonnageChosi.Tag);
+
+            String nomperso = Nom_personnage(Personnage_Assassine);
+            MessageBox.Show("Tu as mis fin aux jours"+nomperso+".", "Tu as fait un choix et ta sentence est irrévocable !", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            Form formChoix = RetourneFormEnfantChoixAssassin();
+            formChoix.Close();
+            Form FormTour = RetourneFormEnfantChoixTour();
+            FormTour.WindowState = FormWindowState.Normal;
+
+
+        }
+
+        private void ChoixPersonnageVol(object sender, EventArgs e)
+        {
+            Button PersonnageChosi = (Button)sender;
+            Personnage_Vole = Convert.ToInt32(PersonnageChosi.Tag);
+
+            String nomperso = Nom_personnage(Personnage_Vole);
+            MessageBox.Show("Tu as pris le buttin" + nomperso + ".", "Tu as fait un choix et ta sentence est irrévocable !", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            Form formChoix = RetourneFormEnfantChoixVoleur();
+            formChoix.Close();
+            Form FormTour = RetourneFormEnfantChoixTour();
+            FormTour.WindowState = FormWindowState.Normal;
+     
+        }
+
+        //lorsque le magicien a choisi d'échanger ses cartes avec un personnnage, et qu'il a choisi le personnage 
+        private void ChoixPersonnageEchangeMagicien(object sender, EventArgs e)
+        {
+            Button PersonnageChosi = (Button)sender;
+            int Personnage_Echange = Convert.ToInt32(PersonnageChosi.Tag);
+
+            String nomperso = Nom_personnage(Personnage_Echange);
+            MessageBox.Show("Tu as pris les cartes" + nomperso + ".", "Tu as fait un choix et ta sentence est irrévocable !", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            bool CartePersoChoisi = false;
+            if(Numero_Joueur_Tour == 1)
+            {
+
+                
+            foreach (PictureBox cartePersoJoueurOppose in tabPage3.Controls)
+                {
+                    int tagCarte = Convert.ToInt32(cartePersoJoueurOppose.Tag);
+                    if(Personnage_Echange == tagCarte)
+                    {
+                        CartePersoChoisi = true;
+                        //booleen pour tester que c'est joueur opppose qui a carte perso chois 
+                    }
+
+
+                }
+
+                if (CartePersoChoisi)
+                {
+                    List<PictureBox> carteTabPage2 = new List<PictureBox>();
+                    tousLesControls(tabPage2, carteTabPage2);
+
+                    foreach (PictureBox carteMagicien in carteTabPage2)
+                    {
+                        panelAttente.Controls.Add(carteMagicien); //enregistre les cartes dans un panel en attente l'échange 
+                    }
+
+
+                    tabPage2.Controls.Clear();
+                    int y = 0;
+
+                    int nbPanel = tabPage4.Controls.Count;
+                    MessageBox.Show("Il y a ce nb de control dans panel 4: " + nbPanel);
+
+                    List<PictureBox> carteTabPage4 = new List<PictureBox>();  // CREER UNE FONCTION CAR BUG AVEC  FOREACH LOOP // LES CONTROLS N ETAIENT PAS TROUVE 
+                    tousLesControls(tabPage4, carteTabPage4);
+
+                    foreach (PictureBox carteAutreJoueur in carteTabPage4)
+                    {
+                        MessageBox.Show("Je fais un tour");
+                        tabPage2.Controls.Add(carteAutreJoueur);  //met les cartes du joueur opposé dans panel du joueur magicien 
+                        carteAutreJoueur.Top = 50 * y;
+                        carteAutreJoueur.Left = 0;
+                        y++;
+                    }
+                   
+                    tabPage4.Controls.Clear();
+
+                    int i = 0;
+
+                    List<PictureBox> carteEnAttente = new List<PictureBox>();
+                    tousLesControls(panelAttente, carteEnAttente);
+                    foreach (PictureBox carteMagicienEnAttente in carteEnAttente)
+                    {
+                        tabPage4.Controls.Add(carteMagicienEnAttente);
+                        carteMagicienEnAttente.Top = 50 * i;
+                        carteMagicienEnAttente.Left = 0;
+                        i++;
+                    }
+
+                    
+
+                    int nbPanel1 =tabPage2.Controls.Count;
+                    MessageBox.Show("Il y a ce nb de control dans tabpage2 : " + nbPanel1);
+                }
+               
+
+            }else if(Numero_Joueur_Tour == 2)
+            {
+
+                foreach (PictureBox cartePersoJoueurOppose in tabPage1.Controls.OfType<PictureBox>())
+                {
+                    int tagCarte = Convert.ToInt32(cartePersoJoueurOppose.Tag);
+                    if (Personnage_Echange == tagCarte)
+                    {
+                        CartePersoChoisi = true;
+                        //booleen pour tester que c'est joueur opppose qui a carte perso chois 
+                    }
+
+
+                }
+
+                if (CartePersoChoisi)
+                {
+                    List<PictureBox> carteTabPage4 = new List<PictureBox>();  // CREER UNE FONCTION CAR BUG AVEC  FOREACH LOOP // LES CONTROLS N ETAIENT PAS TROUVE 
+                    tousLesControls(tabPage4, carteTabPage4);
+
+                    foreach (PictureBox carteMagicien in carteTabPage4)
+                    {
+                        panelAttente.Controls.Add(carteMagicien); //enregistre les cartes dans un panel en attente l'échange 
+                    }
+                    tabPage4.Controls.Clear();
+                    //MessageBox.Show("J'aim mis les cartes dans le panel d'attente");
+
+                    int y = 0;
+                    List<PictureBox> carteTabPage2 = new List<PictureBox>();
+                    tousLesControls(tabPage2, carteTabPage2);
+
+                    foreach (PictureBox carteAutreJoueur in carteTabPage2)
+                    {
+                        tabPage4.Controls.Add(carteAutreJoueur);  //met les cartes du joueur opposé dans panel du joueur magicien 
+                        carteAutreJoueur.Top = 50 * y;
+                        carteAutreJoueur.Left = 0;
+                        y++;
+                    }
+                    tabPage2.Controls.Clear();
+                    MessageBox.Show("J'aim mis les cartes dans le panel du joueur 1");
+
+                    int nbPanel = panelAttente.Controls.Count;
+                    MessageBox.Show("Il y a ce nb de control dans Panel : " + nbPanel);
+
+                    int i = 0;
+                    List<PictureBox> carteEnAttente = new List<PictureBox>();
+                    tousLesControls(panelAttente, carteEnAttente);
+                    foreach (PictureBox carteMagicienEnAttente in carteEnAttente)
+                    {
+                        tabPage2.Controls.Add(carteMagicienEnAttente);
+                        carteMagicienEnAttente.Top = 50 * i;
+                        carteMagicienEnAttente.Left = 0;
+                        i++;
+
+                    }
+                    panelAttente.Controls.Clear();
+                    //MessageBox.Show("J'aim mis les cartes dans le panel du joueur 2");
+                }
+
+            }
+            //INVERSE CARTE DU VOLEUR ET DU VOLE 
+
+            Form formChoix = RetourneFormEnfantChoixMagicien();
+            formChoix.Close();
+            Form FormTour = RetourneFormEnfantChoixTour();
+            FormTour.WindowState = FormWindowState.Normal;
+
+        }
+        
+        private void tousLesControls(Control PaquetCarte, List<PictureBox> toutesLesCartes)
+        {
+            
+            foreach(PictureBox controle in PaquetCarte.Controls)
+            {
+                tousLesControls(controle, toutesLesCartes);
+                toutesLesCartes.Add(controle);
+            }
+
+           
+        }
+
 
         private void FermetureForm(object sender)
         {
@@ -638,6 +1411,7 @@ namespace CitadellesV1
             if (nombre_de_pieces >= prixQuartierSelectionné)
             {
                 MessageBox.Show("suffisament de pièces");
+                QuartierSelectionné.MouseDown += carteCite_MouseDown;
                 PanelJoueur.Controls.Add(QuartierSelectionné);
                 nombre_de_pieces -= prixQuartierSelectionné;
 
@@ -698,7 +1472,7 @@ namespace CitadellesV1
         }
 
         private String Nom_personnage(int num_carte)
-        {
+        { 
             String NomPersonnage = "";
             switch (num_carte)
             {
@@ -785,6 +1559,158 @@ namespace CitadellesV1
             nom2 = nom.Text;
         }
 
+        // EVENEMENT MOUSE DOWN POUR PERMETTRE LE DRAG DROP SUR LES CARTES DANS LA CITE POUR LA DESTRUCTION PAR LE CONDOTTIERE
+        private void carteCite_MouseDown(object sender, MouseEventArgs e)
+        {
+            PictureBox Carte = (PictureBox)sender;
+            // RECUPERATION DE LA CARTE 
+            CopieCarteDestruction = Carte;
+            Carte.DoDragDrop("Hello", DragDropEffects.All);
+            
+        }
+
+        private void Demolition_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.All;
+        }
+
+        //ACTION LORSQUE QU'UNE CARTE EST SELECTIONNEE
+        private void Demolition_DragDrop(object sender, DragEventArgs e)
+        {
+            bool JoueurOpposeEstEveque = false;
+
+            if (Numero_Joueur_Tour == 1)
+            {
+                foreach (PictureBox CarteJoueurOppose in tabPage3.Controls) // VERIFIE QUE LE JOUEUR OPPOSE N'EST PAS EVEQUE CAR LE CONDOTTIERE NE PEUX DETRUIRE LES QUARTIERS D'UN EVEQUE
+                {
+                    if (CarteJoueurOppose.Name == "Eveque")
+                    {
+                        JoueurOpposeEstEveque = true;
+                    }
+                }
+
+
+                if (citeJ1.Controls.Contains(CopieCarteDestruction))
+                {
+                    DialogResult reponse = MessageBox.Show("Tu es sur le point de détruire un de tes propres quarties. Es-tu sûr de ton coup ?", "Tu vas faire une erreur !", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                    if (reponse == DialogResult.Yes)
+                    {
+                        MessageBox.Show("J'ai répondu oui, je veux détruire mon propre quartier");
+                        citeJ1.Controls.Remove(CopieCarteDestruction);
+
+                    }
+                    else if (reponse == DialogResult.No)
+                    {
+                        MessageBox.Show("J'ai répondu non, je ne veux pas détruire mon propre quartier");
+                        citeJ1.Controls.Add(CopieCarteDestruction);
+                        
+                    }
+                }
+                else
+                {
+                    if (JoueurOpposeEstEveque)
+                    {
+                        MessageBox.Show("Ce quartier appartient à l'évèque, tu ne peux pas le détruire.", "Ne touche pas au quartier de l'évèque", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        citeJ2.Controls.Add(CopieCarteDestruction);
+                        
+                    }
+                    else
+                    {
+                       
+                        int prixQuartier = Convert.ToInt32(CopieCarteDestruction.Tag);
+                        prixQuartier =- 1;
+                        int piecesJoueur = Convert.ToInt32(PiecesJ1.Text);
+
+                        if(piecesJoueur >= prixQuartier)
+                        {
+                            citeJ2.Controls.Remove(CopieCarteDestruction);
+                            MessageBox.Show("Tu as détruit un quartier, cela t'as coûté " + prixQuartier, "Bravo Terminator !", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            Fin_Choix_Condottiere_Destruction();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Tu n'as pas suffisament de pièces pour détruire ce quartier", "Oups ! Tu ne peux pas détruire ce quartier", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                        
+                        
+                    }
+                }
+
+
+            }
+            else if (Numero_Joueur_Tour == 2)
+            {
+                foreach (PictureBox CarteJoueurOppose in tabPage1.Controls) // VERIFIE QUE LE JOUEUR OPPOSE N'EST PAS EVEQUE CAR LE CONDOTTIERE NE PEUX DETRUIRE LES QUARTIERS D'UN EVEQUE
+                {
+                    if (CarteJoueurOppose.Name == "Eveque")
+                    {
+                        JoueurOpposeEstEveque = true;
+                    }
+                }
+
+
+                if (citeJ2.Controls.Contains(CopieCarteDestruction))
+                {
+                    DialogResult reponse = MessageBox.Show("Tu es sur le point de détruire un de tes propres quarties. Es-tu sûr de ton coup ?", "Tu vas faire une erreur !", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                    if (reponse == DialogResult.Yes)
+                    {
+                        MessageBox.Show("J'ai répondu oui, je veux détruire mon propre quartier");
+                        citeJ2.Controls.Remove(CopieCarteDestruction);
+                        
+                    }
+                    else if (reponse == DialogResult.No)
+                    {
+                        MessageBox.Show("J'ai répondu non, je ne veux pas détruire mon propre quartier");
+                        citeJ2.Controls.Add(CopieCarteDestruction);
+                        
+                    }
+                }
+                else
+                {
+                    if (JoueurOpposeEstEveque)
+                    {
+                        MessageBox.Show("Ce quartier appartient à l'évèque, tu ne peux pas le détruire.", "Ne touche pas au quartier de l'évèque", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        citeJ1.Controls.Add(CopieCarteDestruction);
+                    }
+                    else
+                    {
+                       
+                        int prixQuartier = Convert.ToInt32(CopieCarteDestruction.Tag);
+                        prixQuartier = -1;
+                        int piecesJoueur = Convert.ToInt32(PiecesJ2.Text);
+
+                        if (piecesJoueur >= prixQuartier)
+                        {
+                            citeJ1.Controls.Remove(CopieCarteDestruction);
+                            MessageBox.Show("Tu as détruit un quartier, cela t'as coûté " + prixQuartier, "Bravo Terminator !", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            //Fin_Choix_Condottiere_Destruction();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Tu n'as pas suffisament de pièces pour détruire ce quartier", "Oups ! Tu ne peux pas détruire ce quartier", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                        
+                    }
+                }
+
+            }
+
+            Fin_Choix_Condottiere_Destruction();
+        }
+
+
+        private void Fin_Choix_Condottiere_Destruction()
+        {
+            
+            panelDemolition.AllowDrop = false; // ne permet plus de faire de détruire de quartier 
+            panelDemolition.Visible = false;
+            Texte_demolition.Visible = false;
+            Form FormChoix = RetourneFormEnfantChoixTour();
+            FormChoix.WindowState = FormWindowState.Normal;
+         
+        }
 
         //VALIDATION DES NOMS PAR L'UTLISATEUR (ferme la fenêtre et inscrit les noms dans la form principale)
         private void Validation_joueur(object sender, EventArgs e)

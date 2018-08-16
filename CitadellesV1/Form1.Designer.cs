@@ -30,12 +30,10 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.citeJ1 = new System.Windows.Forms.Panel();
+            this.pictureBox7 = new System.Windows.Forms.PictureBox();
             this.citeJ2 = new System.Windows.Forms.Panel();
-            this.pioche = new System.Windows.Forms.Panel();
             this.Cathedrale = new System.Windows.Forms.PictureBox();
-            this.Caserne = new System.Windows.Forms.PictureBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pioche = new System.Windows.Forms.Panel();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
@@ -46,8 +44,10 @@
             this.pictureBox10 = new System.Windows.Forms.PictureBox();
             this.Comptoir = new System.Windows.Forms.PictureBox();
             this.pictureBox9 = new System.Windows.Forms.PictureBox();
-            this.pictureBox7 = new System.Windows.Forms.PictureBox();
             this.pictureBox8 = new System.Windows.Forms.PictureBox();
+            this.Caserne = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -56,33 +56,37 @@
             this.carteJ2 = new System.Windows.Forms.Panel();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.MasqueJoueur2 = new System.Windows.Forms.PictureBox();
-            this.Architecte = new System.Windows.Forms.PictureBox();
             this.Assassin = new System.Windows.Forms.PictureBox();
+            this.Magicien = new System.Windows.Forms.PictureBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.MasqueJoueur2 = new System.Windows.Forms.PictureBox();
+            this.Eveque = new System.Windows.Forms.PictureBox();
+            this.Architecte = new System.Windows.Forms.PictureBox();
             this.Condottiere = new System.Windows.Forms.PictureBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.MasqueJoueur1 = new System.Windows.Forms.PictureBox();
+            this.Roi = new System.Windows.Forms.PictureBox();
             this.Voleur = new System.Windows.Forms.PictureBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.reglesdujeu = new System.Windows.Forms.LinkLabel();
-            this.Magicien = new System.Windows.Forms.PictureBox();
-            this.Roi = new System.Windows.Forms.PictureBox();
-            this.Eveque = new System.Windows.Forms.PictureBox();
             this.Marchand = new System.Windows.Forms.PictureBox();
             this.PiecesJ1 = new System.Windows.Forms.Label();
             this.PiecesJ2 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
+            this.RoiJoueur1 = new System.Windows.Forms.PictureBox();
+            this.RoiJoueur2 = new System.Windows.Forms.PictureBox();
+            this.Texte_demolition = new System.Windows.Forms.Label();
+            this.panelDemolition = new System.Windows.Forms.Panel();
+            this.panelAttente = new System.Windows.Forms.Panel();
             this.citeJ1.SuspendLayout();
-            this.pioche.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
+            this.citeJ2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Cathedrale)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Caserne)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            this.pioche.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
@@ -93,23 +97,29 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Comptoir)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Caserne)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.carteJ2.SuspendLayout();
             this.tabControl2.SuspendLayout();
             this.tabPage3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.MasqueJoueur2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Architecte)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Assassin)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Magicien)).BeginInit();
+            this.tabPage4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.MasqueJoueur2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Eveque)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Architecte)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Condottiere)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MasqueJoueur1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Voleur)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Magicien)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Roi)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Eveque)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Voleur)).BeginInit();
+            this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Marchand)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RoiJoueur1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RoiJoueur2)).BeginInit();
             this.SuspendLayout();
             // 
             // citeJ1
@@ -121,26 +131,49 @@
             this.citeJ1.Size = new System.Drawing.Size(191, 443);
             this.citeJ1.TabIndex = 0;
             // 
+            // pictureBox7
+            // 
+            this.pictureBox7.BackColor = System.Drawing.Color.Yellow;
+            this.pictureBox7.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox7.Image")));
+            this.pictureBox7.Location = new System.Drawing.Point(44, 25);
+            this.pictureBox7.Name = "pictureBox7";
+            this.pictureBox7.Size = new System.Drawing.Size(92, 150);
+            this.pictureBox7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox7.TabIndex = 7;
+            this.pictureBox7.TabStop = false;
+            this.pictureBox7.Tag = "4";
+            this.pictureBox7.MouseDown += new System.Windows.Forms.MouseEventHandler(this.carteCite_MouseDown);
+            // 
             // citeJ2
             // 
             this.citeJ2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.citeJ2.Controls.Add(this.Cathedrale);
             this.citeJ2.Location = new System.Drawing.Point(561, 80);
             this.citeJ2.Name = "citeJ2";
             this.citeJ2.Size = new System.Drawing.Size(191, 443);
             this.citeJ2.TabIndex = 1;
             // 
+            // Cathedrale
+            // 
+            this.Cathedrale.BackColor = System.Drawing.Color.Blue;
+            this.Cathedrale.Image = ((System.Drawing.Image)(resources.GetObject("Cathedrale.Image")));
+            this.Cathedrale.Location = new System.Drawing.Point(51, 25);
+            this.Cathedrale.Name = "Cathedrale";
+            this.Cathedrale.Size = new System.Drawing.Size(92, 150);
+            this.Cathedrale.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.Cathedrale.TabIndex = 6;
+            this.Cathedrale.TabStop = false;
+            this.Cathedrale.Tag = "5";
+            this.Cathedrale.MouseDown += new System.Windows.Forms.MouseEventHandler(this.carteCite_MouseDown);
+            // 
             // pioche
             // 
             this.pioche.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pioche.Controls.Add(this.Cathedrale);
-            this.pioche.Controls.Add(this.Caserne);
-            this.pioche.Controls.Add(this.pictureBox1);
-            this.pioche.Controls.Add(this.pictureBox2);
             this.pioche.Controls.Add(this.pictureBox3);
             this.pioche.Controls.Add(this.pictureBox4);
+            this.pioche.Controls.Add(this.pictureBox2);
             this.pioche.Controls.Add(this.pictureBox5);
             this.pioche.Controls.Add(this.pictureBox6);
-            this.pioche.Controls.Add(this.pictureBox12);
             this.pioche.Controls.Add(this.pictureBox11);
             this.pioche.Controls.Add(this.Chateau);
             this.pioche.Controls.Add(this.pictureBox10);
@@ -152,59 +185,11 @@
             this.pioche.Size = new System.Drawing.Size(134, 205);
             this.pioche.TabIndex = 2;
             // 
-            // Cathedrale
-            // 
-            this.Cathedrale.BackColor = System.Drawing.Color.Blue;
-            this.Cathedrale.Image = ((System.Drawing.Image)(resources.GetObject("Cathedrale.Image")));
-            this.Cathedrale.Location = new System.Drawing.Point(41, 36);
-            this.Cathedrale.Name = "Cathedrale";
-            this.Cathedrale.Size = new System.Drawing.Size(92, 150);
-            this.Cathedrale.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.Cathedrale.TabIndex = 6;
-            this.Cathedrale.TabStop = false;
-            this.Cathedrale.Tag = "5";
-            // 
-            // Caserne
-            // 
-            this.Caserne.BackColor = System.Drawing.Color.Red;
-            this.Caserne.Image = ((System.Drawing.Image)(resources.GetObject("Caserne.Image")));
-            this.Caserne.Location = new System.Drawing.Point(41, 28);
-            this.Caserne.Name = "Caserne";
-            this.Caserne.Size = new System.Drawing.Size(88, 142);
-            this.Caserne.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.Caserne.TabIndex = 8;
-            this.Caserne.TabStop = false;
-            this.Caserne.Tag = "3";
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackColor = System.Drawing.Color.Blue;
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(37, 20);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(92, 150);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 9;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Tag = "5";
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.BackColor = System.Drawing.Color.Blue;
-            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(26, 36);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(92, 150);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox2.TabIndex = 10;
-            this.pictureBox2.TabStop = false;
-            this.pictureBox2.Tag = "5";
-            // 
             // pictureBox3
             // 
             this.pictureBox3.BackColor = System.Drawing.Color.Blue;
             this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
-            this.pictureBox3.Location = new System.Drawing.Point(34, 20);
+            this.pictureBox3.Location = new System.Drawing.Point(22, 47);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(92, 150);
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -216,7 +201,7 @@
             // 
             this.pictureBox4.BackColor = System.Drawing.Color.Red;
             this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
-            this.pictureBox4.Location = new System.Drawing.Point(30, 28);
+            this.pictureBox4.Location = new System.Drawing.Point(41, 28);
             this.pictureBox4.Name = "pictureBox4";
             this.pictureBox4.Size = new System.Drawing.Size(88, 142);
             this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -228,7 +213,7 @@
             // 
             this.pictureBox5.BackColor = System.Drawing.Color.Red;
             this.pictureBox5.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox5.Image")));
-            this.pictureBox5.Location = new System.Drawing.Point(18, 12);
+            this.pictureBox5.Location = new System.Drawing.Point(22, 28);
             this.pictureBox5.Name = "pictureBox5";
             this.pictureBox5.Size = new System.Drawing.Size(88, 142);
             this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -240,7 +225,7 @@
             // 
             this.pictureBox6.BackColor = System.Drawing.Color.Red;
             this.pictureBox6.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox6.Image")));
-            this.pictureBox6.Location = new System.Drawing.Point(50, 28);
+            this.pictureBox6.Location = new System.Drawing.Point(26, 12);
             this.pictureBox6.Name = "pictureBox6";
             this.pictureBox6.Size = new System.Drawing.Size(88, 142);
             this.pictureBox6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -252,7 +237,7 @@
             // 
             this.pictureBox12.BackColor = System.Drawing.Color.Green;
             this.pictureBox12.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox12.Image")));
-            this.pictureBox12.Location = new System.Drawing.Point(46, 36);
+            this.pictureBox12.Location = new System.Drawing.Point(49, 197);
             this.pictureBox12.Name = "pictureBox12";
             this.pictureBox12.Size = new System.Drawing.Size(92, 150);
             this.pictureBox12.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -320,18 +305,6 @@
             this.pictureBox9.TabStop = false;
             this.pictureBox9.Tag = "4";
             // 
-            // pictureBox7
-            // 
-            this.pictureBox7.BackColor = System.Drawing.Color.Yellow;
-            this.pictureBox7.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox7.Image")));
-            this.pictureBox7.Location = new System.Drawing.Point(44, 25);
-            this.pictureBox7.Name = "pictureBox7";
-            this.pictureBox7.Size = new System.Drawing.Size(92, 150);
-            this.pictureBox7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox7.TabIndex = 7;
-            this.pictureBox7.TabStop = false;
-            this.pictureBox7.Tag = "4";
-            // 
             // pictureBox8
             // 
             this.pictureBox8.BackColor = System.Drawing.Color.Yellow;
@@ -343,6 +316,42 @@
             this.pictureBox8.TabIndex = 8;
             this.pictureBox8.TabStop = false;
             this.pictureBox8.Tag = "4";
+            // 
+            // Caserne
+            // 
+            this.Caserne.BackColor = System.Drawing.Color.Red;
+            this.Caserne.Image = ((System.Drawing.Image)(resources.GetObject("Caserne.Image")));
+            this.Caserne.Location = new System.Drawing.Point(35, 34);
+            this.Caserne.Name = "Caserne";
+            this.Caserne.Size = new System.Drawing.Size(88, 142);
+            this.Caserne.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.Caserne.TabIndex = 8;
+            this.Caserne.TabStop = false;
+            this.Caserne.Tag = "3";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.Blue;
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(49, 23);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(92, 150);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 9;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Tag = "5";
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.BackColor = System.Drawing.Color.Blue;
+            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
+            this.pictureBox2.Location = new System.Drawing.Point(26, 20);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(92, 150);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox2.TabIndex = 10;
+            this.pictureBox2.TabStop = false;
+            this.pictureBox2.Tag = "5";
             // 
             // label1
             // 
@@ -394,7 +403,7 @@
             this.carteJ2.Controls.Add(this.tabControl2);
             this.carteJ2.Location = new System.Drawing.Point(758, 61);
             this.carteJ2.Name = "carteJ2";
-            this.carteJ2.Size = new System.Drawing.Size(178, 478);
+            this.carteJ2.Size = new System.Drawing.Size(178, 686);
             this.carteJ2.TabIndex = 8;
             // 
             // tabControl2
@@ -404,45 +413,20 @@
             this.tabControl2.Location = new System.Drawing.Point(-1, 0);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(194, 472);
+            this.tabControl2.Size = new System.Drawing.Size(194, 686);
             this.tabControl2.TabIndex = 0;
             // 
             // tabPage3
             // 
-            this.tabPage3.Controls.Add(this.MasqueJoueur2);
-            this.tabPage3.Controls.Add(this.Architecte);
+            this.tabPage3.Controls.Add(this.Roi);
             this.tabPage3.Controls.Add(this.Assassin);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(186, 446);
+            this.tabPage3.Size = new System.Drawing.Size(186, 660);
             this.tabPage3.TabIndex = 0;
             this.tabPage3.Text = "tabPage3";
             this.tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // MasqueJoueur2
-            // 
-            this.MasqueJoueur2.Image = ((System.Drawing.Image)(resources.GetObject("MasqueJoueur2.Image")));
-            this.MasqueJoueur2.Location = new System.Drawing.Point(0, 0);
-            this.MasqueJoueur2.Name = "MasqueJoueur2";
-            this.MasqueJoueur2.Size = new System.Drawing.Size(184, 443);
-            this.MasqueJoueur2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.MasqueJoueur2.TabIndex = 8;
-            this.MasqueJoueur2.TabStop = false;
-            this.MasqueJoueur2.UseWaitCursor = true;
-            this.MasqueJoueur2.Visible = false;
-            // 
-            // Architecte
-            // 
-            this.Architecte.BackColor = System.Drawing.SystemColors.Control;
-            this.Architecte.Image = ((System.Drawing.Image)(resources.GetObject("Architecte.Image")));
-            this.Architecte.Location = new System.Drawing.Point(6, 210);
-            this.Architecte.Name = "Architecte";
-            this.Architecte.Size = new System.Drawing.Size(92, 150);
-            this.Architecte.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.Architecte.TabIndex = 6;
-            this.Architecte.TabStop = false;
-            this.Architecte.Tag = "7";
             // 
             // Assassin
             // 
@@ -455,21 +439,70 @@
             this.Assassin.TabStop = false;
             this.Assassin.Tag = "1";
             // 
+            // Magicien
+            // 
+            this.Magicien.Image = ((System.Drawing.Image)(resources.GetObject("Magicien.Image")));
+            this.Magicien.Location = new System.Drawing.Point(25, 254);
+            this.Magicien.Name = "Magicien";
+            this.Magicien.Size = new System.Drawing.Size(100, 150);
+            this.Magicien.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.Magicien.TabIndex = 2;
+            this.Magicien.TabStop = false;
+            this.Magicien.Tag = "3";
+            // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.pictureBox12);
+            this.tabPage4.Controls.Add(this.pictureBox1);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(186, 446);
+            this.tabPage4.Size = new System.Drawing.Size(186, 660);
             this.tabPage4.TabIndex = 1;
             this.tabPage4.Text = "tabPage4";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // MasqueJoueur2
+            // 
+            this.MasqueJoueur2.Image = ((System.Drawing.Image)(resources.GetObject("MasqueJoueur2.Image")));
+            this.MasqueJoueur2.Location = new System.Drawing.Point(746, 59);
+            this.MasqueJoueur2.Name = "MasqueJoueur2";
+            this.MasqueJoueur2.Size = new System.Drawing.Size(210, 688);
+            this.MasqueJoueur2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.MasqueJoueur2.TabIndex = 8;
+            this.MasqueJoueur2.TabStop = false;
+            this.MasqueJoueur2.UseWaitCursor = true;
+            this.MasqueJoueur2.Visible = false;
+            // 
+            // Eveque
+            // 
+            this.Eveque.BackColor = System.Drawing.Color.Blue;
+            this.Eveque.Image = ((System.Drawing.Image)(resources.GetObject("Eveque.Image")));
+            this.Eveque.Location = new System.Drawing.Point(443, 396);
+            this.Eveque.Name = "Eveque";
+            this.Eveque.Size = new System.Drawing.Size(92, 150);
+            this.Eveque.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.Eveque.TabIndex = 4;
+            this.Eveque.TabStop = false;
+            this.Eveque.Tag = "5";
+            // 
+            // Architecte
+            // 
+            this.Architecte.BackColor = System.Drawing.SystemColors.Control;
+            this.Architecte.Image = ((System.Drawing.Image)(resources.GetObject("Architecte.Image")));
+            this.Architecte.Location = new System.Drawing.Point(44, 53);
+            this.Architecte.Name = "Architecte";
+            this.Architecte.Size = new System.Drawing.Size(92, 150);
+            this.Architecte.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.Architecte.TabIndex = 6;
+            this.Architecte.TabStop = false;
+            this.Architecte.Tag = "7";
             // 
             // Condottiere
             // 
             this.Condottiere.BackColor = System.Drawing.Color.Red;
             this.Condottiere.Image = ((System.Drawing.Image)(resources.GetObject("Condottiere.Image")));
-            this.Condottiere.Location = new System.Drawing.Point(44, 48);
+            this.Condottiere.Location = new System.Drawing.Point(443, 404);
             this.Condottiere.Name = "Condottiere";
             this.Condottiere.Size = new System.Drawing.Size(88, 142);
             this.Condottiere.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -504,18 +537,17 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 58);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(188, 478);
+            this.tabControl1.Size = new System.Drawing.Size(188, 679);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.MasqueJoueur1);
-            this.tabPage1.Controls.Add(this.Condottiere);
-            this.tabPage1.Controls.Add(this.Roi);
+            this.tabPage1.Controls.Add(this.Magicien);
+            this.tabPage1.Controls.Add(this.Architecte);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(180, 452);
+            this.tabPage1.Size = new System.Drawing.Size(180, 653);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -523,19 +555,31 @@
             // MasqueJoueur1
             // 
             this.MasqueJoueur1.Image = ((System.Drawing.Image)(resources.GetObject("MasqueJoueur1.Image")));
-            this.MasqueJoueur1.Location = new System.Drawing.Point(-4, 0);
+            this.MasqueJoueur1.Location = new System.Drawing.Point(-1, 60);
             this.MasqueJoueur1.Name = "MasqueJoueur1";
-            this.MasqueJoueur1.Size = new System.Drawing.Size(184, 443);
+            this.MasqueJoueur1.Size = new System.Drawing.Size(206, 687);
             this.MasqueJoueur1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.MasqueJoueur1.TabIndex = 16;
             this.MasqueJoueur1.TabStop = false;
             this.MasqueJoueur1.UseWaitCursor = true;
             this.MasqueJoueur1.Visible = false;
             // 
+            // Roi
+            // 
+            this.Roi.BackColor = System.Drawing.Color.Yellow;
+            this.Roi.Image = ((System.Drawing.Image)(resources.GetObject("Roi.Image")));
+            this.Roi.Location = new System.Drawing.Point(35, 207);
+            this.Roi.Name = "Roi";
+            this.Roi.Size = new System.Drawing.Size(92, 150);
+            this.Roi.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.Roi.TabIndex = 3;
+            this.Roi.TabStop = false;
+            this.Roi.Tag = "4";
+            // 
             // Voleur
             // 
             this.Voleur.Image = ((System.Drawing.Image)(resources.GetObject("Voleur.Image")));
-            this.Voleur.Location = new System.Drawing.Point(439, 389);
+            this.Voleur.Location = new System.Drawing.Point(439, 404);
             this.Voleur.Name = "Voleur";
             this.Voleur.Size = new System.Drawing.Size(100, 150);
             this.Voleur.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -545,10 +589,11 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.Caserne);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(180, 452);
+            this.tabPage2.Size = new System.Drawing.Size(180, 653);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -563,41 +608,6 @@
             this.reglesdujeu.TabStop = true;
             this.reglesdujeu.Text = "Règles du jeu";
             this.reglesdujeu.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.reglesdujeu_LinkClicked);
-            // 
-            // Magicien
-            // 
-            this.Magicien.Image = ((System.Drawing.Image)(resources.GetObject("Magicien.Image")));
-            this.Magicien.Location = new System.Drawing.Point(435, 405);
-            this.Magicien.Name = "Magicien";
-            this.Magicien.Size = new System.Drawing.Size(100, 150);
-            this.Magicien.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.Magicien.TabIndex = 2;
-            this.Magicien.TabStop = false;
-            this.Magicien.Tag = "3";
-            // 
-            // Roi
-            // 
-            this.Roi.BackColor = System.Drawing.Color.Yellow;
-            this.Roi.Image = ((System.Drawing.Image)(resources.GetObject("Roi.Image")));
-            this.Roi.Location = new System.Drawing.Point(44, 244);
-            this.Roi.Name = "Roi";
-            this.Roi.Size = new System.Drawing.Size(92, 150);
-            this.Roi.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.Roi.TabIndex = 3;
-            this.Roi.TabStop = false;
-            this.Roi.Tag = "4";
-            // 
-            // Eveque
-            // 
-            this.Eveque.BackColor = System.Drawing.Color.Blue;
-            this.Eveque.Image = ((System.Drawing.Image)(resources.GetObject("Eveque.Image")));
-            this.Eveque.Location = new System.Drawing.Point(443, 386);
-            this.Eveque.Name = "Eveque";
-            this.Eveque.Size = new System.Drawing.Size(92, 150);
-            this.Eveque.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.Eveque.TabIndex = 4;
-            this.Eveque.TabStop = false;
-            this.Eveque.Tag = "5";
             // 
             // Marchand
             // 
@@ -646,14 +656,71 @@
             this.label8.TabIndex = 15;
             this.label8.Text = "Pieces : ";
             // 
+            // RoiJoueur1
+            // 
+            this.RoiJoueur1.Image = ((System.Drawing.Image)(resources.GetObject("RoiJoueur1.Image")));
+            this.RoiJoueur1.Location = new System.Drawing.Point(140, 11);
+            this.RoiJoueur1.Name = "RoiJoueur1";
+            this.RoiJoueur1.Size = new System.Drawing.Size(60, 47);
+            this.RoiJoueur1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.RoiJoueur1.TabIndex = 16;
+            this.RoiJoueur1.TabStop = false;
+            this.RoiJoueur1.Visible = false;
+            // 
+            // RoiJoueur2
+            // 
+            this.RoiJoueur2.Image = ((System.Drawing.Image)(resources.GetObject("RoiJoueur2.Image")));
+            this.RoiJoueur2.Location = new System.Drawing.Point(741, 8);
+            this.RoiJoueur2.Name = "RoiJoueur2";
+            this.RoiJoueur2.Size = new System.Drawing.Size(60, 47);
+            this.RoiJoueur2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.RoiJoueur2.TabIndex = 18;
+            this.RoiJoueur2.TabStop = false;
+            this.RoiJoueur2.Visible = false;
+            // 
+            // Texte_demolition
+            // 
+            this.Texte_demolition.AutoSize = true;
+            this.Texte_demolition.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Texte_demolition.Location = new System.Drawing.Point(408, 43);
+            this.Texte_demolition.Name = "Texte_demolition";
+            this.Texte_demolition.Size = new System.Drawing.Size(153, 17);
+            this.Texte_demolition.TabIndex = 20;
+            this.Texte_demolition.Text = "Quartier à détruire !";
+            this.Texte_demolition.Visible = false;
+            // 
+            // panelDemolition
+            // 
+            this.panelDemolition.AllowDrop = true;
+            this.panelDemolition.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panelDemolition.BackgroundImage")));
+            this.panelDemolition.Location = new System.Drawing.Point(408, 45);
+            this.panelDemolition.Name = "panelDemolition";
+            this.panelDemolition.Size = new System.Drawing.Size(153, 121);
+            this.panelDemolition.TabIndex = 21;
+            this.panelDemolition.Visible = false;
+            this.panelDemolition.DragDrop += new System.Windows.Forms.DragEventHandler(this.Demolition_DragDrop);
+            this.panelDemolition.DragEnter += new System.Windows.Forms.DragEventHandler(this.Demolition_DragEnter);
+            // 
+            // panelAttente
+            // 
+            this.panelAttente.Location = new System.Drawing.Point(386, 561);
+            this.panelAttente.Name = "panelAttente";
+            this.panelAttente.Size = new System.Drawing.Size(200, 186);
+            this.panelAttente.TabIndex = 22;
+            // 
             // Form1
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(948, 541);
-            this.Controls.Add(this.Eveque);
-            this.Controls.Add(this.Magicien);
+            this.ClientSize = new System.Drawing.Size(948, 749);
             this.Controls.Add(this.Voleur);
+            this.Controls.Add(this.panelAttente);
+            this.Controls.Add(this.Condottiere);
+            this.Controls.Add(this.Texte_demolition);
+            this.Controls.Add(this.Eveque);
+            this.Controls.Add(this.RoiJoueur2);
+            this.Controls.Add(this.RoiJoueur1);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.PiecesJ2);
@@ -672,15 +739,17 @@
             this.Controls.Add(this.pioche);
             this.Controls.Add(this.citeJ2);
             this.Controls.Add(this.citeJ1);
+            this.Controls.Add(this.panelDemolition);
+            this.Controls.Add(this.MasqueJoueur2);
+            this.Controls.Add(this.MasqueJoueur1);
             this.Name = "Form1";
             this.Text = "Jeu de cartes citadelle";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.citeJ1.ResumeLayout(false);
-            this.pioche.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
+            this.citeJ2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Cathedrale)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Caserne)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            this.pioche.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
@@ -691,23 +760,29 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Comptoir)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Caserne)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.carteJ2.ResumeLayout(false);
             this.tabControl2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.MasqueJoueur2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Architecte)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Assassin)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Magicien)).EndInit();
+            this.tabPage4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.MasqueJoueur2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Eveque)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Architecte)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Condottiere)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.MasqueJoueur1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Voleur)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Magicien)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Roi)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Eveque)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Voleur)).EndInit();
+            this.tabPage2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Marchand)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RoiJoueur1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RoiJoueur2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -763,6 +838,11 @@
         private System.Windows.Forms.PictureBox pictureBox9;
         private System.Windows.Forms.PictureBox pictureBox7;
         private System.Windows.Forms.PictureBox pictureBox8;
+        private System.Windows.Forms.PictureBox RoiJoueur1;
+        private System.Windows.Forms.PictureBox RoiJoueur2;
+        private System.Windows.Forms.Label Texte_demolition;
+        private System.Windows.Forms.Panel panelDemolition;
+        private System.Windows.Forms.Panel panelAttente;
     }
 }
 
