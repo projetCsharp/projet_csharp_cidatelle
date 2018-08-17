@@ -19,6 +19,8 @@ namespace CitadellesV1
         Form Commencer_partie = new Form();
         int PersonnageQuiJoue = 0;
 
+        int nbtours = 7;
+
         bool CommencerPartie_ferme = false;
         //Creation de la form pour les choix des joueurs à chaque tour
         Form ChoixTour = new Form();
@@ -49,7 +51,7 @@ namespace CitadellesV1
         PictureBox CopieCarte2 = new PictureBox();
 
         // CONNAITRE LE NUMERO DU JOUEUR QUI EST ROI 
-        int JoueurRoi = 0;
+        int JoueurRoi = 2;
         // connaitre le numéro du joueur qui est voleur
         int JoueurVoleur = 0;
 
@@ -59,7 +61,29 @@ namespace CitadellesV1
         //VARIRABLE GLOBALE POUR SAVOIR QUEL PERSONNAGE A ETE TUE 
         int Personnage_Assassine = 0;
         //VARIRABLE GLOBALE POUR SAVOIR QUEL PERSONNAGE A ETE VOLE
-        int Personnage_Vole = 0; 
+        int Personnage_Vole = 0;
+
+//FORM CHOIX PERSONNAGE
+        Form Choix_perso = new Form();
+        //BOOL POUR SAVOIR SI HOIX DES PERSONNAGES EST FERME
+        bool Choixpersonnage_ferme = false;
+
+        //Pour savoir si le personnage est mort  
+        bool Personnage_Mort = false;
+
+        Form Commencer_tour = new Form();
+
+        bool tourfini = false;
+
+        bool commencer_tour_ferme = false;
+
+        int CliqueConstrruction = 0;
+
+        List<PictureBox> ListeDesQuartiers = new List<PictureBox>();
+
+        List<PictureBox> quartiersJ1 = new List<PictureBox>();
+        List<PictureBox> quartiersJ2 = new List<PictureBox>();
+
 
         public Form1()
         {
@@ -92,14 +116,240 @@ namespace CitadellesV1
 
             if (CommencerPartie_ferme)
             { // test si la form pour choisir les prénoms est fermé, si c'est le cas peut excécuter le code suivant 
+                Choix_Personnage();
+                Choix_perso.FormClosed += Savoir_fermeture;
 
-                Appel_Personnage();
+                Button debut_tour = new Button();
+                debut_tour.Text = "Commencer le tour";
+                debut_tour.Click += Tour;
+                Commencer_tour.Controls.Add(debut_tour);
+                
+                Commencer_tour.TopMost = true;
 
-                MasqueCarteJoueurOppose();
+                if (Choixpersonnage_ferme) {
 
-                ChoixPendantLeTour();
-            }
+                    MessageBox.Show("on est dans le if et la fermeture de la box vaut " + Choixpersonnage_ferme);
+
+                }
+
+            }           
         }
+        // compter le nombre de personnage dans tabpage 
+        private int Compte()
+        {
+            int plop = tabPage1.Controls.Count;
+            int plop2 = tabPage3.Controls.Count;
+            int resultat = plop + plop2;
+            return resultat;
+        }
+
+        private void Savoir_fermeture(Object sender, FormClosedEventArgs e)
+        {
+            int nbpersoOk = Compte();
+            //MessageBox.Show("ce que vaut nbpersoOK : " + nbpersoOk);
+            // parce que control pour cacher les cartes quand ce n'est pas à son tour
+            //while (PersonnageQuiJoue <= 8)
+            //{
+            //    Appel_Personnage();
+            //    MasqueCarteJoueurOppose();
+            //    if (!Personnage_Mort)
+            //    {
+            //        ChoixPendantLeTour();
+            //    }
+            //}
+
+        }
+        //AFFICHAGE DES CARTES PERSONNAGES
+        private void  Choix_Personnage()
+        {
+            int position = 1 ;
+            Choix_perso.Width = 1500;
+            Choix_perso.StartPosition = FormStartPosition.CenterScreen;
+            Random suppressionperso = new Random();
+            int Personnagesupprime = suppressionperso.Next(1, 8);
+            //MessageBox.Show("le numero random :" + lechoisi);
+            for (int i = 1; i < 9; i++)
+            {
+                if (i != Personnagesupprime)
+                {
+
+                    PictureBox personnage = new PictureBox();
+                    personnage.Top = 50;
+                    personnage.Left = 60 + (position * 120);
+                    Image lacarte = Image.FromFile("Images_cartes/personnage" + i + ".PNG");
+                    personnage.SizeMode = PictureBoxSizeMode.Zoom;
+                    personnage.Width = 92;
+                    personnage.Height = 150;
+                    personnage.Image = lacarte;
+                    personnage.Tag = i;
+                    personnage.Click += Personnage_Choisi;
+                    Choix_perso.Controls.Add(personnage);
+                    position++;
+                    
+
+
+                    //tours de choix suppression personnages
+                    
+                }
+            }
+            Choix_perso.Show();
+            Choix_perso.TopMost = true;
+            //voir comment faire avec le "roi" pour le 1er qui pioche vg? faire un random pour le 1er tour?
+            if(JoueurRoi == 1)
+            {
+                MessageBox.Show(nom1 + " Choisi ton personnage");
+            }
+            else if (JoueurRoi == 2)
+            {
+                MessageBox.Show(nom2 + " Choisi ton personnage");
+            }
+            
+        }
+
+        private void Personnage_Choisi(object sender, EventArgs e)
+        {
+            PictureBox lepersonnage_clicke = (PictureBox)sender;
+            if(JoueurRoi == 1)
+            { 
+                if (nbtours == 6 || nbtours == 4 || nbtours == 2)
+                {
+                    if (nbtours == 6)
+                    {
+                        ajoutperso1J2.Image = lepersonnage_clicke.Image;
+                        ajoutperso1J2.Tag = lepersonnage_clicke.Tag;
+                        MessageBox.Show(nom2+" Choisi de supprimer un personnage", "action");
+                    }
+                    else if (nbtours == 4)
+                    {
+                        ajoutperso2J1.Image = lepersonnage_clicke.Image;
+                        ajoutperso2J1.Tag = lepersonnage_clicke.Tag;
+                        MessageBox.Show(nom1+" Choisi de supprimer un personnage", "action");
+                    }
+                    else if (nbtours == 2)
+                    {
+                        ajoutperso2J2.Image = lepersonnage_clicke.Image;
+                        ajoutperso2J2.Tag = lepersonnage_clicke.Tag;
+                        MessageBox.Show(nom2+" Choisi de supprimer un personnage", "action");
+                    }
+                    Image ledos = Image.FromFile("Images_cartes/Couverture_jeu.png");
+                    lepersonnage_clicke.Image = ledos;
+                    lepersonnage_clicke.Enabled = false;
+                    
+                    //L'ajouter au bon tabpage
+
+                }
+                else if (nbtours == 7)
+                {
+                    ajoutperso1J1.Image = lepersonnage_clicke.Image;
+                    ajoutperso1J1.Tag = lepersonnage_clicke.Tag;
+                    Image ledos = Image.FromFile("Images_cartes/Couverture_jeu.png");
+                    lepersonnage_clicke.Image = ledos;
+                    lepersonnage_clicke.Enabled = false;
+                    MessageBox.Show(nom2+ " Choisi un personnage", "action");
+                }
+
+                else if (nbtours == 5 || nbtours == 3)
+                {
+
+                    Image ledos = Image.FromFile("Images_cartes/Couverture_jeu.png");
+                    lepersonnage_clicke.Image = ledos;
+                    lepersonnage_clicke.Enabled = false;
+                    if(nbtours == 5)
+                    {
+                        MessageBox.Show(nom1+" Choisi un personnage", "action");
+                    }
+                    else
+                    {
+                        MessageBox.Show(nom2+" Choisi un personnage", "action");
+                    }
+                    
+
+                }
+
+                else
+                {
+                    Choix_perso.Close();
+                    MessageBox.Show("La partie peut commencer ! ");
+                    Commencer_tour.Show();
+                }
+
+            }
+            //quand le joueur roi = 2
+            else
+            {
+                if (nbtours == 6 || nbtours == 4 || nbtours == 2)
+                {
+                    if (nbtours == 6)
+                    {
+                        ajoutperso1J1.Image = lepersonnage_clicke.Image;
+                        ajoutperso1J1.Tag = lepersonnage_clicke.Tag;
+                        MessageBox.Show(nom1+" Choisi de supprimer un personnage", "action");
+                    }
+                    else if (nbtours == 4)
+                    {
+                        ajoutperso2J2.Image = lepersonnage_clicke.Image;
+                        ajoutperso2J2.Tag = lepersonnage_clicke.Tag;
+                        MessageBox.Show(nom2+" Choisi de supprimer un personnage", "action");
+                    }
+                    else if (nbtours == 2)
+                    {
+                        ajoutperso2J1.Image = lepersonnage_clicke.Image;
+                        ajoutperso2J1.Tag = lepersonnage_clicke.Tag;
+                        MessageBox.Show(nom1+" Choisi de supprimer un personnage", "action");
+                    }
+                    Image ledos = Image.FromFile("Images_cartes/Couverture_jeu.png");
+                    lepersonnage_clicke.Image = ledos;
+                    lepersonnage_clicke.Enabled = false;
+                    //L'ajouter au bon tabpage
+
+                }
+                else if (nbtours == 7)
+                {
+                    ajoutperso1J2.Image = lepersonnage_clicke.Image;
+                    ajoutperso1J2.Tag = lepersonnage_clicke.Tag;
+                    Image ledos = Image.FromFile("Images_cartes/Couverture_jeu.png");
+                    lepersonnage_clicke.Image = ledos;
+                    lepersonnage_clicke.Enabled = false;
+                    MessageBox.Show(nom1 + " choisi un personnage", "action");
+                }
+
+                else if (nbtours == 5 || nbtours == 3)
+                {
+
+                    Image ledos = Image.FromFile("Images_cartes/Couverture_jeu.png");
+                    lepersonnage_clicke.Image = ledos;
+                    lepersonnage_clicke.Enabled = false;
+                    if(nbtours == 5)
+                    {
+                        MessageBox.Show(nom2+" Choisi un personnage", "action");
+                    }
+                    else
+                    {
+                        MessageBox.Show(nom1+" Choisi un personnage", "action");
+                    }
+                    
+
+                }
+
+                else
+                {
+                    Choix_perso.Close();
+                    MessageBox.Show("La partie peut commencer ! ");
+                    Commencer_tour.Show();
+                }
+
+            }
+            nbtours--;
+
+        }
+
+        //public void Debuter_un_tour(object sender, EventArgs e)
+        //{
+        //    Commencer_tour.Close();
+        //    Choixpersonnage_ferme = true;
+
+        //}
+
 
         public void MasqueCarteJoueurOppose()
         {
@@ -110,10 +360,47 @@ namespace CitadellesV1
             }
             else if (Numero_Joueur_Tour == 2)
             {
+
                 MasqueJoueur1.Visible = true;
                 MasqueJoueur2.Visible = false;
             }
+
         }
+        //test centrer l'appel à chaque tour
+        private void Tour(object sender, EventArgs e)
+        {
+            if (!commencer_tour_ferme)
+            {
+                Commencer_tour.Close();
+                commencer_tour_ferme = true;
+            }
+           
+            
+            if (tourfini)
+            {
+                Pioche.Enabled = true;
+                Pieces.Enabled = true;
+                Pouvoir.Enabled = true;
+                Construction.Enabled = true;
+                //ReplacerCartePioche();
+                Form FormChoixTour = RetourneFormEnfantChoixTour();
+                FormChoixTour.Hide();
+            }
+            tourfini = false;
+
+            Appel_Personnage();
+                
+                MasqueCarteJoueurOppose();
+                //if (!Personnage_Mort)
+                //{
+                    ChoixPendantLeTour();
+
+            //}
+        
+           
+
+        }
+
 
         //METHODE D'APPEL POUR CHAQUE PERSONNAGE 
         public void Appel_Personnage()
@@ -124,11 +411,12 @@ namespace CitadellesV1
             }
 
             bool PersonnageEstChoisi = false;
-            bool Personnage_Mort = false;
+            
 
 
             while (!PersonnageEstChoisi || Personnage_Mort)
             {
+                //MessageBox.Show("le numero de personnage qui joue " + PersonnageQuiJoue);
                 Personnage_Mort = false;
                 PersonnageQuiJoue++;
 
@@ -154,22 +442,36 @@ namespace CitadellesV1
                         }else if(PersonnageEstChoisi && Personnage_Vole == PersonnageQuiJoue) // dans le esle comme ça si le personnage n'est pas assassine, on teste si c'est celui qui est volé, et si il a été assasiné, il peut pas être volé donc ne fera pas le test
                         {
                             MessageBox.Show("Tu as été volé... Tu perds tout ton trésor...", "Quel dommage !", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            //J'AI PRIS EN COMPTE QUE LE VOLEUR POUVAIT ETRE BETE ET SE VOLE TOUT SEUL !!
-                            int piecePourLeVoleur = Convert.ToInt32(PiecesJ1.Text);
 
-                            PiecesJ1.Text = "0";
+                            int pieceappartenantaujoueurvole = 0;
                             if (JoueurVoleur == 1)
                             {
-                               int piecejoueurvoleur = Convert.ToInt32(PiecesJ1.Text);
-                                piecejoueurvoleur += piecePourLeVoleur;
-                                PiecesJ1.Text = Convert.ToString(piecejoueurvoleur);
+                                pieceappartenantaujoueurvole = Convert.ToInt32(PiecesJ2.Text);
+                                PiecesJ2.Text = "0";
                             }
-                            else if (JoueurVoleur == 2)
+                            else
                             {
-                                int piecejoueurvoleur = Convert.ToInt32(PiecesJ1.Text);
-                                piecejoueurvoleur += piecePourLeVoleur;
-                                PiecesJ1.Text = Convert.ToString(piecejoueurvoleur);
+                                pieceappartenantaujoueurvole = Convert.ToInt32(PiecesJ1.Text);
+                                PiecesJ1.Text = "0";
                             }
+
+                            int pieceduvoleur = Convert.ToInt32(PiecesJ2.Text);
+
+                            pieceduvoleur += pieceappartenantaujoueurvole;
+                            PiecesJ2.Text = Convert.ToString(pieceduvoleur);
+
+
+
+                            //int piecePourLeVoleur = Convert.ToInt32(PiecesJ2.Text);
+
+                            //MessageBox.Show("voici ce que vaut piece pour voleur " + piecePourLeVoleur);
+                            //PiecesJ1.Text = "0";
+
+                            //    int piecejoueurvoleur = Convert.ToInt32(PiecesJ2.Text);
+                            //    MessageBox.Show("voici ce que vaut pice pour piecejoueurvoleur " + piecejoueurvoleur);
+                            //    piecejoueurvoleur += piecePourLeVoleur;
+                            //    PiecesJ2.Text = Convert.ToString(piecejoueurvoleur);
+
                         }
 
                     }
@@ -196,27 +498,41 @@ namespace CitadellesV1
                         else if (PersonnageEstChoisi && Personnage_Vole == PersonnageQuiJoue) // dans le esle comme ça si le personnage n'est pas assassine, on teste si c'est celui qui est volé, et si il a été assasiné, il peut pas être volé donc ne fera pas le test
                         {
                             MessageBox.Show("Tu as été volé... Tu perds tout ton trésor...", "Quel dommage !", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            //J'AI PRIS EN COMPTE QUE LE VOLEUR POUVAIT ETRE BETE ET SE VOLE TOUT SEUL !!
-                            int piecePourLeVoleur = Convert.ToInt32(PiecesJ2.Text);
-                            PiecesJ2.Text = "0";
+
+                            int pieceappartenantaujoueurvole = 0;
                             if (JoueurVoleur == 1)
                             {
-                                int piecejoueurvoleur = Convert.ToInt32(PiecesJ1.Text);
-                                piecejoueurvoleur += piecePourLeVoleur;
-                                PiecesJ1.Text = Convert.ToString(piecejoueurvoleur);
+                                pieceappartenantaujoueurvole = Convert.ToInt32(PiecesJ2.Text);
+                                PiecesJ2.Text = "0";
                             }
-                            else if (JoueurVoleur == 2)
+                            else
                             {
-                                int piecejoueurvoleur = Convert.ToInt32(PiecesJ1.Text);
-                                piecejoueurvoleur += piecePourLeVoleur;
-                                PiecesJ1.Text = Convert.ToString(piecejoueurvoleur);
+                                pieceappartenantaujoueurvole = Convert.ToInt32(PiecesJ1.Text);
+                                PiecesJ1.Text = "0";
                             }
+
+                            int pieceduvoleur = Convert.ToInt32(PiecesJ1.Text);
+
+                            pieceduvoleur += pieceappartenantaujoueurvole;
+                            PiecesJ1.Text = Convert.ToString(pieceduvoleur);
+
+
+                            ////J'AI PRIS EN COMPTE QUE LE VOLEUR POUVAIT ETRE BETE ET SE VOLE TOUT SEUL !!
+                            //int piecePourLeVoleur = Convert.ToInt32(PiecesJ1.Text);
+                            //MessageBox.Show("voici ce que vaut piece pour voleur " + piecePourLeVoleur);
+                            //PiecesJ1.Text = "0";
+
+                            //    int piecejoueurvoleur = Convert.ToInt32(PiecesJ2.Text);
+                            //    MessageBox.Show("voici ce que vaut pice pour piecejoueurvoleur " + piecejoueurvoleur);
+                            //    piecejoueurvoleur += piecePourLeVoleur;
+                            //    PiecesJ2.Text = Convert.ToString(piecejoueurvoleur);
+
                         }
 
                     }
                 }
             }
-            MasqueCarteJoueurOppose();
+            //MasqueCarteJoueurOppose();
             //ChoixPendantLeTour();
 
         }
@@ -229,7 +545,8 @@ namespace CitadellesV1
             //TESTER QUE LA FORM EXISTE 
             // SI N EXISTE PAS, CREE 
             //SINON NE FAIS RIEN 
-            if(! FormTourCree)
+            tourfini = true;
+            if (! FormTourCree)
             { 
                 ChoixTour.Tag = "ChoixTour";
                 ChoixTour.MdiParent = this;
@@ -267,7 +584,7 @@ namespace CitadellesV1
                 Fin.Text = "Je m'arrête là";
                 Fin.Top = 150;
                 Fin.Left = 100;
-                Fin.Click += FinTourJoueur;
+                Fin.Click += Tour;
 
                 //RECUPERE POUR LES BOUTONS PIOCHE ET PIECE LE RANG DANS LES CONTROLS 
                 rang_bouton_piece = ChoixTour.Controls.IndexOf(Pieces);
@@ -294,12 +611,6 @@ namespace CitadellesV1
             ChoixTour.TopMost = true;
             ChoixTour.Show();
            // ChoixTour.BringToFront();
-           
-
-
-            
-
-
             //voir pour rajouter un bouton fin de partie + test si personne ferme la fenêtre, mettre un message "oups tu passes ton tour" si oui,passe au joueur suivant, si non, lui affiche à nouveau la form 
         }
 
@@ -371,21 +682,24 @@ namespace CitadellesV1
         }
 
 
-        private void FinTourJoueur(object sender, EventArgs e)
-        {
-            Pioche.Enabled = true;
-            Pieces.Enabled = true;
-            Pouvoir.Enabled = true;
-            Construction.Enabled = true;
-            //ReplacerCartePioche();
-            Form FormChoixTour = RetourneFormEnfantChoixTour();
-            FormChoixTour.Hide();
-              
-            //this.ChoixTour.Close();
-            Appel_Personnage();
-            ChoixPendantLeTour();
+        //private void FinTourJoueur(object sender, EventArgs e)
+        //{
+        //    Pioche.Enabled = true;
+        //    Pieces.Enabled = true;
+        //    Pouvoir.Enabled = true;
+        //    Construction.Enabled = true;
+        //    //ReplacerCartePioche();
+        //    Form FormChoixTour = RetourneFormEnfantChoixTour();
+        //    FormChoixTour.Hide();
 
-        }
+        //    //this.ChoixTour.Close();
+        //    //Appel_Personnage();
+        //    //ChoixPendantLeTour();
+        //    //Tour();
+            
+
+
+        //}
 
         //CHOIX ACTION DURANT LE TOUR
         private void UneAction(object sender, EventArgs e)
@@ -424,19 +738,6 @@ namespace CitadellesV1
                 //RANDOM QUI SELECTIONNE DEUX CARTES DANS LA PIOCHE
                 int NumCarte1 = Generation_nb_Aleatoire();
                 int NumCarte2 = Generation_nb_Aleatoire();
-
-                //int nombre_carte_pioche = pioche.Controls.Count;
-                //MessageBox.Show("Voici le nombre de carte dans la pioche : " + nombre_carte_pioche + " et les nums des cartes au hasard : " + NumCarte1 + " et " + NumCarte2);
-
-                //foreach (PictureBox cartedelapioche in pioche.Controls)
-                //{
-                //    int indice = pioche.Controls.IndexOf(cartedelapioche);
-                //    MessageBox.Show("Voici l'indice de lac arte de la picohe " + indice);
-                //}
-
-                //CARTE PRISE DANS LA PIOCHE, disparaise après 
-                //et num généré est le même pour les deux cartes
-
 
                 //PROPOSE DEUX CARTES DANS LA PIOCHE 
                 Carte1 = (PictureBox)pioche.Controls[NumCarte1];
@@ -501,171 +802,251 @@ namespace CitadellesV1
                         break;
 
                     case 4: //ROI
-                                    if (Numero_Joueur_Tour == 1)
-                                    {
-                                         RoiJoueur1.Visible = true;
-                                        foreach (PictureBox carteQuartier in citeJ1.Controls)
-                                        {
-                                            if (carteQuartier.BackColor == Roi.BackColor)
-                                            {
-                                                nbQuartier++;
-                                            }
-                                        }
+                        if (Numero_Joueur_Tour == 1)
+                        {
+                            RoiJoueur1.Visible = true;
+                            foreach (PictureBox carteQuartier in citeJ1.Controls)
+                            {
+                                if (carteQuartier.BackColor == Color.Yellow)
+                                {
+                                    nbQuartier++;
+                                }
+                            }
 
 
-                                        if (nbQuartier != 0)
-                                        {
-                                            MessageBox.Show("Tu as " + nbQuartier + " quartiers nobles, cela te rapporte donc " + nbQuartier + " pièces", "Touche le pactole !", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                            int nbPieceJoueur = Convert.ToInt32(PiecesJ1.Text);
-                                            nbPieceJoueur += nbQuartier;
-                                            PiecesJ1.Text = Convert.ToString(nbPieceJoueur);
-                                        }
-                                        //else
-                                        //{
-                                        //    MessageBox.Show("Tu n'as pas de")
-                                        //}
+                            if (nbQuartier != 0)
+                            {
+                                MessageBox.Show("Tu as " + nbQuartier + " quartier(s) noble(s), cela te rapporte donc " + nbQuartier + " pièce(s)", "Touche le pactole !", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                int nbPieceJoueur = Convert.ToInt32(PiecesJ1.Text);
+                                nbPieceJoueur += nbQuartier;
+                                PiecesJ1.Text = Convert.ToString(nbPieceJoueur);
+                            }
+                            //else
+                            //{
+                            //    MessageBox.Show("Tu n'as pas de")
+                            //}
 
 
-                                        JoueurRoi = 1;
-                                    }
-                                    else if (Numero_Joueur_Tour == 2)
-                                    {
-                                        RoiJoueur2.Visible = true;
-                                        foreach (PictureBox carteQuartier in citeJ2.Controls)
-                                        {
-                                            if (carteQuartier.BackColor == Roi.BackColor)
-                                            {
-                                                nbQuartier++;
-                                            }
-                                        }
+                            JoueurRoi = 1;
+                        }
+                        else if (Numero_Joueur_Tour == 2)
+                        {
+                            RoiJoueur2.Visible = true;
+                            foreach (PictureBox carteQuartier in citeJ2.Controls)
+                            {
+                                if (carteQuartier.BackColor == Color.Yellow)
+                                {
+                                    nbQuartier++;
+                                }
+                            }
 
 
-                                        if (nbQuartier != 0)
-                                        {
-                                            MessageBox.Show("Tu as " + nbQuartier + " quartiers nobles, cela te rapporte donc " + nbQuartier + " pièces", "Touche le pactole !", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                            int nbPieceJoueur = Convert.ToInt32(PiecesJ2.Text);
-                                            nbPieceJoueur += nbQuartier;
-                                            PiecesJ2.Text = Convert.ToString(nbPieceJoueur);
-                                        }
+                            if (nbQuartier != 0)
+                            {
+                                MessageBox.Show("Tu as " + nbQuartier + " quartier(s) noble(s), cela te rapporte donc " + nbQuartier + " pièce(s)", "Touche le pactole !", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                int nbPieceJoueur = Convert.ToInt32(PiecesJ2.Text);
+                                nbPieceJoueur += nbQuartier;
+                                PiecesJ2.Text = Convert.ToString(nbPieceJoueur);
+                            }
 
-                                        JoueurRoi = 2;  
-                                    }    
+                            JoueurRoi = 2;
+                        }
                         break;
 
                     case 5: // EVEQUE 
-                                    if (Numero_Joueur_Tour == 1)
-                                    {
-                                        foreach (PictureBox carteQuartier in citeJ1.Controls)
-                                        {
-                                            if (carteQuartier.BackColor == Eveque.BackColor)
-                                            {
-                                                nbQuartier++;
-                                            }
-                                        }
+                        if (Numero_Joueur_Tour == 1)
+                        {
+                            foreach (PictureBox carteQuartier in citeJ1.Controls)
+                            {
+                                if (carteQuartier.BackColor == Color.Blue)
+                                {
+                                    nbQuartier++;
+                                }
+                            }
 
 
-                                        if (nbQuartier != 0)
-                                        {
-                                            MessageBox.Show("Tu as " + nbQuartier + " quartiers religieux, cela te rapporte donc " + nbQuartier + " pièces", "Touche le pactole !", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                            int nbPieceJoueur = Convert.ToInt32(PiecesJ1.Text);
-                                            nbPieceJoueur += nbQuartier;
-                                            PiecesJ1.Text = Convert.ToString(nbPieceJoueur);
-                                        }
-                                        //else
-                                        //{
-                                        //    MessageBox.Show("Tu n'as pas de")
-                                        //}
+                            if (nbQuartier != 0)
+                            {
+                                MessageBox.Show("Tu as " + nbQuartier + " quartier(s) religieux, cela te rapporte donc " + nbQuartier + " pièce(s)s", "Touche le pactole !", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                int nbPieceJoueur = Convert.ToInt32(PiecesJ1.Text);
+                                nbPieceJoueur += nbQuartier;
+                                PiecesJ1.Text = Convert.ToString(nbPieceJoueur);
+                            }
+                            //else
+                            //{
+                            //    MessageBox.Show("Tu n'as pas de")
+                            //}
 
 
-                                        
-                                    }
-                                    else if (Numero_Joueur_Tour == 2)
-                                    {
-                                        foreach (PictureBox carteQuartier in citeJ2.Controls)
-                                        {
-                                            if (carteQuartier.BackColor == Eveque.BackColor)
-                                            {
-                                                nbQuartier++;
-                                            }
-                                        }
+
+                        }
+                        else if (Numero_Joueur_Tour == 2)
+                        {
+                            foreach (PictureBox carteQuartier in citeJ2.Controls)
+                            {
+                                if (carteQuartier.BackColor == Color.Blue)
+                                {
+                                    nbQuartier++;
+                                }
+                            }
 
 
-                                        if (nbQuartier != 0)
-                                        {
-                                            MessageBox.Show("Tu as " + nbQuartier + " quartiers religieux, cela te rapporte donc " + nbQuartier + " pièces", "Touche le pactole !", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                            int nbPieceJoueur = Convert.ToInt32(PiecesJ2.Text);
-                                            nbPieceJoueur += nbQuartier;
-                                            PiecesJ2.Text = Convert.ToString(nbPieceJoueur);
-                                        }
+                            if (nbQuartier != 0)
+                            {
+                                MessageBox.Show("Tu as " + nbQuartier + " quartier(s) religieux, cela te rapporte donc " + nbQuartier + " pièce(s)", "Touche le pactole !", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                int nbPieceJoueur = Convert.ToInt32(PiecesJ2.Text);
+                                nbPieceJoueur += nbQuartier;
+                                PiecesJ2.Text = Convert.ToString(nbPieceJoueur);
+                            }
 
-                                        
-                                    }
+
+                        }
                         break;
 
                     case 6: // MARCHAND
-                      
+
                         if (Numero_Joueur_Tour == 1)
-                                    {
-                                        int ajoutpiece = Convert.ToInt16(PiecesJ1.Text);
-                                        ajoutpiece += 1;
-                                        PiecesJ1.Text = Convert.ToString(ajoutpiece);
+                        {
+                            int ajoutpiece = Convert.ToInt16(PiecesJ1.Text);
+                            ajoutpiece += 1;
+                            PiecesJ1.Text = Convert.ToString(ajoutpiece);
 
 
-                                        foreach (PictureBox carteQuartier in citeJ1.Controls)
-                                        {
-                                            if (carteQuartier.BackColor == Marchand.BackColor)
-                                            {
-                                                nbQuartier++;
-                                            }
-                                        }
+                            foreach (PictureBox carteQuartier in citeJ1.Controls)
+                            {
+                                if (carteQuartier.BackColor == Color.Green)
+                                {
+                                    nbQuartier++;
+                                }
+                            }
 
 
-                                        if (nbQuartier != 0)
-                                        {
-                                            MessageBox.Show("Tu as " + nbQuartier + " quartiers commerçants, cela te rapporte donc " + nbQuartier + " pièces", "Touche le pactole !", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                            int nbPieceJoueur = Convert.ToInt32(PiecesJ1.Text);
-                                            nbPieceJoueur += nbQuartier;
-                                            PiecesJ1.Text = Convert.ToString(nbPieceJoueur);
-                                        }
-                                        //else
-                                        //{
-                                        //    MessageBox.Show("Tu n'as pas de")
-                                        //}
+                            if (nbQuartier != 0)
+                            {
+                                MessageBox.Show("Tu as " + nbQuartier + " quartier(s) commerçant(s), cela te rapporte donc " + nbQuartier + " pièce(s)", "Touche le pactole !", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                int nbPieceJoueur = Convert.ToInt32(PiecesJ1.Text);
+                                nbPieceJoueur += nbQuartier;
+                                PiecesJ1.Text = Convert.ToString(nbPieceJoueur);
+                            }
+                            //else
+                            //{
+                            //    MessageBox.Show("Tu n'as pas de")
+                            //}
 
 
 
-                                    }
-                                    else if (Numero_Joueur_Tour == 2)
-                                    {
-                                        int ajoutpiece = Convert.ToInt16(PiecesJ2.Text);
-                                        ajoutpiece += 1;
-                                        PiecesJ2.Text = Convert.ToString(ajoutpiece);
+                        }
+                        else if (Numero_Joueur_Tour == 2)
+                        {
+                            int ajoutpiece = Convert.ToInt16(PiecesJ2.Text);
+                            ajoutpiece += 1;
+                            PiecesJ2.Text = Convert.ToString(ajoutpiece);
 
-                                        foreach (PictureBox carteQuartier in citeJ2.Controls)
-                                        {
-                                            if (carteQuartier.BackColor == Marchand.BackColor)
-                                            {
-                                                nbQuartier++;
-                                            }
-                                        }
-
-
-                                        if (nbQuartier != 0)
-                                        {
-                                            MessageBox.Show("Tu as " + nbQuartier + " quartiers commerçants, cela te rapporte donc " + nbQuartier + " pièces", "Touche le pactole !", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                            int nbPieceJoueur = Convert.ToInt32(PiecesJ2.Text);
-                                            nbPieceJoueur += nbQuartier;
-                                            PiecesJ2.Text = Convert.ToString(nbPieceJoueur);
-                                        }
+                            foreach (PictureBox carteQuartier in citeJ2.Controls)
+                            {
+                                if (carteQuartier.BackColor == Color.Green)
+                                {
+                                    nbQuartier++;
+                                }
+                            }
 
 
-                                    }
+                            if (nbQuartier != 0)
+                            {
+                                MessageBox.Show("Tu as " + nbQuartier + " quartier(s) commerçant(s), cela te rapporte donc " + nbQuartier + " pièce(s)", "Touche le pactole !", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                int nbPieceJoueur = Convert.ToInt32(PiecesJ2.Text);
+                                nbPieceJoueur += nbQuartier;
+                                PiecesJ2.Text = Convert.ToString(nbPieceJoueur);
+                            }
+
+
+                        }
 
 
                         break;
 
                     case 7:// ARCHITECTE
-                        
+
+                        if (Numero_Joueur_Tour == 1)
+                        {
+
+                            int NumCarte1 = Generation_nb_Aleatoire();
+                            int NumCarte2 = Generation_nb_Aleatoire();
+
+
+                            //PROPOSE DEUX CARTES DANS LA PIOCHE 
+                            Carte1 = (PictureBox)pioche.Controls[NumCarte1];
+                            tabPage2.Controls.Add(Carte1);
+
+                            int nbcarte = Compte_carte(tabPage2);
+                            if (nbcarte < 4)
+                            {
+                                Carte1.Top = nbcarte * 150;
+                                Carte1.Left = 0;
+                            }
+                            else if (nbcarte >= 4)
+                            {
+                                Carte1.Top = (nbcarte - 4) * 150;
+                                Carte1.Left = 90;
+                            }
+
+
+                            Carte2 = (PictureBox)pioche.Controls[NumCarte1];
+                            tabPage2.Controls.Add(Carte2);
+
+                            nbcarte = Compte_carte(tabPage2);
+                            if (nbcarte < 4)
+                            {
+                                Carte2.Top = nbcarte * 150;
+                                Carte2.Left = 0;
+                            }
+                            else if (nbcarte >= 4)
+                            {
+                                Carte2.Top = (nbcarte - 4) * 150;
+                                Carte2.Left = 90;
+                            }
+
+                        }
+                        else if (Numero_Joueur_Tour == 2)
+                        {
+                            int NumCarte1 = Generation_nb_Aleatoire();
+                            int NumCarte2 = Generation_nb_Aleatoire();
+
+
+                            //PROPOSE DEUX CARTES DANS LA PIOCHE 
+                            Carte1 = (PictureBox)pioche.Controls[NumCarte1];
+                            tabPage4.Controls.Add(Carte1);
+
+                            int nbcarte = Compte_carte(tabPage4);
+                            if (nbcarte < 4)
+                            {
+                                Carte1.Top = nbcarte * 150;
+                                Carte1.Left = 0;
+                            }
+                            else if (nbcarte >= 4)
+                            {
+                                Carte1.Top = (nbcarte - 4) * 150;
+                                Carte1.Left = 90;
+                            }
+
+
+                            Carte2 = (PictureBox)pioche.Controls[NumCarte1];
+                            tabPage4.Controls.Add(Carte2);
+
+                            nbcarte = Compte_carte(tabPage4);
+                            if (nbcarte < 4)
+                            {
+                                Carte2.Top = nbcarte * 150;
+                                Carte2.Left = 0;
+                            }
+                            else if (nbcarte >= 4)
+                            {
+                                Carte2.Top = (nbcarte - 4) * 150;
+                                Carte2.Left = 90;
+                            }
+                        }
+
+                  
                         break;
 
                     case 8: // CONDITTIERE
@@ -676,7 +1057,7 @@ namespace CitadellesV1
                                         {
                                             foreach (PictureBox carteQuartier in citeJ1.Controls)
                                             {
-                                                if (carteQuartier.BackColor == Condottiere.BackColor)
+                                                if (carteQuartier.BackColor == Color.Red)
                                                 {
                                                     nbQuartier++;
                                                 }
@@ -685,7 +1066,7 @@ namespace CitadellesV1
 
                                             if (nbQuartier != 0)
                                             {
-                                                MessageBox.Show("Tu as " + nbQuartier + " quartiers militaires, cela te rapporte donc " + nbQuartier + " pièces", "Touche le pactole !", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                                MessageBox.Show("Tu as " + nbQuartier + " quartier(s) militaire(s), cela te rapporte donc " + nbQuartier + " pièce(s)", "Touche le pactole !", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                                 int nbPieceJoueur = Convert.ToInt32(PiecesJ1.Text);
                                                 nbPieceJoueur += nbQuartier;
                                                 PiecesJ1.Text = Convert.ToString(nbPieceJoueur);
@@ -702,7 +1083,7 @@ namespace CitadellesV1
                                         {
                                             foreach (PictureBox carteQuartier in citeJ2.Controls)
                                             {
-                                                if (carteQuartier.BackColor == Condottiere.BackColor)
+                                                if (carteQuartier.BackColor == Color.Red)
                                                 {
                                                     nbQuartier++;
                                                 }
@@ -711,7 +1092,7 @@ namespace CitadellesV1
 
                                             if (nbQuartier != 0)
                                             {
-                                                MessageBox.Show("Tu as " + nbQuartier + " quartiers militaires, cela te rapporte donc " + nbQuartier + " pièces", "Touche le pactole !", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                                MessageBox.Show("Tu as " + nbQuartier + " quartier(s) militaire(s), cela te rapporte donc " + nbQuartier + " pièce(s)", "Touche le pactole !", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                                 int nbPieceJoueur = Convert.ToInt32(PiecesJ2.Text);
                                                 nbPieceJoueur += nbQuartier;
                                                 PiecesJ2.Text = Convert.ToString(nbPieceJoueur);
@@ -735,69 +1116,137 @@ namespace CitadellesV1
             }
             else if (tag_bouton == "construction")
             {
-                MessageBox.Show("Construit !");
+                CliqueConstrruction++;
 
-                int nombreCarteQuartier = 0;
-
-                if (Numero_Joueur_Tour == 1)
-                {
-                    nombreCarteQuartier = tabPage2.Controls.Count;
-                }
-                else if (Numero_Joueur_Tour == 2)
-                {
-                    nombreCarteQuartier = tabPage4.Controls.Count;
-                }
-                Form afficheCarteQuartier = new Form();
-                afficheCarteQuartier.StartPosition = FormStartPosition.CenterScreen;
-                afficheCarteQuartier.TopMost = true;
-                Label questionquartier = new Label();
-                questionquartier.Text = "Quel quartier souhaites-tu construire ?";
-                afficheCarteQuartier.Controls.Add(questionquartier);
-
-
-                if (nombreCarteQuartier != 0)
-                {
-
-                    int i = 0;
+                    int nombreCarteQuartier = 0;
 
                     if (Numero_Joueur_Tour == 1)
                     {
-                        foreach (PictureBox carteQuartierJoueur in tabPage2.Controls)
-                        {
-                            afficheCarteQuartier.Controls.Add(carteQuartierJoueur);
-                            carteQuartierJoueur.Top = 30;
-                            carteQuartierJoueur.Left = 30 + (100 * i);
-                            i++;
-                            carteQuartierJoueur.Click += ChoixConstructionQuartier;
-                        }
-
+                        nombreCarteQuartier = tabPage2.Controls.Count;
                     }
                     else if (Numero_Joueur_Tour == 2)
                     {
-                        foreach (PictureBox carteQuartierJoueur in tabPage4.Controls)
+                        nombreCarteQuartier = tabPage4.Controls.Count;
+                    }
+                    Form afficheCarteQuartier = new Form();
+                    afficheCarteQuartier.Width = 800;
+                    afficheCarteQuartier.StartPosition = FormStartPosition.CenterScreen;
+                    afficheCarteQuartier.TopMost = true;
+                    Label questionquartier = new Label();
+                    questionquartier.Text = "Quel quartier souhaites-tu construire ?";
+                    afficheCarteQuartier.Controls.Add(questionquartier);
+
+
+                    if (nombreCarteQuartier != 0)
+                    {
+
+
+                        int i = 0;
+
+                        if (Numero_Joueur_Tour == 1)
                         {
-                            afficheCarteQuartier.Controls.Add(carteQuartierJoueur);
-                            carteQuartierJoueur.Top = 30;
-                            carteQuartierJoueur.Left = 30 + (100 * i);
-                            i++;
-                            carteQuartierJoueur.Click += ChoixConstructionQuartier;
+                       
+                        tousLesControls(tabPage2, ListeDesQuartiers);
+
+                        foreach (PictureBox carte in ListeDesQuartiers)
+                        {
+                            PictureBox copiecarte = new PictureBox();
+                            copiecarte.Image = carte.Image;
+                            copiecarte.Text = carte.Text;
+                            copiecarte.Tag = carte.Tag;
+                            copiecarte.BackColor = carte.BackColor;
+                            copiecarte.Size = carte.Size;
+                            copiecarte.SizeMode = carte.SizeMode;
+
+                            quartiersJ1.Add(copiecarte);
                         }
+
+                        //quartiersJ1 = ListeDesQuartiers;
+                        foreach (PictureBox carteQuartierJoueur in ListeDesQuartiers)
+                        {
+                            PictureBox Quartier = new PictureBox();
+                            Quartier.Image = carteQuartierJoueur.Image;
+                            afficheCarteQuartier.Controls.Add(Quartier);
+                            Quartier.Top = 30;
+                            Quartier.Left = 30 + (100 * i);
+                            i++;
+                            Quartier.Click += ChoixConstructionQuartier;
+                        }
+
+                    }
+                        else if (Numero_Joueur_Tour == 2)
+                        {
+                        int test = tabPage4.Controls.Count;
+                        MessageBox.Show("le nombre de controles dans les mains du joeur 2 :" + test);
+                          // CREER UNE FONCTION CAR BUG AVEC  FOREACH LOOP // LES CONTROLS N ETAIENT PAS TROUVE 
+                        tousLesControls(tabPage4, ListeDesQuartiers);
+
+                        
+
+                        foreach (PictureBox carte in ListeDesQuartiers)
+                        {
+                            PictureBox copiecarte = new PictureBox();
+                            copiecarte.Image = carte.Image;
+                            copiecarte.Text = carte.Text;
+                            copiecarte.Tag = carte.Tag;
+                            copiecarte.BackColor = carte.BackColor;
+                            copiecarte.Size = carte.Size;
+                            copiecarte.SizeMode = carte.SizeMode;
+
+                            quartiersJ2.Add(copiecarte);
+                        }
+
+                        //quartiersJ1 = ListeDesQuartiers;
+
+
+                        foreach (PictureBox carteQuartierJoueur in ListeDesQuartiers)
+                        {
+                                PictureBox Quartier = new PictureBox();
+                                Quartier = carteQuartierJoueur;
+                                afficheCarteQuartier.Controls.Add(Quartier);
+                                Quartier.Top = 30;
+                                Quartier.Left = 30 + (100 * i);
+                                i++;
+                                Quartier.Click += ChoixConstructionQuartier;
+                                
+                            }
+                        }
+                        afficheCarteQuartier.Show();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Malheureusement, tu n'as pas de cartes Quartiers");
                     }
 
-                 afficheCarteQuartier.Show();
 
+                    // /!\ VOIR SI PAS DISABLED DIRECTEMENT LE BOUTON EN FONCTION DU NOMBRE DE PIECES DISPONIBLES ET EN FONCTION DES PIECES SUR LES TAG DES CARTES QUARTIES 
+                    if(PersonnageQuiJoue != 7)
+                {
+                    boutonClique.Enabled = false;
                 }
                 else
                 {
-                    MessageBox.Show("Malheureusement, tu n'as pas de cartes Quartiers");
+                    if(CliqueConstrruction == 3)
+                    {
+                        boutonClique.Enabled = false;
+                    }
+                }
+                    
                 }
 
-                
-                // /!\ VOIR SI PAS DISABLED DIRECTEMENT LE BOUTON EN FONCTION DU NOMBRE DE PIECES DISPONIBLES ET EN FONCTION DES PIECES SUR LES TAG DES CARTES QUARTIES 
-                boutonClique.Enabled = false;
-            }
         }
 
+        private int Compte_carte(Control onglet)
+        {
+            int nbcartes = 0;
+
+            foreach(Control carte in onglet.Controls)
+            {
+                nbcartes++;
+            }
+
+            return nbcartes;
+        }
 
         private void FormTypeEchangeMagicien()
         {
@@ -1394,6 +1843,8 @@ namespace CitadellesV1
         private void ChoixConstructionQuartier(object sender, EventArgs e)
         {
             int nombre_de_pieces = 0;
+
+
             Panel PanelJoueur = new Panel();
             if (Numero_Joueur_Tour == 1)
             {
@@ -1408,10 +1859,35 @@ namespace CitadellesV1
 
             PictureBox QuartierSelectionné = (PictureBox)sender;
             int prixQuartierSelectionné = Convert.ToInt32(QuartierSelectionné.Tag);
+
+
+            int index_carte = ListeDesQuartiers.IndexOf(QuartierSelectionné);
+            MessageBox.Show("voici l'index : " + index_carte);
+
             if (nombre_de_pieces >= prixQuartierSelectionné)
             {
-                MessageBox.Show("suffisament de pièces");
+                int nbquartiercite = Compte_carte(PanelJoueur);
                 QuartierSelectionné.MouseDown += carteCite_MouseDown;
+                if (nbquartiercite <= 4)
+                {
+                    QuartierSelectionné.Top = nbquartiercite * 150;
+                    QuartierSelectionné.Left = 0;
+                }
+                else
+                {
+                    QuartierSelectionné.Top = (nbquartiercite - 4) * 150;
+                    QuartierSelectionné.Left = 90;
+
+                }
+                if(Numero_Joueur_Tour == 1)
+                {
+                    quartiersJ1.RemoveAt(index_carte);
+                    
+                }
+                else
+                {
+                    quartiersJ2.RemoveAt(index_carte);
+                }
                 PanelJoueur.Controls.Add(QuartierSelectionné);
                 nombre_de_pieces -= prixQuartierSelectionné;
 
@@ -1424,6 +1900,9 @@ namespace CitadellesV1
                     PiecesJ2.Text = Convert.ToString(nombre_de_pieces);
                 }
 
+                MessageBox.Show("Tu as construit un quartier dans ta cité", "Félicitations !", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                ListeDesQuartiers.Clear();
+
             }
             else
             {
@@ -1431,19 +1910,72 @@ namespace CitadellesV1
             }
 
             ActiveForm.Close();
-        }
 
+            Form essai = new Form();
+
+            int nb = 0;
+
+            if(Numero_Joueur_Tour == 1)
+            {
+                foreach (PictureBox carte in quartiersJ1)
+                {
+                    essai.Controls.Add(carte);
+                    carte.Left = nb;
+                    nb += 90;
+                }
+            }
+            else
+            {
+                foreach (PictureBox carte in quartiersJ2)
+                {
+                    essai.Controls.Add(carte);
+                    carte.Left = nb;
+                    nb += 90;
+                }
+            }
+           
+
+            essai.Width = 800;
+            essai.Show();
+
+        }
 
         private void ChoixCartePioche(object sender, EventArgs e)
         {
             PictureBox CarteChoisie = (PictureBox)sender;
-
+            int cartes = 0;
             if (Numero_Joueur_Tour == 1)
             {
+                cartes = Compte_carte(tabPage2);
+                if(cartes <= 4)
+                {
+                    CarteChoisie.Top = cartes * 150;
+                    CarteChoisie.Left = 0;
+                }
+                else if(cartes > 4)
+                {
+                    CarteChoisie.Top = (cartes-4) * 150;
+                    CarteChoisie.Left = 90;
+                }
+                
                 tabPage2.Controls.Add(CarteChoisie);
             }
             else if (Numero_Joueur_Tour == 2)
             {
+                cartes = Compte_carte(tabPage4);
+
+                if (cartes <= 4)
+                {
+                    CarteChoisie.Top = cartes * 150;
+                    CarteChoisie.Left = 0;
+                }
+                else if (cartes > 4)
+                {
+                    CarteChoisie.Top = (cartes - 4) * 150;
+                    CarteChoisie.Left = 90;
+                }
+
+                
                 tabPage4.Controls.Add(CarteChoisie);
             }
 
@@ -1619,7 +2151,8 @@ namespace CitadellesV1
                     {
                        
                         int prixQuartier = Convert.ToInt32(CopieCarteDestruction.Tag);
-                        prixQuartier =- 1;
+                        
+                        prixQuartier -= 1;
                         int piecesJoueur = Convert.ToInt32(PiecesJ1.Text);
 
                         if(piecesJoueur >= prixQuartier)
@@ -1678,7 +2211,8 @@ namespace CitadellesV1
                     {
                        
                         int prixQuartier = Convert.ToInt32(CopieCarteDestruction.Tag);
-                        prixQuartier = -1;
+                        
+                        prixQuartier -= 1;
                         int piecesJoueur = Convert.ToInt32(PiecesJ2.Text);
 
                         if (piecesJoueur >= prixQuartier)
