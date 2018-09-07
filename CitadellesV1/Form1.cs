@@ -15,11 +15,11 @@ namespace CitadellesV1
 
     public partial class Form1 : Form
     {
-        String nom1, nom2, lebouton;
+        String nom1, nom2;
         Form Commencer_partie = new Form();
         int PersonnageQuiJoue = 0;
 
-        int nbtours = 7;
+        int nbtours = 7, NumeroTour=1;
 
         bool CommencerPartie_ferme = false;
         //Creation de la form pour les choix des joueurs à chaque tour
@@ -63,7 +63,7 @@ namespace CitadellesV1
         //VARIRABLE GLOBALE POUR SAVOIR QUEL PERSONNAGE A ETE VOLE
         int Personnage_Vole = 0;
 
-//FORM CHOIX PERSONNAGE
+        //FORM CHOIX PERSONNAGE
         Form Choix_perso = new Form();
         //BOOL POUR SAVOIR SI HOIX DES PERSONNAGES EST FERME
         bool Choixpersonnage_ferme = false;
@@ -84,6 +84,21 @@ namespace CitadellesV1
         List<PictureBox> quartiersJ1 = new List<PictureBox>();
         List<PictureBox> quartiersJ2 = new List<PictureBox>();
 
+        //Pour savoir la fin de partie
+        Boolean FinPartie = false;
+        //Pour commencer le tour
+        Form TourFin = new Form();
+
+
+        Button debut_tour = new Button();
+
+        //FLAG PERMETTANT DE SAVOIR SI LA FORM EST FERMEE PAR LE CODE OU NON, permet ainsi de pouvoir mettre un message lors de la fermeture de la form par l'utilisateur 
+        bool FlagFermetureCode = false;
+
+
+        //Flag qui permet de savoir si un des deux joueurs a sa cité est constituée de 8 quartiers 
+        bool UnJoueurCiteComplete = false;
+        int JoueurDontCiteComplete = 0;
 
         public Form1()
         {
@@ -116,23 +131,24 @@ namespace CitadellesV1
 
             if (CommencerPartie_ferme)
             { // test si la form pour choisir les prénoms est fermé, si c'est le cas peut excécuter le code suivant 
-                Choix_Personnage();
-                Choix_perso.FormClosed += Savoir_fermeture;
-
-                Button debut_tour = new Button();
-                debut_tour.Text = "Commencer le tour";
-                debut_tour.Click += Tour;
-                Commencer_tour.Controls.Add(debut_tour);
-                
-                Commencer_tour.TopMost = true;
-
-                if (Choixpersonnage_ferme) {
-
-                    MessageBox.Show("on est dans le if et la fermeture de la box vaut " + Choixpersonnage_ferme);
-
+               
+                    Choix_Personnage();
+                    
+                    debut_tour.Text = "Commencer le tour";
+                    debut_tour.Click += Tour;
+                    Commencer_tour.Controls.Add(debut_tour);
+                    Commencer_tour.TopMost = true;
                 }
 
-            }           
+            
+            //while (!FinPartie)
+            //{
+            //    Choix_Personnage();
+            //}
+                
+           
+
+
         }
         // compter le nombre de personnage dans tabpage 
         private int Compte()
@@ -143,36 +159,42 @@ namespace CitadellesV1
             return resultat;
         }
 
-        private void Savoir_fermeture(Object sender, FormClosedEventArgs e)
-        {
-            int nbpersoOk = Compte();
-            //MessageBox.Show("ce que vaut nbpersoOK : " + nbpersoOk);
-            // parce que control pour cacher les cartes quand ce n'est pas à son tour
-            //while (PersonnageQuiJoue <= 8)
-            //{
-            //    Appel_Personnage();
-            //    MasqueCarteJoueurOppose();
-            //    if (!Personnage_Mort)
-            //    {
-            //        ChoixPendantLeTour();
-            //    }
-            //}
-
-        }
+        //private int Savoir_fermeture(Object sender, EventArgs e)
+        //{
+        //    int nbpersoOk = Compte();
+        //    //MessageBox.Show("ce que vaut nbpersoOK : " + nbpersoOk);
+        //    // parce que control pour cacher les cartes quand ce n'est pas à son tour
+        //    //while (PersonnageQuiJoue <= 8)
+        //    //{
+        //    //    Appel_Personnage();
+        //    //    MasqueCarteJoueurOppose();
+        //    //    if (!Personnage_Mort)
+        //    //    {
+        //    //        ChoixPendantLeTour();
+        //    //    }
+        //    //}
+        //    return nbpersoOk;
+        //}
         //AFFICHAGE DES CARTES PERSONNAGES
         private void  Choix_Personnage()
         {
+            Choix_perso.FormClosing += Fermeture_Form;
+            Choix_perso.Tag = "ChoixPerso";
+            Choix_perso.MdiParent = this;
+            Choix_perso.StartPosition = FormStartPosition.Manual;
+            Choix_perso.Top = 1000;
+
+
             int position = 1 ;
             Choix_perso.Width = 1500;
-            Choix_perso.StartPosition = FormStartPosition.CenterScreen;
+            //Choix_perso.StartPosition = FormStartPosition.CenterScreen;
+            //Random sur le personnage éliminé
             Random suppressionperso = new Random();
             int Personnagesupprime = suppressionperso.Next(1, 8);
-            //MessageBox.Show("le numero random :" + lechoisi);
             for (int i = 1; i < 9; i++)
             {
                 if (i != Personnagesupprime)
                 {
-
                     PictureBox personnage = new PictureBox();
                     personnage.Top = 50;
                     personnage.Left = 60 + (position * 120);
@@ -182,19 +204,32 @@ namespace CitadellesV1
                     personnage.Height = 150;
                     personnage.Image = lacarte;
                     personnage.Tag = i;
-                    personnage.Click += Personnage_Choisi;
+                    personnage.Enabled = true;
+                    //personnage.Click += Personnage_Choisi;
                     Choix_perso.Controls.Add(personnage);
                     position++;
-                    
-
-
                     //tours de choix suppression personnages
                     
                 }
             }
-            Choix_perso.Show();
+            foreach(Control carte in Choix_perso.Controls)
+            {
+                carte.Click += Personnage_Choisi;
+            }
+            if (NumeroTour == 1)
+            {
+                Choix_perso.Show();
+            }
+            else
+            {
+                Form FormChoixPerso = RetourneFormEnfantChoixPerso();
+                MessageBox.Show("je suis au tour n°" + NumeroTour);
+                FormChoixPerso.Visible = true;
+                FormChoixPerso.Enabled = true;
+
+            }
+
             Choix_perso.TopMost = true;
-            //voir comment faire avec le "roi" pour le 1er qui pioche vg? faire un random pour le 1er tour?
             if(JoueurRoi == 1)
             {
                 MessageBox.Show(nom1 + " Choisi ton personnage");
@@ -207,8 +242,10 @@ namespace CitadellesV1
         }
 
         private void Personnage_Choisi(object sender, EventArgs e)
+
         {
             PictureBox lepersonnage_clicke = (PictureBox)sender;
+            lepersonnage_clicke.Enabled = true;
             if(JoueurRoi == 1)
             { 
                 if (nbtours == 6 || nbtours == 4 || nbtours == 2)
@@ -268,11 +305,24 @@ namespace CitadellesV1
 
                 else
                 {
-                    Choix_perso.Close();
-                    MessageBox.Show("La partie peut commencer ! ");
-                    Commencer_tour.Show();
-                }
+                    //Choix_perso.Visible= false;
+                    //MessageBox.Show("La partie peut commencer ! ");
+                    //Commencer_tour.Show();
+                    int nbperso = Compte();
+                    if (nbperso == 4)
+                    {
 
+                        Form FormChoixPerso = RetourneFormEnfantChoixPerso();
+                        FormChoixPerso.Visible = false;
+                        FormChoixPerso.Controls.Clear();
+                        //Choix_perso.Visible = false;
+                        //Choix_perso.Controls.Clear();
+                        nbtours = 8;
+                        if(NumeroTour==1)
+                        Commencer_tour.Show();
+                        NumeroTour++;
+                    }
+                }
             }
             //quand le joueur roi = 2
             else
@@ -326,16 +376,27 @@ namespace CitadellesV1
                     else
                     {
                         MessageBox.Show(nom1+" Choisi un personnage", "action");
-                    }
-                    
-
+                    }                    
                 }
-
                 else
                 {
-                    Choix_perso.Close();
-                    MessageBox.Show("La partie peut commencer ! ");
-                    Commencer_tour.Show();
+                    //Choix_perso.Visible = false;
+                    //MessageBox.Show("La partie peut commencer ! ");
+                    //Commencer_tour.Show();
+                    int nbperso = Compte();
+                    if (nbperso == 4)
+                    {
+                        nbtours = 8;
+                        Form FormChoixPerso = RetourneFormEnfantChoixPerso();
+                        FormChoixPerso.Visible = false;
+                        FormChoixPerso.Controls.Clear();
+                        //Choix_perso.Visible = false;
+                        //Choix_perso.Controls.Clear();
+                        if (NumeroTour == 1)
+                            Commencer_tour.Show();
+                       
+                        NumeroTour++;
+                    }
                 }
 
             }
@@ -371,13 +432,55 @@ namespace CitadellesV1
         {
             if (!commencer_tour_ferme)
             {
-                Commencer_tour.Close();
+                FlagFermetureCode = true;
+                Commencer_tour.Close() ;
+                FlagFermetureCode = false;
                 commencer_tour_ferme = true;
             }
            
             
             if (tourfini)
             {
+                CompteCite();
+                Pioche.Enabled = true;
+                Pieces.Enabled = true;
+                Pouvoir.Enabled = true;
+                Construction.Enabled = true;
+                //ReplacerCartePioche();
+                Form FormChoixTour = RetourneFormEnfantChoixTour();
+                FormChoixTour.Hide();
+            }
+            tourfini = false;
+             
+            Appel_Personnage();
+                
+                MasqueCarteJoueurOppose();
+                //if (!Personnage_Mort)
+                //{
+                    ChoixPendantLeTour();
+            Image ledos = Image.FromFile("Images_cartes/Couverture_jeu.png");
+            if (PersonnageQuiJoue > 8)
+            {
+                foreach(PictureBox img in tabPage1.Controls)
+                {
+                    img.Image = ledos;
+                }
+                foreach (PictureBox img in tabPage3.Controls)
+                {
+                    img.Image = ledos;
+                }
+                CalculPoint();
+            }
+            //}
+        }
+        //test centrer l'appel à chaque tour
+        private void TourTriche(object sender, EventArgs e)
+        {
+            TourFin.Hide();
+            MessageBox.Show("on commence le nouveau tour");
+            if (tourfini)
+            {
+                CompteCite();
                 Pioche.Enabled = true;
                 Pieces.Enabled = true;
                 Pouvoir.Enabled = true;
@@ -389,47 +492,75 @@ namespace CitadellesV1
             tourfini = false;
 
             Appel_Personnage();
-                
-                MasqueCarteJoueurOppose();
-                //if (!Personnage_Mort)
-                //{
-                    ChoixPendantLeTour();
 
+            MasqueCarteJoueurOppose();
+            //if (!Personnage_Mort)
+            //{
+            ChoixPendantLeTour();
+            Image ledos = Image.FromFile("Images_cartes/Couverture_jeu.png");
+            if (PersonnageQuiJoue > 8)
+            {
+                foreach (PictureBox img in tabPage1.Controls)
+                {
+                    img.Image = ledos;
+                }
+                foreach (PictureBox img in tabPage3.Controls)
+                {
+                    img.Image = ledos;
+                }
+                CalculPoint();
+            }
             //}
-        
-           
-
         }
-
-
         //METHODE D'APPEL POUR CHAQUE PERSONNAGE 
         public void Appel_Personnage()
         {
-            if (PersonnageQuiJoue == 8)
-            {
-                //ON ARRIVE A LA FIN DU TOUR, IL FAUT DONC COMPTER LES CARTES QUARTIERS SI ELLES NE SONT PAS AU NOMBRE DE HUIT, PROPOSE UN NOUVEAU CHOIX DE PERSONNAGE
-            }
+
+           //if (PersonnageQuiJoue > 8)
+           // {
+           //     //ON ARRIVE A LA FIN DU TOUR, IL FAUT DONC COMPTER LES CARTES QUARTIERS SI ELLES NE SONT PAS AU NOMBRE DE HUIT, PROPOSE UN NOUVEAU CHOIX DE PERSONNAGE
+           //     //tabPage1.Controls.Clear();
+           //     //tabPage3.Controls.Clear();
+
+           //     //MessageBox.Show("ON est avant le choix personnage");
+           //     //FinTour();
+           //     //Choix_Personnage();
+
+           //     //Button debut_tour = new Button();
+           //     //debut_tour.Text = "Commencer le tour";
+           //     //debut_tour.Click += Tour;
+           //     //Commencer_tour.Controls.Add(debut_tour);
+
+           //     //Commencer_tour.TopMost = true;
+               
+           // }
 
             bool PersonnageEstChoisi = false;
             
 
 
-            while (!PersonnageEstChoisi || Personnage_Mort)
+            while (!PersonnageEstChoisi || Personnage_Mort )
             {
-                //MessageBox.Show("le numero de personnage qui joue " + PersonnageQuiJoue);
+                MessageBox.Show("le numero de personnage qui joue " + PersonnageQuiJoue);
                 Personnage_Mort = false;
+
                 PersonnageQuiJoue++;
 
+                
                 foreach (Control CartePersonnageChoisie in tabPage1.Controls)
                 {
 
 
                     if (PersonnageQuiJoue == Convert.ToInt16(CartePersonnageChoisie.Tag))
                     {
-                        if(PersonnageQuiJoue == 2)
+                        if (PersonnageQuiJoue == 2)
                         {
                             JoueurVoleur = 1;
                         }
+                        //}else if(PersonnageQuiJoue == 4)
+                        //{
+                            
+                        //}
                         String Perso = Nom_personnage(Convert.ToInt16(CartePersonnageChoisie.Tag));
                         PersonnageEstChoisi = true;
                         Numero_Joueur_Tour = 1; //on sait du coup que c'est le joueur 1 qui a la carte est donc peut ensuite disabled le numero du joueur en face
@@ -474,6 +605,9 @@ namespace CitadellesV1
 
                         }
 
+                    }else if(PersonnageQuiJoue == 9) {
+
+                        PersonnageEstChoisi = true;
                     }
                 }
 
@@ -485,6 +619,19 @@ namespace CitadellesV1
                         {
                             JoueurVoleur = 2;
                         }
+                        //else if (PersonnageQuiJoue == 4)
+                        //{
+                        //    if (Numero_Joueur_Tour == 1)
+                        //    {
+                        //        RoiJoueur1.Visible = true;
+                        //        JoueurRoi = 1;
+                        //    }
+                        //    else if (Numero_Joueur_Tour == 2)
+                        //    {
+                        //        RoiJoueur2.Visible = true;
+                        //        JoueurRoi = 2;
+                        //    }
+                        //}
                         String Perso = Nom_personnage(Convert.ToInt16(CartePersonnageChoisie.Tag));
                         PersonnageEstChoisi = true;
                         Numero_Joueur_Tour = 2; //on sait du coup que c'est le joueur 2 qui a la carte est donc peut ensuite disabled le numero du joueur en face
@@ -530,13 +677,213 @@ namespace CitadellesV1
                         }
 
                     }
+                    else if (PersonnageQuiJoue == 9)
+                    {
+
+                        PersonnageEstChoisi = true;
+                    }
                 }
+
+                if(PersonnageQuiJoue == 4)
+                {
+                    if (Numero_Joueur_Tour == 1)
+                    {
+                        RoiJoueur1.Visible = true;
+                        JoueurRoi = 1;
+                    }
+                    else if (Numero_Joueur_Tour == 2)
+                    {
+                        RoiJoueur2.Visible = true;
+                        JoueurRoi = 2;
+                    }
+                }
+                
             }
             //MasqueCarteJoueurOppose();
             //ChoixPendantLeTour();
 
         }
 
+        public void FinTour()
+        {
+
+            Choix_Personnage();
+            PersonnageQuiJoue = 1;
+
+            Button oo = new Button();
+            oo.Text = "Commencer tour";
+            TourFin.Controls.Add(oo);
+            oo.Click += TourTriche;
+            TourFin.Show();
+            
+        }
+
+        public void CompteCite()
+        {
+            int NbQuartier = 0;
+            if(Numero_Joueur_Tour == 1) // si c'est le joueur 1 qui joue
+            {
+                // on compte ses quartiers 
+                NbQuartier = citeJ1.Controls.Count;
+
+                if(NbQuartier == 8)
+                {
+                    if (!UnJoueurCiteComplete)
+                    {
+                        JoueurDontCiteComplete = 1;
+                        UnJoueurCiteComplete = true;
+                    }
+                }
+
+                // si il en a 8 et test si le flag est à true si ce n'est pas le cas le fait passer à true, si c'est le cas, on ne fait rien 
+                // , met le flag a true et met le int nb jeoueur cite complete a un 1 
+
+
+            }
+            else
+            {
+                NbQuartier = citeJ2.Controls.Count;
+
+                if (NbQuartier == 8)
+                {
+                    if (!UnJoueurCiteComplete)
+                    {
+                        JoueurDontCiteComplete = 2;
+                        UnJoueurCiteComplete = true;
+                    }
+                }
+
+            }
+        }
+
+        public void CalculPoint()
+        {
+            int nbciteJ1 = citeJ1.Controls.Count;
+            int nbciteJ2 = citeJ2.Controls.Count;
+            MessageBox.Show("Il y a tant de cité chez le joueur 2:" + nbciteJ2);
+            if(nbciteJ1 ==8 || nbciteJ2 == 8)
+            {
+                MessageBox.Show("Partie fini ! qqn a 8 quartiers dans sa cité");
+                //Penser à rajouter methode pour calculer les points de tout le monde
+
+                //calcul des points pour le joueur 1 
+                int PointJoueur1 = 0;
+                int nbQuartierRouge=0;
+                int nbQuartierBleu = 0;
+                int nbQuartierVert = 0;
+                int nbQuartierJaune = 0;
+                foreach(PictureBox carteCite in citeJ1.Controls)
+                {
+                    PointJoueur1 += Convert.ToInt32(carteCite.Tag);
+
+                    if(carteCite.BackColor == Color.Red)
+                    {
+                        nbQuartierRouge++;
+                    }else if(carteCite.BackColor == Color.Blue)
+                    {
+                        nbQuartierBleu++;
+                    }
+                    else if (carteCite.BackColor == Color.Green)
+                    {
+                        nbQuartierVert++;
+                    }
+                    else if (carteCite.BackColor == Color.Yellow)
+                    {
+                        nbQuartierJaune++;
+                    }
+                }
+
+                if(nbQuartierRouge == 1 && nbQuartierBleu == 1 && nbQuartierVert == 1 && nbQuartierJaune == 1)
+                {
+                    PointJoueur1 += 3;
+                }
+
+
+                //calcul des points pour le joueur 2 
+                int PointJoueur2 = 0;
+                int nbQuartierRougeJ2 = 0;
+                int nbQuartierBleuJ2 = 0;
+                int nbQuartierVertJ2 = 0;
+                int nbQuartierJauneJ2 = 0;
+                foreach (PictureBox carteCite in citeJ2.Controls)
+                {
+                    PointJoueur2 += Convert.ToInt32(carteCite.Tag);
+
+                    if (carteCite.BackColor == Color.Red)
+                    {
+                        nbQuartierRougeJ2++;
+                    }
+                    else if (carteCite.BackColor == Color.Blue)
+                    {
+                        nbQuartierBleuJ2++;
+                    }
+                    else if (carteCite.BackColor == Color.Green)
+                    {
+                        nbQuartierVertJ2++;
+                    }
+                    else if (carteCite.BackColor == Color.Yellow)
+                    {
+                        nbQuartierJauneJ2++;
+                    }
+                }
+
+                if (nbQuartierRougeJ2 == 1 && nbQuartierBleuJ2 == 1 && nbQuartierVertJ2 == 1 && nbQuartierJauneJ2 == 1)
+                {
+                    PointJoueur2 += 3;
+                }
+
+                // vérifie quel est le joueur qui a completé sa cité  en premier 
+                if(JoueurDontCiteComplete == 1)
+                {
+                    PointJoueur1 += 4;
+
+                    if(nbciteJ2 == 8)
+                    {
+                        PointJoueur2 += 2;
+                    }
+                }
+                else
+                {
+                    PointJoueur2 += 4;
+
+                    if (nbciteJ1 == 8)
+                    {
+                        PointJoueur1 += 2;
+                    }
+                }
+
+
+                Form FenetreFinPartie = new Form();
+                
+                Label message = new Label();
+                message.Width = 400;
+
+                
+                if (PointJoueur1 > PointJoueur2)
+                {
+                    message.Text = "Félicitations " + nom1 + " tu as gagné cette partie ! ";
+                }
+                else
+                {
+                    message.Text = "Félicitations " + nom2 + " tu as gagné cette partie ! ";
+                }
+
+                Label Score = new Label();
+                Score.Top = 50;
+                Score.Width = 400;
+                Score.Text = nom1 + " a " + PointJoueur1 + " points et " + nom2 + " a " + PointJoueur2;
+
+                FenetreFinPartie.Controls.Add(message);
+                FenetreFinPartie.Controls.Add(Score);
+                FenetreFinPartie.Show();
+                
+            }
+            else
+            {
+                FinTour();
+               
+            }
+        }
         //Mis à part comme ça peut appeler à chaque tour
         public void ChoixPendantLeTour()
         {
@@ -546,8 +893,13 @@ namespace CitadellesV1
             // SI N EXISTE PAS, CREE 
             //SINON NE FAIS RIEN 
             tourfini = true;
+            if(PersonnageQuiJoue != 9)
+            {
+
+            
             if (! FormTourCree)
-            { 
+            {
+                ChoixTour.FormClosing += Fermeture_Form;
                 ChoixTour.Tag = "ChoixTour";
                 ChoixTour.MdiParent = this;
                 FormTourCree = true;
@@ -610,7 +962,9 @@ namespace CitadellesV1
             ChoixTour.Top = 50;
             ChoixTour.TopMost = true;
             ChoixTour.Show();
-           // ChoixTour.BringToFront();
+
+            }
+            // ChoixTour.BringToFront();
             //voir pour rajouter un bouton fin de partie + test si personne ferme la fenêtre, mettre un message "oups tu passes ton tour" si oui,passe au joueur suivant, si non, lui affiche à nouveau la form 
         }
 
@@ -667,7 +1021,7 @@ namespace CitadellesV1
             return FormRetour;
         }
 
-        
+
         private Form RetourneFormEnfantChoixMagicien()
         {
             Form FormRetour = new Form();
@@ -679,7 +1033,23 @@ namespace CitadellesV1
                 }
             }
             return FormRetour;
+
         }
+
+        private Form RetourneFormEnfantChoixPerso()
+        {
+            Form FormRetour = new Form();
+            foreach (Form FormEnfant in this.MdiChildren)
+            {
+                if ((String)FormEnfant.Tag == "ChoixPerso")
+                {
+                    FormRetour = FormEnfant;
+                }
+            }
+            return FormRetour;
+        }
+
+
 
 
         //private void FinTourJoueur(object sender, EventArgs e)
@@ -696,7 +1066,7 @@ namespace CitadellesV1
         //    //Appel_Personnage();
         //    //ChoixPendantLeTour();
         //    //Tour();
-            
+
 
 
         //}
@@ -730,6 +1100,7 @@ namespace CitadellesV1
             {
                 // MessageBox.Show("Pioche !");
                 Form PopUpCartesPioche = new Form();
+                PopUpCartesPioche.FormClosing += Fermeture_Form;
                 Label title_form_pioche = new Label();
                 PopUpCartesPioche.Controls.Add(title_form_pioche);
                 title_form_pioche.Text = "Quelle carte veux-tu choisir ? ";
@@ -804,7 +1175,7 @@ namespace CitadellesV1
                     case 4: //ROI
                         if (Numero_Joueur_Tour == 1)
                         {
-                            RoiJoueur1.Visible = true;
+                            //RoiJoueur1.Visible = true;
                             foreach (PictureBox carteQuartier in citeJ1.Controls)
                             {
                                 if (carteQuartier.BackColor == Color.Yellow)
@@ -827,11 +1198,11 @@ namespace CitadellesV1
                             //}
 
 
-                            JoueurRoi = 1;
+                            //JoueurRoi = 1;
                         }
                         else if (Numero_Joueur_Tour == 2)
                         {
-                            RoiJoueur2.Visible = true;
+                            //RoiJoueur2.Visible = true;
                             foreach (PictureBox carteQuartier in citeJ2.Controls)
                             {
                                 if (carteQuartier.BackColor == Color.Yellow)
@@ -849,7 +1220,7 @@ namespace CitadellesV1
                                 PiecesJ2.Text = Convert.ToString(nbPieceJoueur);
                             }
 
-                            JoueurRoi = 2;
+                            //JoueurRoi = 2;
                         }
                         break;
 
@@ -1129,7 +1500,8 @@ namespace CitadellesV1
                         nombreCarteQuartier = tabPage4.Controls.Count;
                     }
                     Form afficheCarteQuartier = new Form();
-                    afficheCarteQuartier.Width = 800;
+                afficheCarteQuartier.FormClosing += Fermeture_Form;
+                afficheCarteQuartier.Width = 800;
                     afficheCarteQuartier.StartPosition = FormStartPosition.CenterScreen;
                     afficheCarteQuartier.TopMost = true;
                     Label questionquartier = new Label();
@@ -1234,6 +1606,7 @@ namespace CitadellesV1
                     
                 }
 
+
         }
 
         private int Compte_carte(Control onglet)
@@ -1251,6 +1624,7 @@ namespace CitadellesV1
         private void FormTypeEchangeMagicien()
         {
             Form ChoixTypeEchangeMagicien = new Form();
+            ChoixTypeEchangeMagicien.FormClosing += Fermeture_Form;
             ChoixTypeEchangeMagicien.Tag = "ChoixTypeMagicien";
             ChoixTypeEchangeMagicien.MdiParent = this;
 
@@ -1297,7 +1671,9 @@ namespace CitadellesV1
         private void FormPouvoirMagicien(object sender, EventArgs e)
         {
             Form formTypeMagicien = RetourneFormEnfantChoixTypeMagicien();
+            FlagFermetureCode = true;
             formTypeMagicien.Close();
+            FlagFermetureCode = false;
             Button ChoixTypeEchange = (Button)sender;
             if((String)ChoixTypeEchange.Tag == "Personnage")
             {
@@ -1306,85 +1682,95 @@ namespace CitadellesV1
 
 
             Form ChoixPersonnageMagicien = new Form();
-            ChoixPersonnageMagicien.Tag = "ChoixMagicien";
+                ChoixPersonnageMagicien.FormClosing += Fermeture_Form;
+                ChoixPersonnageMagicien.Tag = "ChoixMagicien";
             ChoixPersonnageMagicien.MdiParent = this;
+                Button choixechangerjoueur = new Button();
+                ChoixPersonnageMagicien.Controls.Add(choixechangerjoueur);
+                if(Numero_Joueur_Tour == 1)
+                {
+                    choixechangerjoueur.Text = "Confirme l'échange de tes cartes avec " + nom2;
+                }
+                else if (Numero_Joueur_Tour == 2){
+                    choixechangerjoueur.Text = "Confirme l'échange de tes cartes avec " + nom1;
+                }
+            choixechangerjoueur.Click += ChoixPersonnageEchangeMagicien;
+            //Label titre_form_assassin = new Label();
+            //titre_form_assassin.Text = "Quel personnage veux-tu voler ? ";
+            //titre_form_assassin.Width = 300;
+            //ChoixPersonnageMagicien.Controls.Add(titre_form_assassin);
 
-            Label titre_form_assassin = new Label();
-            titre_form_assassin.Text = "Quel personnage veux-tu voler ? ";
-            titre_form_assassin.Width = 300;
-            ChoixPersonnageMagicien.Controls.Add(titre_form_assassin);
+            //Button voleur = new Button();
+            //voleur.Text = "Voleur";
+            //voleur.Tag = 2;
+            //ChoixPersonnageMagicien.Controls.Add(voleur);
+            //Button magicien = new Button();
+            //magicien.Text = "Magicien";
+            //magicien.Tag = 3;
+            //ChoixPersonnageMagicien.Controls.Add(magicien);
+            //Button roi = new Button();
+            //roi.Text = "Roi";
+            //roi.Tag = 4;
+            //ChoixPersonnageMagicien.Controls.Add(roi);
+            //Button eveque = new Button();
+            //eveque.Text = "Evèque";
+            //eveque.Tag = 5;
+            //ChoixPersonnageMagicien.Controls.Add(eveque);
+            //Button marchand = new Button();
+            //marchand.Text = "Marchand";
+            //marchand.Tag = 6;
+            //ChoixPersonnageMagicien.Controls.Add(marchand);
+            //Button architecte = new Button();
+            //architecte.Text = "Architecte";
+            //architecte.Tag = 7;
+            //ChoixPersonnageMagicien.Controls.Add(architecte);
+            //Button condottiere = new Button();
+            //condottiere.Text = "Condottière";
+            //condottiere.Tag = 8;
+            //ChoixPersonnageMagicien.Controls.Add(condottiere);
 
-            Button voleur = new Button();
-            voleur.Text = "Voleur";
-            voleur.Tag = 2;
-            ChoixPersonnageMagicien.Controls.Add(voleur);
-            Button magicien = new Button();
-            magicien.Text = "Magicien";
-            magicien.Tag = 3;
-            ChoixPersonnageMagicien.Controls.Add(magicien);
-            Button roi = new Button();
-            roi.Text = "Roi";
-            roi.Tag = 4;
-            ChoixPersonnageMagicien.Controls.Add(roi);
-            Button eveque = new Button();
-            eveque.Text = "Evèque";
-            eveque.Tag = 5;
-            ChoixPersonnageMagicien.Controls.Add(eveque);
-            Button marchand = new Button();
-            marchand.Text = "Marchand";
-            marchand.Tag = 6;
-            ChoixPersonnageMagicien.Controls.Add(marchand);
-            Button architecte = new Button();
-            architecte.Text = "Architecte";
-            architecte.Tag = 7;
-            ChoixPersonnageMagicien.Controls.Add(architecte);
-            Button condottiere = new Button();
-            condottiere.Text = "Condottière";
-            condottiere.Tag = 8;
-            ChoixPersonnageMagicien.Controls.Add(condottiere);
+            //voleur.Click += ChoixPersonnageEchangeMagicien; //A CHANGER !!!
+            //magicien.Click += ChoixPersonnageEchangeMagicien;
+            //roi.Click += ChoixPersonnageEchangeMagicien;
+            //eveque.Click += ChoixPersonnageEchangeMagicien;
+            //marchand.Click += ChoixPersonnageEchangeMagicien;
+            //architecte.Click += ChoixPersonnageEchangeMagicien;
+            //condottiere.Click += ChoixPersonnageEchangeMagicien;
 
-            voleur.Click += ChoixPersonnageEchangeMagicien; //A CHANGER !!!
-            magicien.Click += ChoixPersonnageEchangeMagicien;
-            roi.Click += ChoixPersonnageEchangeMagicien;
-            eveque.Click += ChoixPersonnageEchangeMagicien;
-            marchand.Click += ChoixPersonnageEchangeMagicien;
-            architecte.Click += ChoixPersonnageEchangeMagicien;
-            condottiere.Click += ChoixPersonnageEchangeMagicien;
+            //voleur.Width = 200;
+            //voleur.Height = 50;
+            //voleur.Left = 50;
+            //voleur.Top = 50;
 
-            voleur.Width = 200;
-            voleur.Height = 50;
-            voleur.Left = 50;
-            voleur.Top = 50;
+            //magicien.Width = 200;
+            //magicien.Height = 50;
+            //magicien.Left = 50;
+            //magicien.Top = 50 + (50 * 1);
 
-            magicien.Width = 200;
-            magicien.Height = 50;
-            magicien.Left = 50;
-            magicien.Top = 50 + (50 * 1);
+            //roi.Width = 200;
+            //roi.Height = 50;
+            //roi.Left = 50;
+            //roi.Top = 50 + (50 * 2);
 
-            roi.Width = 200;
-            roi.Height = 50;
-            roi.Left = 50;
-            roi.Top = 50 + (50 * 2);
+            //eveque.Width = 200;
+            //eveque.Height = 50;
+            //eveque.Left = 50;
+            //eveque.Top = 50 + (50 * 3);
 
-            eveque.Width = 200;
-            eveque.Height = 50;
-            eveque.Left = 50;
-            eveque.Top = 50 + (50 * 3);
+            //marchand.Width = 200;
+            //marchand.Height = 50;
+            //marchand.Left = 50;
+            //marchand.Top = 50 + (50 * 4);
 
-            marchand.Width = 200;
-            marchand.Height = 50;
-            marchand.Left = 50;
-            marchand.Top = 50 + (50 * 4);
+            //architecte.Width = 200;
+            //architecte.Height = 50;
+            //architecte.Left = 50;
+            //architecte.Top = 50 + (50 * 5);
 
-            architecte.Width = 200;
-            architecte.Height = 50;
-            architecte.Left = 50;
-            architecte.Top = 50 + (50 * 5);
-
-            condottiere.Width = 200;
-            condottiere.Height = 50;
-            condottiere.Left = 50;
-            condottiere.Top = 50 + (50 * 6);
+            //condottiere.Width = 200;
+            //condottiere.Height = 50;
+            //condottiere.Left = 50;
+            //condottiere.Top = 50 + (50 * 6);
 
 
             ChoixPersonnageMagicien.Width = 300;
@@ -1448,6 +1834,7 @@ namespace CitadellesV1
 
 
             Form ChoixPersonnageVoleur = new Form();
+            ChoixPersonnageVoleur.FormClosing += Fermeture_Form;
             ChoixPersonnageVoleur.Tag = "ChoixVoleur";
             ChoixPersonnageVoleur.MdiParent = this;
 
@@ -1551,6 +1938,7 @@ namespace CitadellesV1
 
 
             Form ChoixPersonnageAssassin = new Form();
+            ChoixPersonnageAssassin.FormClosing += Fermeture_Form;
             ChoixPersonnageAssassin.Tag = "ChoixAssassin";
             ChoixPersonnageAssassin.MdiParent = this;
 
@@ -1654,7 +2042,9 @@ namespace CitadellesV1
             MessageBox.Show("Tu as mis fin aux jours"+nomperso+".", "Tu as fait un choix et ta sentence est irrévocable !", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             Form formChoix = RetourneFormEnfantChoixAssassin();
+            FlagFermetureCode = true;
             formChoix.Close();
+            FlagFermetureCode = false;
             Form FormTour = RetourneFormEnfantChoixTour();
             FormTour.WindowState = FormWindowState.Normal;
 
@@ -1670,7 +2060,9 @@ namespace CitadellesV1
             MessageBox.Show("Tu as pris le buttin" + nomperso + ".", "Tu as fait un choix et ta sentence est irrévocable !", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             Form formChoix = RetourneFormEnfantChoixVoleur();
+            FlagFermetureCode = true;
             formChoix.Close();
+            FlagFermetureCode = false;
             Form FormTour = RetourneFormEnfantChoixTour();
             FormTour.WindowState = FormWindowState.Normal;
      
@@ -1679,30 +2071,30 @@ namespace CitadellesV1
         //lorsque le magicien a choisi d'échanger ses cartes avec un personnnage, et qu'il a choisi le personnage 
         private void ChoixPersonnageEchangeMagicien(object sender, EventArgs e)
         {
-            Button PersonnageChosi = (Button)sender;
-            int Personnage_Echange = Convert.ToInt32(PersonnageChosi.Tag);
+            //Button PersonnageChosi = (Button)sender;
+            //int Personnage_Echange = Convert.ToInt32(PersonnageChosi.Tag);
 
-            String nomperso = Nom_personnage(Personnage_Echange);
-            MessageBox.Show("Tu as pris les cartes" + nomperso + ".", "Tu as fait un choix et ta sentence est irrévocable !", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            bool CartePersoChoisi = false;
+            //String nomperso = Nom_personnage(Personnage_Echange);
+            //MessageBox.Show("Tu as pris les cartes" + nomperso + ".", "Tu as fait un choix et ta sentence est irrévocable !", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //bool CartePersoChoisi = false;
             if(Numero_Joueur_Tour == 1)
             {
 
                 
-            foreach (PictureBox cartePersoJoueurOppose in tabPage3.Controls)
-                {
-                    int tagCarte = Convert.ToInt32(cartePersoJoueurOppose.Tag);
-                    if(Personnage_Echange == tagCarte)
-                    {
-                        CartePersoChoisi = true;
-                        //booleen pour tester que c'est joueur opppose qui a carte perso chois 
-                    }
+            //foreach (PictureBox cartePersoJoueurOppose in tabPage3.Controls)
+            //    {
+            //        int tagCarte = Convert.ToInt32(cartePersoJoueurOppose.Tag);
+            //        if(Personnage_Echange == tagCarte)
+            //        {
+            //            CartePersoChoisi = true;
+            //            //booleen pour tester que c'est joueur opppose qui a carte perso chois 
+            //        }
 
 
-                }
+            //    }
 
-                if (CartePersoChoisi)
-                {
+                //if (CartePersoChoisi)
+                //{
                     List<PictureBox> carteTabPage2 = new List<PictureBox>();
                     tousLesControls(tabPage2, carteTabPage2);
 
@@ -1748,26 +2140,26 @@ namespace CitadellesV1
 
                     int nbPanel1 =tabPage2.Controls.Count;
                     MessageBox.Show("Il y a ce nb de control dans tabpage2 : " + nbPanel1);
-                }
+                //}
                
 
             }else if(Numero_Joueur_Tour == 2)
             {
 
-                foreach (PictureBox cartePersoJoueurOppose in tabPage1.Controls.OfType<PictureBox>())
-                {
-                    int tagCarte = Convert.ToInt32(cartePersoJoueurOppose.Tag);
-                    if (Personnage_Echange == tagCarte)
-                    {
-                        CartePersoChoisi = true;
-                        //booleen pour tester que c'est joueur opppose qui a carte perso chois 
-                    }
+                //foreach (PictureBox cartePersoJoueurOppose in tabPage1.Controls.OfType<PictureBox>())
+                //{
+                //    int tagCarte = Convert.ToInt32(cartePersoJoueurOppose.Tag);
+                //    if (Personnage_Echange == tagCarte)
+                //    {
+                //        CartePersoChoisi = true;
+                //        //booleen pour tester que c'est joueur opppose qui a carte perso chois 
+                //    }
 
 
-                }
+                //}
 
-                if (CartePersoChoisi)
-                {
+                //if (CartePersoChoisi)
+                //{
                     List<PictureBox> carteTabPage4 = new List<PictureBox>();  // CREER UNE FONCTION CAR BUG AVEC  FOREACH LOOP // LES CONTROLS N ETAIENT PAS TROUVE 
                     tousLesControls(tabPage4, carteTabPage4);
 
@@ -1790,7 +2182,7 @@ namespace CitadellesV1
                         y++;
                     }
                     tabPage2.Controls.Clear();
-                    MessageBox.Show("J'aim mis les cartes dans le panel du joueur 1");
+                    MessageBox.Show("J'ai mis les cartes dans le panel du joueur 1");
 
                     int nbPanel = panelAttente.Controls.Count;
                     MessageBox.Show("Il y a ce nb de control dans Panel : " + nbPanel);
@@ -1808,13 +2200,15 @@ namespace CitadellesV1
                     }
                     panelAttente.Controls.Clear();
                     //MessageBox.Show("J'aim mis les cartes dans le panel du joueur 2");
-                }
+                //}
 
             }
             //INVERSE CARTE DU VOLEUR ET DU VOLE 
 
             Form formChoix = RetourneFormEnfantChoixMagicien();
+            FlagFermetureCode = true;
             formChoix.Close();
+            FlagFermetureCode = false;
             Form FormTour = RetourneFormEnfantChoixTour();
             FormTour.WindowState = FormWindowState.Normal;
 
@@ -1836,7 +2230,9 @@ namespace CitadellesV1
         private void FermetureForm(object sender)
         {
             Form element = (Form)sender;
+            FlagFermetureCode = true;
             element.Close();
+            FlagFermetureCode = false;
         }
 
 
@@ -1909,7 +2305,9 @@ namespace CitadellesV1
                 MessageBox.Show("Malheureusement, tu n'as pas suffisament de pièces pour construire ce quartier", "Gagne plus de pièces ! ");
             }
 
+            FlagFermetureCode = true;
             ActiveForm.Close();
+            FlagFermetureCode = false;
 
             Form essai = new Form();
 
@@ -2039,6 +2437,7 @@ namespace CitadellesV1
         private void Commencer_partie_essai()
         {
             Commencer_partie.StartPosition = FormStartPosition.CenterScreen;
+            Commencer_partie.FormClosing += Fermeture_Form;
             // CREATION, AJOUT ET DISPOSITON DES DIFFERENTS ELEMENTS SUR LA FORM 'Commencer_partie'
             Label joueur1nom = new Label();
             Label joueur2nom = new Label();
@@ -2246,13 +2645,59 @@ namespace CitadellesV1
          
         }
 
+        private void Fermeture_Form(object sender, FormClosingEventArgs e)
+        {
+            //BUG CAR LORSQU4UNE FORM SE FERME DANS LE CODE, MSG S'AFFICHE ET LE JEU BLOQUE 
+          
+            if(e.CloseReason == CloseReason.MdiFormClosing)
+            {
+                Form doit_se_fermer = (Form)sender;
+                doit_se_fermer.Close();
+            }
+            else { 
+                if(!FlagFermetureCode)
+                {
+                   // MessageBox.Show("A appuyer sur la croix");
+                    MessageBox.Show("Petit chenapan, qu'essayes-tu de faire ? Cette fenêtre restera ouverte, que tu le veuilles ou non !", "Oups...", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    e.Cancel = true;
+                }
+                //else
+                //{
+                //    MessageBox.Show("n'a pas appuyer ");
+                //}
+            }
+
+
+
+
+        }
+
+        private void Fermeture_FormPrincipale(object sender, FormClosingEventArgs e)
+        {
+            DialogResult reponse = MessageBox.Show("Veux-tu quitter le jeu ? ", "Tu veux déjà nous quitter ?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+            if(reponse == DialogResult.No)
+            {
+                MessageBox.Show("Ouf, c'était une erreur ! Tu peux reprendre ton jeu", "Heureux de l'entendre !", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //ajouter une message box ? 
+                e.Cancel = true;
+                //this.Close();
+                //this.Close();
+
+            }
+
+            
+        }
+
         //VALIDATION DES NOMS PAR L'UTLISATEUR (ferme la fenêtre et inscrit les noms dans la form principale)
         private void Validation_joueur(object sender, EventArgs e)
         {
             label5.Text = nom1;
             label6.Text = nom2;
 
+            FlagFermetureCode = true;
             Commencer_partie.Close();
+            FlagFermetureCode = false;
 
             CommencerPartie_ferme = true;
 
